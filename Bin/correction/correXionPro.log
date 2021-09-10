@@ -1,0 +1,38 @@
+	Thread ID 15412	0	 (i)  Log subsystem started in elapsed time mode.
+	Thread ID 15412	0	 (i)  Logging [debug info (D), info (i), notices (M), warnings (W), errors (Er), fatal errors (!!)]
+	Thread ID 15412	0	 (i)  Buffered mode: False
+	Thread ID 15412	0	 (M)  Service thread started
+	Thread ID 15412	156	 (i)  Temporary rendering context created
+	Thread ID 15412	156	 (M)  Getting OpenGL entry points and extension
+	Thread ID 15412	156	 (M)  
+	Thread ID 15412	156	 (i)  OpenGL rendering context information:
+	Thread ID 15412	156	 (i)  Renderer     : Intel(R) UHD Graphics 630
+	Thread ID 15412	156	 (i)  Vendor       : Intel
+	Thread ID 15412	156	 (i)  Version      : 4.6.0 - Build 27.20.100.8681
+	Thread ID 15412	156	 (i)  GLSL version : 4.60 - Build 27.20.100.8681
+	Thread ID 15412	156	 (M)  
+	Thread ID 15412	156	 (M)  Getting OpenGL entry points and extension
+	Thread ID 15412	172	 (i)  Backward compatible core PBuffer context successfully created
+	Thread ID 15412	172	 (M)  Service context successfuly initialized
+	Thread ID 13548	172	 (i)  Application initialized!
+	Thread ID 13548	172	 (i)   Creating MainForm..
+	Thread ID 13548	203	 (i)   Creating InfoForm..
+	Thread ID 13548	219	 (i)   Creating OpenGLForm..
+	Thread ID 13548	234	 (i)  Temporary rendering context created
+	Thread ID 13548	234	 (M)  Getting OpenGL entry points and extension
+	Thread ID 13548	234	 (i)  Temporary rendering context destroyed
+	Thread ID 13548	234	 (M)  Getting OpenGL entry points and extension
+	Thread ID 13548	250	 (i)   Creating DatViewerForm..
+	Thread ID 13548	250	 (i)   DeviceContext Handle: 721491846
+	Thread ID 13548	250	 (i)   ChoosePixelFormat result: 5
+	Thread ID 13548	250	 (i)   Actual PixelFormat: pType=0,ColorBits=24
+	Thread ID 13548	250	 (i)   SetFormatReturn: -1
+	Thread ID 13548	250	 (i)   RenderContext Handle: 65538
+	Thread ID 13548	250	 (i)   OpenGLContext created!
+	Thread ID 13548	266	 (i)   FormCreation finished
+	Thread ID 13548	30172	 (i)  Service context queue task depleted
+	Thread ID 13548	53906	 (Er)  Context activation failed: C0070006, 
+	Thread ID 15412	54109	 (M)  Service thread finished
+	Thread ID 13548	54109	 (D)  Service thread destroyed
+	Thread ID 13548	54109	 (i)  Logged fatal_errors: 0, errors: 1, warnings: 0, notices: 9, info: 25, debug: 1
+	Thread ID 13548	54109	 (i)  Log session shutdown

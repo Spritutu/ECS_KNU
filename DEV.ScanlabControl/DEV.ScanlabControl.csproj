@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B4AD3DE3-8736-4FD0-95B6-3BD61F0BAE03}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DEV.ScanlabControl</RootNamespace>
+    <AssemblyName>DEV.ScanlabControl</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\Library\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SCANLAB.cs" />
+    <Compile Include="SCAN_HEAD_STATUS.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\INNO6.Core\INNO6.Core.csproj">
+      <Project>{ad4cc56a-87b1-49c5-9b4e-49243595b14f}</Project>
+      <Name>INNO6.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\INNO6.IO\INNO6.IO.csproj">
+      <Project>{1f731412-4cab-4b13-85a7-52f03e7d85a2}</Project>
+      <Name>INNO6.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scanlab\Scanlab.Core\Scanlab.Core.csproj">
+      <Project>{38ff84a4-3482-480c-bbcd-74b83a4b470a}</Project>
+      <Name>Scanlab.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scanlab\Scanlab.Sirius.Rtc\Scanlab.Sirius.Rtc.csproj">
+      <Project>{9cc33e6a-1e28-4bcb-85c1-be83deaae96c}</Project>
+      <Name>Scanlab.Sirius.Rtc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scanlab\Scanlab.Sirius\Scanlab.Sirius.csproj">
+      <Project>{90eafaec-c120-4345-b21a-0296c35b0e46}</Project>
+      <Name>Scanlab.Sirius</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

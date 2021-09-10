@@ -1,0 +1,19 @@
+Camera position
+X = 377.7
+Y = 153
+Z = 309
+T = 0
+R = -10
+
+
+Process Position
+
+X=378
+Y=322.15
+Z=308.5
+T=0
+R=-10
+
+290 >= X 
+345 <= X
+

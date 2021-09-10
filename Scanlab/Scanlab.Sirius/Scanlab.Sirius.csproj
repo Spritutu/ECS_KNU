@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{90EAFAEC-C120-4345-B21A-0296C35B0E46}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Scanlab.Sirius</RootNamespace>
+    <AssemblyName>Scanlab.Sirius</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accord">
+      <HintPath>..\..\Library\Accord.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Genetic">
+      <HintPath>..\..\Library\Accord.Genetic.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math">
+      <HintPath>..\..\Library\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math.Core">
+      <HintPath>..\..\Library\Accord.Math.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\..\Library\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors">
+      <HintPath>..\..\Library\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.MahApps">
+      <HintPath>..\..\Library\MaterialDesignThemes.MahApps.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf">
+      <HintPath>..\..\Library\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="netDxf">
+      <HintPath>..\..\Library\netDxf.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Library\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="SharpFont">
+      <HintPath>..\..\Library\SharpFont.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGL">
+      <HintPath>..\..\Library\SharpGL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGL.SceneGraph">
+      <HintPath>..\..\Library\SharpGL.SceneGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGL.WinForms">
+      <HintPath>..\..\Library\SharpGL.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="zxing">
+      <HintPath>..\..\Library\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation">
+      <HintPath>..\..\Library\zxing.presentation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+<<<<<<< Updated upstream
+    <Compile Include="AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+=======
+    <Compile Include="AboutForm.cs" />
+>>>>>>> Stashed changes
+    <Compile Include="AboutForm.Designer.cs" />
+    <Compile Include="AciColor.cs" />
+    <Compile Include="Action.cs" />
+    <Compile Include="AlcPositionFileBrowser.cs" />
+    <Compile Include="AlcVectorBegin.cs" />
+    <Compile Include="AlcVectorEnd.cs" />
+    <Compile Include="Alignment.cs" />
+    <Compile Include="Arc.cs" />
+    <Compile Include="Barcode1D.cs" />
+    <Compile Include="Barcode1DFormat.cs" />
+    <Compile Include="BarcodeDataMatrix.cs" />
+    <Compile Include="BarcodePatternFileBrowser.cs" />
+    <Compile Include="BarcodeQR.cs" />
+    <Compile Include="BarcodeShapeType.cs" />
+    <Compile Include="Bitmap.cs" />
+    <Compile Include="BitmapHelper.cs" />
+    <Compile Include="Block.cs" />
+    <Compile Include="BlockInsert.cs" />
+    <Compile Include="Blocks.cs" />
+    <Compile Include="BoundRect.cs" />
+    <Compile Include="Circle.cs" />
+    <Compile Include="ClipperLib\Clipper.cs" />
+    <Compile Include="ClipperLib\ClipperBase.cs" />
+    <Compile Include="ClipperLib\ClipperException.cs" />
+    <Compile Include="ClipperLib\ClipperOffset.cs" />
+    <Compile Include="ClipperLib\ClipType.cs" />
+    <Compile Include="ClipperLib\Direction.cs" />
+    <Compile Include="ClipperLib\DoublePoint.cs" />
+    <Compile Include="ClipperLib\EdgeSide.cs" />
+    <Compile Include="ClipperLib\EndType.cs" />
+    <Compile Include="ClipperLib\Int128.cs" />
+    <Compile Include="ClipperLib\IntersectNode.cs" />
+    <Compile Include="ClipperLib\IntPoint.cs" />
+    <Compile Include="ClipperLib\IntRect.cs" />
+    <Compile Include="ClipperLib\Join.cs" />
+    <Compile Include="ClipperLib\JoinType.cs" />
+    <Compile Include="ClipperLib\LocalMinima.cs" />
+    <Compile Include="ClipperLib\Maxima.cs" />
+    <Compile Include="ClipperLib\MyIntersectNodeSort.cs" />
+    <Compile Include="ClipperLib\OutPt.cs" />
+    <Compile Include="ClipperLib\OutRec.cs" />
+    <Compile Include="ClipperLib\PolyFillType.cs" />
+    <Compile Include="ClipperLib\PolyNode.cs" />
+    <Compile Include="ClipperLib\PolyTree.cs" />
+    <Compile Include="ClipperLib\PolyType.cs" />
+    <Compile Include="ClipperLib\Scanbeam.cs" />
+    <Compile Include="ClipperLib\TEdge.cs" />
+    <Compile Include="Config.cs" />
+<<<<<<< Updated upstream
+    <Compile Include="Correction2DForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+=======
+    <Compile Include="Correction2DForm.cs" />
+>>>>>>> Stashed changes
+    <Compile Include="Correction2DForm.Designer.cs">
+      <DependentUpon>Correction2DForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CxfCharacterSetInfo.cs" />
+    <Compile Include="CxfFontCollectionHelper.cs" />
+    <Compile Include="CxfHelper.cs" />
+    <Compile Include="DirectionWay.cs" />
+<<<<<<< Updated upstream
+    <Compile Include="DivideForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+=======
+    <Compile Include="DivideForm.cs" />
+>>>>>>> Stashed changes
+    <Compile Include="DivideForm.Designer.cs">
+      <DependentUpon>DivideForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocExtFileBrowser.cs" />
+    <Compile Include="DocumentDefault.cs" />
+    <Compile Include="DocumentSerializer.cs" />
+    <Compile Include="Ellipse.cs" />
+    <Compile Include="EntityAlign.cs" />
+    <Compile Include="EntitySort.cs" />
+    <Compile Include="EType.cs" />
+    <Compile Include="FloatTypeConverter.cs" />
+    <Compile Include="FontStringConverter.cs" />
+    <Compile Include="FreeTypeHelper.cs" />
+    <Compile Include="Group.cs" />
+    <Compile Include="GroupEditor.cs" />
+<<<<<<< Updated upstream
+    <Compile Include="HatchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+=======
+    <Compile Include="HatchForm.cs" />
+>>>>>>> Stashed changes
+    <Compile Include="HatchForm.Designer.cs">
+      <DependentUpon>HatchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HatchMode.cs" />
+    <Compile Include="HPGLCppHelper.cs" />
+    <Compile Include="HpglError.cs" />
+    <Compile Include="HpglFile.cs" />
+    <Compile Include="HPGLHelper.cs" />
+    <Compile Include="HPGLInstruction\IInstruction.cs" />
+    <Compile Include="HPGLInstruction\PenDown.cs" />
+    <Compile Include="HPGLInstruction\PenUp.cs" />
+    <Compile Include="HPGLInstruction\PlotAbsolute.cs" />
+    <Compile Include="HpglUnit.cs" />
+    <Compile Include="ICharacterSetInfo.cs" />
+    <Compile Include="IDocument.cs" />
+    <Compile Include="IDrawable.cs" />
+    <Compile Include="IEntity.cs" />
+    <Compile Include="IExplodable.cs" />
+    <Compile Include="IHatchable.cs" />
+    <Compile Include="ImageFileBrowser.cs" />
+    <Compile Include="IMarker.cs" />
+    <Compile Include="IMarkerable.cs" />
+    <Compile Include="IMarkerArg.cs" />
+    <Compile Include="InsertVertex.cs" />
+    <Compile Include="IPen.cs" />
+    <Compile Include="IPens.cs" />
+    <Compile Include="IUndoRedo.cs" />
+    <Compile Include="IView.cs" />
+    <Compile Include="Layer.cs" />
+    <Compile Include="Layers.cs" />
+    <Compile Include="LetterSpaceWay.cs" />
+    <Compile Include="Line.cs" />
+    <Compile Include="ListViewExtensions.cs" />
+    <Compile Include="LwPolyline.cs" />
+    <Compile Include="LwPolyLineVertex.cs" />
+    <Compile Include="MarkerArgDefault.cs" />
+    <Compile Include="MarkerDefault.cs" />
+    <Compile Include="MarkTargets.cs" />
+    <Compile Include="MathHelper.cs" />
+    <Compile Include="MotfBegin.cs" />
+    <Compile Include="MotfEnd.cs" />
+    <Compile Include="MotfExternalStartDelay.cs" />
+    <Compile Include="MotfWait.cs" />
+<<<<<<< Updated upstream
+    <Compile Include="MultiSelectTreeview.cs">
+      <SubType>Component</SubType>
+    </Compile>
+=======
+    <Compile Include="MultiSelectTreeview.cs" />
+>>>>>>> Stashed changes
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="ObservableList.cs" />
+    <Compile Include="Offset.cs" />
+    <Compile Include="OffsetsEditor.cs" />
+    <Compile Include="OffsetTypeConverter.cs" />
+<<<<<<< Updated upstream
+    <Compile Include="PasteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+=======
+    <Compile Include="PasteForm.cs" />
+>>>>>>> Stashed changes
+    <Compile Include="PasteForm.Designer.cs">
+      <DependentUpon>PasteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PenDefault.cs" />
+    <Compile Include="PenMotf.cs" />
+    <Compile Include="PenReturn.cs" />
+    <Compile Include="Pens.cs" />
+    <Compile Include="PensSerializer.cs" />
+    <Compile Include="Point.cs" />
+    <Compile Include="Points.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+<<<<<<< Updated upstream
+    <Compile Include="PropertyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+=======
+    <Compile Include="PropertyForm.cs" />
+>>>>>>> Stashed changes
+    <Compile Include="PropertyForm.Designer.cs">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Raster.cs" />
+    <Compile Include="RasterLine.cs" />
+    <Compile Include="Rectangle.cs" />
+<<<<<<< Updated upstream
+    <Compile Include="RotateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+=======
+    <Compile Include="RotateForm.cs" />
+>>>>>>> Stashed changes
+    <Compile Include="RotateForm.Designer.cs">
+      <DependentUpon>RotateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RtcCharacterSetHelper.cs" />
+    <Compile Include="SiriusDocument.cs" />
+<<<<<<< Updated upstream
+    <Compile Include="SiriusEditorForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+=======
+    <Compile Include="SiriusEditorForm.cs" />
+>>>>>>> Stashed changes
+    <Compile Include="SiriusEditorForm.Designer.cs">
+      <DependentUpon>SiriusEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SiriusFontStringConverter.cs" />
+<<<<<<< Updated upstream
+    <Compile Include="SiriusPreviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+=======
+    <Compile Include="SiriusPreviewForm.cs" />
+>>>>>>> Stashed changes
+    <Compile Include="SiriusPreviewForm.Designer.cs">
+      <DependentUpon>SiriusPreviewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SiriusText.cs" />
+    <Compile Include="SiriusTextArc.cs" />
+    <Compile Include="SiriusTextDate.cs" />
+    <Compile Include="SiriusTextSerial.cs" />
+    <Compile Include="SiriusTextTime.cs" />
+    <Compile Include="SiriusTypeNameSerializationBinder.cs" />
+<<<<<<< Updated upstream
+    <Compile Include="SiriusViewerForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+=======
+    <Compile Include="SiriusViewerForm.cs" />
+>>>>>>> Stashed changes
+    <Compile Include="SiriusViewerForm.Designer.cs">
+      <DependentUpon>SiriusViewerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SortMethod.cs" />
+    <Compile Include="Spiral.cs" />
+    <Compile Include="Stereolithography.cs" />
+    <Compile Include="StitchedImage.cs" />
+    <Compile Include="STLFace.cs" />
+    <Compile Include="STLHelper.cs" />
+    <Compile Include="STLVertex.cs" />
+    <Compile Include="Text.cs" />
+    <Compile Include="TextArc.cs" />
+    <Compile Include="TextDate.cs" />
+    <Compile Include="TextSerial.cs" />
+    <Compile Include="TextTime.cs" />
+    <Compile Include="Timer.cs" />
+    <Compile Include="Trepan.cs" />
+    <Compile Include="TSPChromosome.cs" />
+    <Compile Include="TSPFitnessFunction.cs" />
+    <Compile Include="TTFCharacterSetInfo.cs" />
+    <Compile Include="UiHelper.cs" />
+    <Compile Include="UndoRedoDocumentPropertyChanged.cs" />
+    <Compile Include="UndoRedoEntitiesMove.cs" />
+    <Compile Include="UndoRedoEntityAdd.cs" />
+    <Compile Include="UndoRedoEntityAlign.cs" />
+    <Compile Include="UndoRedoEntityAlignPair.cs" />
+    <Compile Include="UndoRedoEntityCut.cs" />
+    <Compile Include="UndoRedoEntityDelete.cs" />
+    <Compile Include="UndoRedoEntityDeleteEntity.cs" />
+    <Compile Include="UndoRedoEntityDeleteLayer.cs" />
+    <Compile Include="UndoRedoEntityDivide.cs" />
+    <Compile Include="UndoRedoEntityExplode.cs" />
+    <Compile Include="UndoRedoEntityGroup.cs" />
+    <Compile Include="UndoRedoEntityHatch.cs" />
+    <Compile Include="UndoRedoEntityMove.cs" />
+    <Compile Include="UndoRedoEntityPaste.cs" />
+    <Compile Include="UndoRedoEntityPasteArray.cs" />
+    <Compile Include="UndoRedoEntityPropertyChanged.cs" />
+    <Compile Include="UndoRedoEntityReplace.cs" />
+    <Compile Include="UndoRedoEntityRotate.cs" />
+    <Compile Include="UndoRedoEntitySelect.cs" />
+    <Compile Include="UndoRedoEntitySort.cs" />
+    <Compile Include="UndoRedoEntityTransit.cs" />
+    <Compile Include="UndoRedoEntityUnGroup.cs" />
+    <Compile Include="UndoRedoLayerActive.cs" />
+    <Compile Include="UndoRedoLayerMove.cs" />
+    <Compile Include="UndoRedoMultiple.cs" />
+    <Compile Include="UndoRedoSingle.cs" />
+    <Compile Include="Vector2Converter.cs" />
+    <Compile Include="Vector3Converter.cs" />
+    <Compile Include="VectorBegin.cs" />
+    <Compile Include="VectorEnd.cs" />
+    <Compile Include="Vertex.cs" />
+    <Compile Include="ViewDefault.cs" />
+    <Compile Include="WriteData.cs" />
+    <Compile Include="WriteDataExt16.cs" />
+    <Compile Include="WriteDataExt16StringConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ECS.Recipe\ECS.Recipe.csproj">
+      <Project>{5c5bdf09-f80e-4f06-bd19-46637f97ace9}</Project>
+      <Name>ECS.Recipe</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\INNO6.Core\INNO6.Core.csproj">
+      <Project>{ad4cc56a-87b1-49c5-9b4e-49243595b14f}</Project>
+      <Name>INNO6.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scanlab.Core\Scanlab.Core.csproj">
+      <Project>{38ff84a4-3482-480c-bbcd-74b83a4b470a}</Project>
+      <Name>Scanlab.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scanlab.Sirius.Rtc\Scanlab.Sirius.Rtc.csproj">
+      <Project>{9cc33e6a-1e28-4bcb-85c1-be83deaae96c}</Project>
+      <Name>Scanlab.Sirius.Rtc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lib\spirallab.hpgl.dll" />
+    <Content Include="Lib\spirallab.hpglx64.dll" />
+    <None Include="Resources\Image1.bmp" />
+    <None Include="Resources\grid.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Correction2DForm.resx">
+      <DependentUpon>Correction2DForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DivideForm.resx">
+      <DependentUpon>DivideForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HatchForm.resx">
+      <DependentUpon>HatchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PasteForm.resx">
+      <DependentUpon>PasteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyForm.resx">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RotateForm.resx">
+      <DependentUpon>RotateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SiriusEditorForm.resx">
+      <DependentUpon>SiriusEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SiriusPreviewForm.resx">
+      <DependentUpon>SiriusPreviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SiriusViewerForm.resx">
+      <DependentUpon>SiriusViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
