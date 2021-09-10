@@ -117,6 +117,10 @@
       <Project>{9CC33E6A-1E28-4BCB-85C1-BE83DEAAE96C}</Project>
       <Name>Scanlab.Sirius.Rtc</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Scanlab\Scanlab.Sirius\Scanlab.Sirius.csproj">
+      <Project>{90eafaec-c120-4345-b21a-0296c35b0e46}</Project>
+      <Name>Scanlab.Sirius</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
