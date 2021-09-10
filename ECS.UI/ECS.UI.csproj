@@ -609,10 +609,6 @@
       <Project>{9cc33e6a-1e28-4bcb-85c1-be83deaae96c}</Project>
       <Name>Scanlab.Sirius.Rtc</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scanlab\Scanlab.Sirius\Scanlab.Sirius.csproj">
-      <Project>{90eafaec-c120-4345-b21a-0296c35b0e46}</Project>
-      <Name>Scanlab.Sirius</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\alert_danger.png" />

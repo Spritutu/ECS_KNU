@@ -98,13 +98,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< Updated upstream
     <Compile Include="AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
-=======
-    <Compile Include="AboutForm.cs" />
->>>>>>> Stashed changes
     <Compile Include="AboutForm.Designer.cs" />
     <Compile Include="AciColor.cs" />
     <Compile Include="Action.cs" />
@@ -153,13 +149,9 @@
     <Compile Include="ClipperLib\Scanbeam.cs" />
     <Compile Include="ClipperLib\TEdge.cs" />
     <Compile Include="Config.cs" />
-<<<<<<< Updated upstream
     <Compile Include="Correction2DForm.cs">
       <SubType>Form</SubType>
     </Compile>
-=======
-    <Compile Include="Correction2DForm.cs" />
->>>>>>> Stashed changes
     <Compile Include="Correction2DForm.Designer.cs">
       <DependentUpon>Correction2DForm.cs</DependentUpon>
     </Compile>
@@ -167,13 +159,9 @@
     <Compile Include="CxfFontCollectionHelper.cs" />
     <Compile Include="CxfHelper.cs" />
     <Compile Include="DirectionWay.cs" />
-<<<<<<< Updated upstream
     <Compile Include="DivideForm.cs">
       <SubType>Form</SubType>
     </Compile>
-=======
-    <Compile Include="DivideForm.cs" />
->>>>>>> Stashed changes
     <Compile Include="DivideForm.Designer.cs">
       <DependentUpon>DivideForm.cs</DependentUpon>
     </Compile>
@@ -189,13 +177,9 @@
     <Compile Include="FreeTypeHelper.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="GroupEditor.cs" />
-<<<<<<< Updated upstream
     <Compile Include="HatchForm.cs">
       <SubType>Form</SubType>
     </Compile>
-=======
-    <Compile Include="HatchForm.cs" />
->>>>>>> Stashed changes
     <Compile Include="HatchForm.Designer.cs">
       <DependentUpon>HatchForm.cs</DependentUpon>
     </Compile>
@@ -239,25 +223,17 @@
     <Compile Include="MotfEnd.cs" />
     <Compile Include="MotfExternalStartDelay.cs" />
     <Compile Include="MotfWait.cs" />
-<<<<<<< Updated upstream
     <Compile Include="MultiSelectTreeview.cs">
       <SubType>Component</SubType>
     </Compile>
-=======
-    <Compile Include="MultiSelectTreeview.cs" />
->>>>>>> Stashed changes
     <Compile Include="NativeMethods.cs" />
     <Compile Include="ObservableList.cs" />
     <Compile Include="Offset.cs" />
     <Compile Include="OffsetsEditor.cs" />
     <Compile Include="OffsetTypeConverter.cs" />
-<<<<<<< Updated upstream
     <Compile Include="PasteForm.cs">
       <SubType>Form</SubType>
     </Compile>
-=======
-    <Compile Include="PasteForm.cs" />
->>>>>>> Stashed changes
     <Compile Include="PasteForm.Designer.cs">
       <DependentUpon>PasteForm.cs</DependentUpon>
     </Compile>
@@ -274,49 +250,33 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-<<<<<<< Updated upstream
     <Compile Include="PropertyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-=======
-    <Compile Include="PropertyForm.cs" />
->>>>>>> Stashed changes
     <Compile Include="PropertyForm.Designer.cs">
       <DependentUpon>PropertyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Raster.cs" />
     <Compile Include="RasterLine.cs" />
     <Compile Include="Rectangle.cs" />
-<<<<<<< Updated upstream
     <Compile Include="RotateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-=======
-    <Compile Include="RotateForm.cs" />
->>>>>>> Stashed changes
     <Compile Include="RotateForm.Designer.cs">
       <DependentUpon>RotateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RtcCharacterSetHelper.cs" />
     <Compile Include="SiriusDocument.cs" />
-<<<<<<< Updated upstream
     <Compile Include="SiriusEditorForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-=======
-    <Compile Include="SiriusEditorForm.cs" />
->>>>>>> Stashed changes
     <Compile Include="SiriusEditorForm.Designer.cs">
       <DependentUpon>SiriusEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SiriusFontStringConverter.cs" />
-<<<<<<< Updated upstream
     <Compile Include="SiriusPreviewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-=======
-    <Compile Include="SiriusPreviewForm.cs" />
->>>>>>> Stashed changes
     <Compile Include="SiriusPreviewForm.Designer.cs">
       <DependentUpon>SiriusPreviewForm.cs</DependentUpon>
     </Compile>
@@ -326,13 +286,9 @@
     <Compile Include="SiriusTextSerial.cs" />
     <Compile Include="SiriusTextTime.cs" />
     <Compile Include="SiriusTypeNameSerializationBinder.cs" />
-<<<<<<< Updated upstream
     <Compile Include="SiriusViewerForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
-=======
-    <Compile Include="SiriusViewerForm.cs" />
->>>>>>> Stashed changes
     <Compile Include="SiriusViewerForm.Designer.cs">
       <DependentUpon>SiriusViewerForm.cs</DependentUpon>
     </Compile>
