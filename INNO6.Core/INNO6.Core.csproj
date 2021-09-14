@@ -99,15 +99,15 @@
   <ItemGroup>
     <Reference Include="CIM.Log, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ECS_KETI_20210910\Library\CIM.Log.dll</HintPath>
+      <HintPath>..\Library\CIM.Log.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ECS_KETI_20210910\Library\log4net.dll</HintPath>
+      <HintPath>..\Library\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Mina.NET">
-      <HintPath>..\..\ECS_KETI_20210910\Library\Mina.NET.dll</HintPath>
+      <HintPath>..\Library\Mina.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
