@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using INNO6.Core.Manager;
+using ECS.Common.Helper;
 
 namespace ECS.Function.Physical
 {
@@ -29,7 +30,7 @@ namespace ECS.Function.Physical
         public override string Execute()
         {
             bool result = false;
-
+            FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.Y_AXIS_HOMMING);
             if (DataManager.Instance.SET_INT_DATA(IO_Y_HOME_STOP, 1))
             {
                 Thread.Sleep(1000);

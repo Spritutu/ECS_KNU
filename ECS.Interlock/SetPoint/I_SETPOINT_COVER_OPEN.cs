@@ -10,10 +10,13 @@ namespace ECS.Interlock.SetPoint
 {
     public class I_SETPOINT_COVER_OPEN : IExecuteInterlock
     {
-        public void Execute()
+
+        public bool Execute(object setValue)
         {
             //GAS DETECTOR ALARM 발생시 할일 정의
             AlarmManager.Instance.SetAlarm("E1005");
+
+            return true;
         }
     }
 }

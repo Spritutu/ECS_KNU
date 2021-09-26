@@ -10,7 +10,7 @@ using INNO6.IO;
 
 namespace ECS.Function.Physical
 {
-    public class F_MOVE_PROCESS_OFFSET : AbstractFunction
+    public class F_MOVE_VISION_OFFSET : AbstractFunction
     {
         private string VIO_PROCESS_POSITION_X = "vSet.dAxisX.ProcessPosition";
         private string VIO_PROCESS_POSITION_Y = "vSet.dAxisY.ProcessPosition";
@@ -52,7 +52,7 @@ namespace ECS.Function.Physical
             bool result = true;
             Abort = false;
             IsProcessing = false;
-            
+
             _VisionPosZ = DataManager.Instance.GET_DOUBLE_DATA("iPMAC.dAxisZ.Position", out bool _);
 
             if (_VisionPosZ > 200)
@@ -66,7 +66,7 @@ namespace ECS.Function.Physical
                 else
                 {
                     result &= false;
-                }              
+                }
             }
 
             return this.EquipmentStatusCheck();
@@ -86,11 +86,11 @@ namespace ECS.Function.Physical
             double processPosT = DataManager.Instance.GET_DOUBLE_DATA(VIO_PROCESS_POSITION_T, out bool _);
             double processPosR = DataManager.Instance.GET_DOUBLE_DATA(VIO_PROCESS_POSITION_R, out bool _);
 
-            double dffsetX = processPosX - visionPosX;
-            double offsetY = processPosY - visionPosY;
-            double offsetZ = processPosZ - visionPosZ;
-            double offsetT = processPosT - visionPosT;
-            double offsetR = processPosR - visionPosR;
+            double dffsetX = visionPosX - processPosX;
+            double offsetY = visionPosY - processPosY;
+            double offsetZ = visionPosZ - processPosZ;
+            double offsetT = visionPosT - processPosT;
+            double offsetR = visionPosR - processPosR;
 
             DataManager.Instance.SET_DOUBLE_DATA(VIO_DBL_X_REL_DISTANCE, dffsetX);
             DataManager.Instance.SET_DOUBLE_DATA(VIO_DBL_Y_REL_DISTANCE, offsetY);

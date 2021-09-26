@@ -1,5 +1,6 @@
-﻿using INNO6.IO;
-using INNO6.IO.Service;
+﻿using ECS.Common.Helper;
+using INNO6.Core.Manager;
+using INNO6.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,19 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using INNO6.Core.Manager;
-using ECS.Common.Helper;
 
 namespace ECS.Function.Physical
 {
-    public class F_X_AXIS_HOME_STOP : AbstractFunction
+    public class F_Z_AXIS_SERVO_STOP : AbstractFunction
     {
-        private const string IO_X_HOME_STOP = "oPMAC.iAxisX.HomeStop";
-        private const string IO_X_IS_HOMMING = "iPMAC.iAxisX.IsHomming";
-
-        private const string ALARM_X_AXIS_HOMESTOP_TIMEOUT = "E2021";
-        private const string ALARM_X_AXIS_HOMESTOP_FAIL = "E2022";
-
         public override bool CanExecute()
         {
             Abort = false;
@@ -32,11 +25,8 @@ namespace ECS.Function.Physical
         {
             bool result = false;
 
-            FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.X_AXIS_HOMMING);
-
-            if (DataManager.Instance.SET_INT_DATA(IO_X_HOME_STOP, 1))
+            if (DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_Z_SERVOSTOP, 1))
             {
-                Thread.Sleep(1000);
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
@@ -48,15 +38,14 @@ namespace ECS.Function.Physical
                     {
                         return F_RESULT_ABORT;
                     }
+                    else if (true/*DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_PMAC_Z_MOTOR_ACTIVE, out result) == 0*/)
+                    {
+                        return this.F_RESULT_SUCCESS;
+                    }
                     else if (stopwatch.ElapsedMilliseconds > TimeoutMiliseconds)
                     {
-                        AlarmManager.Instance.SetAlarm(ALARM_X_AXIS_HOMESTOP_TIMEOUT);
+                        AlarmManager.Instance.SetAlarm(AlarmCodeHelper.Z_AXIS_SERVO_STOP_TIMEOUT);
                         return this.F_RESULT_TIMEOUT;
-                    }
-                    else if (DataManager.Instance.GET_INT_DATA(IO_X_IS_HOMMING, out result) == 0)
-                    {
-
-                        return this.F_RESULT_SUCCESS;
                     }
                     else if (EquipmentSimulation == OperationMode.SIMULATION.ToString())
                     {
@@ -71,24 +60,23 @@ namespace ECS.Function.Physical
             }
             else
             {
-                AlarmManager.Instance.SetAlarm(ALARM_X_AXIS_HOMESTOP_FAIL);
+                AlarmManager.Instance.SetAlarm(AlarmCodeHelper.Z_AXIS_SERVO_STOP_FAIL);
                 return this.F_RESULT_FAIL;
             }
         }
 
         public override void ExecuteWhenSimulate()
         {
-            DataManager.Instance.SET_INT_DATA(IO_X_IS_HOMMING, 0);
+            //DataManager.Instance.SET_INT_DATA(IoNameHelper.IN_INT_PMAC_Z_MOTOR_ACTIVE, 0);
         }
 
         public override void PostExecute()
         {
             Abort = false;
             IsProcessing = false;
-            if (EquipmentSimulation == OperationMode.SIMULATION.ToString())
-            {
-                DataManager.Instance.SET_INT_DATA(IO_X_HOME_STOP, 0);
-            }
+
+            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_Z_SERVOSTOP, 0);
+
         }
     }
 }

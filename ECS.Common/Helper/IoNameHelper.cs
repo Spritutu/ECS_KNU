@@ -153,6 +153,7 @@ namespace ECS.Common.Helper
         public const string OUT_INT_PMAC_R_JOGBWD = "oPMAC.iAxisR.JogBwd";
         public const string OUT_INT_PMAC_R_HOMMING = "oPMAC.iAxisR.Homming";
         public const string OUT_INT_PMAC_R_HOMESTOP = "oPMAC.iAxisR.HomeStop";
+        public const string OUT_INT_PMAC_R_SERVOSTOP = "oPMAC.iAxisR.ServoStop";
 
 
         public const string OUT_INT_PMAC_T_MOVETOSETPOS = "oPMAC.iAxisT.MoveToSetPos";
@@ -163,6 +164,7 @@ namespace ECS.Common.Helper
         public const string OUT_INT_PMAC_T_JOGBWD = "oPMAC.iAxisT.JogBwd";
         public const string OUT_INT_PMAC_T_HOMMING = "oPMAC.iAxisT.Homming";
         public const string OUT_INT_PMAC_T_HOMESTOP = "oPMAC.iAxisT.HomeStop";
+        public const string OUT_INT_PMAC_T_SERVOSTOP = "oPMAC.iAxisT.ServoStop";
 
         public const string OUT_INT_PMAC_X_MOVETOSETPOS = "oPMAC.iAxisX.MoveToSetPos";
         public const string OUT_INT_PMAC_X_MOVETOSETDIS = "oPMAC.iAxisX.MoveToSetDis";
@@ -172,6 +174,7 @@ namespace ECS.Common.Helper
         public const string OUT_INT_PMAC_X_JOGBWD = "oPMAC.iAxisX.JogBwd";
         public const string OUT_INT_PMAC_X_HOMMING = "oPMAC.iAxisX.Homming";
         public const string OUT_INT_PMAC_X_HOMESTOP = "oPMAC.iAxisX.HomeStop";
+        public const string OUT_INT_PMAC_X_SERVOSTOP = "oPMAC.iAxisX.ServoStop";
 
         public const string OUT_INT_PMAC_Y_MOVETOSETPOS = "oPMAC.iAxisY.MoveToSetPos";
         public const string OUT_INT_PMAC_Y_MOVETOSETDIS = "oPMAC.iAxisY.MoveToSetDis";
@@ -181,6 +184,7 @@ namespace ECS.Common.Helper
         public const string OUT_INT_PMAC_Y_JOGBWD = "oPMAC.iAxisY.JogBwd";
         public const string OUT_INT_PMAC_Y_HOMMING = "oPMAC.iAxisY.Homming";
         public const string OUT_INT_PMAC_Y_HOMESTOP = "oPMAC.iAxisY.HomeStop";
+        public const string OUT_INT_PMAC_Y_SERVOSTOP = "oPMAC.iAxisY.ServoStop";
 
         public const string OUT_INT_PMAC_Z_MOVETOSETPOS = "oPMAC.iAxisZ.MoveToSetPos";
         public const string OUT_INT_PMAC_Z_MOVETOSETDIS = "oPMAC.iAxisZ.MoveToSetDis";
@@ -190,6 +194,10 @@ namespace ECS.Common.Helper
         public const string OUT_INT_PMAC_Z_JOGBWD = "oPMAC.iAxisZ.JogBwd";
         public const string OUT_INT_PMAC_Z_HOMMING = "oPMAC.iAxisZ.Homming";
         public const string OUT_INT_PMAC_Z_HOMESTOP = "oPMAC.iAxisZ.HomeStop";
+        public const string OUT_INT_PMAC_Z_SERVOSTOP = "oPMAC.iAxisZ.ServoStop";
+
+        public const string OUT_INT_PMAC_ALL_SERVOKILL = "oPMAC.iAxisAll.ServoKill";
+        public const string OUT_INT_PMAC_ALL_MOTION_ABORT = "oPMAC.iAxisAll.Abort";
 
         public const string OUT_INT_LAMP_RESET = "oPMAC.iLamp.Reset";
         public const string OUT_INT_LAMP_START = "oPMAC.iLamp.Start";
@@ -324,6 +332,12 @@ namespace ECS.Common.Helper
         public const string V_STR_SET_X_JOGVEL_MODE = "vSet.sAxisX.JogVelMode";
         public const string V_STR_SET_Y_JOGVEL_MODE = "vSet.sAxisY.JogVelMode";
         public const string V_STR_SET_Z_JOGVEL_MODE = "vSet.sAxisZ.JogVelMode";
+
+        public const string V_DBL_SET_X_OFFSET = "vSet.sAxisX.Offset";
+        public const string V_DBL_SET_Y_OFFSET = "vSet.sAxisY.Offset";
+        public const string V_DBL_SET_Z_OFFSET = "vSet.sAxisZ.Offset";
+        public const string V_DBL_SET_R_OFFSET = "vSet.sAxisR.Offset";
+        public const string V_DBL_SET_T_OFFSET = "vSet.sAxisT.Offset";
 
     }
 }

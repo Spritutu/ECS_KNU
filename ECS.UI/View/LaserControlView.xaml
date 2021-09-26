@@ -114,11 +114,11 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2">
-                    <TextBlock Text="{Binding ScanBusyStatus, Converter={StaticResource BusyStatusToStringConverter}}" Width="100"/>
-                    <TextBlock Text="{Binding ScanErrorStatus, Converter={StaticResource ErrorStatusToStringConverter}}" Width="100"/>
-                    <TextBlock Text="{Binding ScanPositionAckStatus, Converter={StaticResource PositionAckStatusToStringConverter}}" Width="100"/>
-                    <TextBlock Text="{Binding ScanPowerStatus, Converter={StaticResource PowerStatusToStringConverter}}" Width="100"/>
-                    <TextBlock Text="{Binding ScanTempStatus, Converter={StaticResource TempStatusToStringConverter}}" Width="100"/>
+                    <TextBox Text="{Binding ScanBusyStatus, Converter={StaticResource BusyStatusToStringConverter}}" IsReadOnly="True" Width="100" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" Margin="5" HorizontalContentAlignment="Center"/>
+                    <TextBox Text="{Binding ScanErrorStatus, Converter={StaticResource ErrorStatusToStringConverter}}" IsReadOnly="True" Width="100" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" Margin="5" HorizontalContentAlignment="Center"/>
+                    <TextBox Text="{Binding ScanPositionAckStatus, Converter={StaticResource PositionAckStatusToStringConverter}}" IsReadOnly="True"  Width="100" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" Margin="5" HorizontalContentAlignment="Center"/>
+                    <TextBox Text="{Binding ScanPowerStatus, Converter={StaticResource PowerStatusToStringConverter}}" IsReadOnly="True" Width="100" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" Margin="5" HorizontalContentAlignment="Center"/>
+                    <TextBox Text="{Binding ScanTempStatus, Converter={StaticResource TempStatusToStringConverter}}" IsReadOnly="True" Width="100" BorderBrush="LightGray" BorderThickness="2" Background="Black" Foreground="LightGreen" Margin="5" HorizontalContentAlignment="Center"/>
                     <!--<Label Style="{DynamicResource 7SegmentsBox}" VerticalContentAlignment="Center" FontSize="12" Margin="5,5,5,5">
                         <TextBlock Text="{Binding ScanBusyStatus, Converter={StaticResource BusyStatusToStringConverter}}" Width="100"/>
                     </Label>

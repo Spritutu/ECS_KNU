@@ -46,21 +46,21 @@ namespace ECS.Function.Physical
             Abort = false;
             IsProcessing = false;
 
-            _VisionPosZ = DataManager.Instance.GET_DOUBLE_DATA("iPMAC.dAxisZ.Position", out bool _);
+            //_VisionPosZ = DataManager.Instance.GET_DOUBLE_DATA("iPMAC.dAxisZ.Position", out bool _);
 
-            if (_VisionPosZ > 200)
-            {
-                DataManager.Instance.SET_DOUBLE_DATA(VIO_DBL_Z_ABS_POSITION, 200);
+            //if (_VisionPosZ > 200)
+            //{
+            //    DataManager.Instance.SET_DOUBLE_DATA(VIO_DBL_Z_ABS_POSITION, 200);
 
-                if (FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(F_Z_AXIS_MOVE_TO_SETPOS) == F_RESULT_SUCCESS)
-                {
-                    result &= true;
-                }
-                else
-                {
-                    result &= false;
-                }
-            }
+            //    if (FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(F_Z_AXIS_MOVE_TO_SETPOS) == F_RESULT_SUCCESS)
+            //    {
+            //        result &= true;
+            //    }
+            //    else
+            //    {
+            //        result &= false;
+            //    }
+            //}
 
             return this.EquipmentStatusCheck();
         }

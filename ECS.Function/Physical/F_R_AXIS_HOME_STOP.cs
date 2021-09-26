@@ -1,4 +1,5 @@
-﻿using INNO6.Core.Manager;
+﻿using ECS.Common.Helper;
+using INNO6.Core.Manager;
 using INNO6.IO;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,8 @@ namespace ECS.Function.Physical
         public override string Execute()
         {
             bool result = false;
+
+            FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.R_AXIS_HOMMING);
 
             if (DataManager.Instance.SET_INT_DATA(IO_R_HOME_STOP, 1))
             {

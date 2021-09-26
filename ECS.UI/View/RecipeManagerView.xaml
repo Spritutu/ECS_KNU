@@ -152,7 +152,7 @@
         </GroupBox>
 
         <GroupBox Header="@ Process Step List" Grid.Column="1" Margin="1">
-            <DataGrid Margin="0,3" Grid.Row="2" ItemsSource="{Binding RecipeStepList, Mode=TwoWay}" SelectedIndex="{Binding SelectedRecipeStepIndex}" HeadersVisibility="Column" GridLinesVisibility="All" SelectionUnit="FullRow" SelectionMode="Single" BorderBrush="DarkGray" BorderThickness="1" IsReadOnly="True" CanUserSortColumns="False">
+            <DataGrid Margin="0,3" Grid.Row="2" ItemsSource="{Binding RecipeStepList, Mode=TwoWay}" SelectedIndex="{Binding SelectedRecipeStepIndex}" HeadersVisibility="Column" GridLinesVisibility="All" SelectionUnit="FullRow" SelectionMode="Single" BorderBrush="DarkGray" BorderThickness="1" IsReadOnly="True" CanUserSortColumns="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <mvvm:EventToCommand Command="{Binding RecipeStepSelectionChanged}" PassEventArgsToCommand="True"/>

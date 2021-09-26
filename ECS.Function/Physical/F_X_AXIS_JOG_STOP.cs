@@ -18,7 +18,7 @@ namespace ECS.Function.Physical
         private const string ALARM_X_AXIS_JOG_STOP_FAIL = "E2027";
         public override bool CanExecute()
         {
-            return this.EquipmentStatusCheck();
+            return true;
         }
 
         public override string Execute()

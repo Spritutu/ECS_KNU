@@ -150,10 +150,20 @@ namespace INNO6.Core.Manager
                     interlockInfo.IsUse = false;
                 }
 
+                if (!Convert.IsDBNull(dr["NOTFLAG"]) && (dr["NOTFLAG"] as bool?) == true)
+                {
+                    interlockInfo.NotFlag = true;
+                }
+                else
+                {
+                    interlockInfo.NotFlag = false;
+                }
+
                 interlockInfo.IoName = dr["IoName"] as string;
 
                 string status = string.Empty;
                 if (Convert.IsDBNull(dr["Status"])) status = "OFF";
+                else status = "ON";
                 _ = status.Contains("OFF") ? interlockInfo.Status = "OFF" : interlockInfo.Status = "ON";
                 interlockInfo.Status = dr["Status"] as string;
 
@@ -186,10 +196,9 @@ namespace INNO6.Core.Manager
                 string status = string.Empty;
 
                 if (Convert.IsDBNull(dr["Status"])) status = "OFF";
+                else status = "ON";
 
                 _ = status.Contains("OFF") ? interlockInfo.Status = "OFF" : interlockInfo.Status = "ON";
-
-                interlockInfo.Status = dr["Status"] as string;
 
                 interlockInfo.IoName = dr["IoName"] as string;
 
@@ -202,7 +211,15 @@ namespace INNO6.Core.Manager
                     interlockInfo.IsUse = false;
                 }
 
-                
+                if (!Convert.IsDBNull(dr["NOTFLAG"]) && (dr["NOTFLAG"] as bool?) == true)
+                {
+                    interlockInfo.NotFlag = true;
+                }
+                else
+                {
+                    interlockInfo.NotFlag = false;
+                }
+
 
                 interlockInfo.AssemblyName = dr["ASSEMBLYNAME"] as string;
                 interlockInfo.DllFilePath = dr["DLLFILEPATH"] as string;
@@ -248,30 +265,56 @@ namespace INNO6.Core.Manager
             }
         }
 
-        private void SetpointInterlockExecute(string interlockName)
+        private bool SetpointInterlockExecute(string interlockName, object setValue)
         {
-            if (_SetpointInterlockList.ContainsKey(interlockName))
+            if (_SetpointInterlockList.ContainsKey(interlockName) && _SetpointInterlockInfoList.ContainsKey(interlockName))
             {
+                if (_SetpointInterlockInfoList[interlockName].Status == INTERLOCK_ON) return false;
+
                 object instance = _SetpointInterlockList[interlockName];
                 Type type = instance.GetType();
                 MethodInfo interlockExecute = type.GetMethod(INTERLOCK_EXECUTE);
-                interlockExecute.Invoke(instance, null);
+                object returnValue = interlockExecute.Invoke(instance, new object[] { setValue });
+                if((bool)returnValue)
+                {
+                    _InterlockEvent?.Invoke(this, new InterlockEventArgs(interlockName, "SETPOINT"));
+                    _SetpointInterlockInfoList[interlockName].Status = INTERLOCK_ON;
+                }
+                    
 
-                _InterlockEvent?.Invoke(this, new InterlockEventArgs(interlockName, "SETPOINT"));
-            }    
+                return (bool)returnValue;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        private void ValueInterlockExecute(string interlockName)
+        private bool ValueInterlockExecute(string interlockName, object setValue)
         {
-            if (_ValueInterlockList.ContainsKey(interlockName))
+            if (_ValueInterlockList.ContainsKey(interlockName) && _ValueInterlockInfoList.ContainsKey(interlockName))
             {
+                if (_ValueInterlockInfoList[interlockName].Status == INTERLOCK_ON) return false;
+
                 object instance = _ValueInterlockList[interlockName];
                 Type type = instance.GetType();
                 MethodInfo interlockExecute = type.GetMethod(INTERLOCK_EXECUTE);
-                interlockExecute.Invoke(instance, null);
+                object returnValue = interlockExecute.Invoke(instance, new object[] { setValue });
 
-                _InterlockEvent?.Invoke(this, new InterlockEventArgs(interlockName, "VALUE"));
+                if ((bool)returnValue)
+                {
+                    _InterlockEvent?.Invoke(this, new InterlockEventArgs(interlockName, "VALUE"));
+                    _ValueInterlockInfoList[interlockName].Status = INTERLOCK_ON;
+                }
+                   
+
+                return (bool)returnValue;
             }
+            else
+            {
+                return false;
+            }
+
         }
 
         public List<INTERLOCK> GET_INTERLOCK_LIST(string ioName)
@@ -284,8 +327,53 @@ namespace INNO6.Core.Manager
             return null;
         }
 
+        public void SET_SETPOINT_INTERLOCK_USE(string interlockName, bool use)
+        {
+            if (_SetpointInterlockInfoList.ContainsKey(interlockName))
+            {
+                SETPOINT_INTERLOCK interlock_info = _SetpointInterlockInfoList[interlockName];
+                interlock_info.IsUse = use;
+            }
+        }
+
+        public void SET_VALUE_INTERLOCK_USE(string interlockName, bool use)
+        {
+            if (_ValueInterlockInfoList.ContainsKey(interlockName))
+            {
+                VALUE_INTERLOCK interlock_info = _ValueInterlockInfoList[interlockName];
+                interlock_info.IsUse = use;
+            }
+        }
+
+        public bool GET_SETPOINT_INTERLOCK_USE(string interlockName)
+        {
+            if(_SetpointInterlockInfoList.ContainsKey(interlockName))
+            {
+                SETPOINT_INTERLOCK interlock_info = _SetpointInterlockInfoList[interlockName];
+                return interlock_info.IsUse;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool GET_VALUE_INTERLOCK_USE(string interlockName)
+        {
+            if (_ValueInterlockInfoList.ContainsKey(interlockName))
+            {
+                VALUE_INTERLOCK interlock_info = _ValueInterlockInfoList[interlockName];
+                return interlock_info.IsUse;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool SETPOINT_INTERLOCK(string interlockName, object setValue, int dataType)
         {
+            bool notFlag = _SetpointInterlockInfoList[interlockName].NotFlag;
             if (!_SetpointInterlockInfoList.ContainsKey(interlockName) || !_SetpointInterlockList.ContainsKey(interlockName))
             {
                 LogHelper.Instance.SystemLog.DebugFormat("[ERROR] INTERLOCK NOT DEFINE : INTERLOCK={0}", interlockName);
@@ -294,22 +382,26 @@ namespace INNO6.Core.Manager
 
             if (_SetpointInterlockInfoList[interlockName].IsUse == false)
             {
-                LogHelper.Instance.SystemLog.DebugFormat("[ERROR] INTERLOCK NOT USE : INTERLOCK={0}", interlockName);
+                LogHelper.Instance.SystemLog.InfoFormat("[INFO] INTERLOCK NOT USE : INTERLOCK={0}", interlockName);
                 return false;
             }
 
             if (_SetpointInterlockInfoList[interlockName].Status == INTERLOCK_ON) return true;
 
-            switch(dataType)
+
+            switch (dataType)
             {
                 case (int)eDataType.Int:
                     {
                         if(int.TryParse(_SetpointInterlockInfoList[interlockName].SetPoint, out int setPoint))
                         {
-                            if (setPoint.Equals(setValue))
+                            if ( !notFlag && setPoint.Equals(setValue))
                             {
-                                SetpointInterlockExecute(interlockName);
-                                return true;
+                                return SetpointInterlockExecute(interlockName, setValue);
+                            }
+                            else if (notFlag && !setPoint.Equals(setValue))
+                            {  
+                                return SetpointInterlockExecute(interlockName, setValue);
                             }
                             else
                             {
@@ -325,10 +417,13 @@ namespace INNO6.Core.Manager
                     {
                         if (double.TryParse(_SetpointInterlockInfoList[interlockName].SetPoint, out double setPoint))
                         {
-                            if (setPoint.Equals(setValue))
-                            {
-                                SetpointInterlockExecute(interlockName);
-                                return true;
+                            if (!notFlag && setPoint.Equals(setValue))
+                            {                              
+                                return SetpointInterlockExecute(interlockName, setValue);
+                            }
+                            else if (notFlag && !setPoint.Equals(setValue))
+                            {                                
+                                return SetpointInterlockExecute(interlockName, setValue);
                             }
                             else
                             {
@@ -342,10 +437,13 @@ namespace INNO6.Core.Manager
                     }
                 case (int)eDataType.String:
                     {
-                        if (_SetpointInterlockInfoList[interlockName].SetPoint.Equals(setValue))
-                        {
-                            SetpointInterlockExecute(interlockName);
-                            return true;
+                        if (!notFlag && _SetpointInterlockInfoList[interlockName].SetPoint.Equals(setValue))
+                        {                            
+                            return SetpointInterlockExecute(interlockName, setValue);
+                        }
+                        else if (notFlag && !_SetpointInterlockInfoList[interlockName].SetPoint.Equals(setValue))
+                        {   
+                            return SetpointInterlockExecute(interlockName, setValue);
                         }
                         else
                         { 
@@ -354,10 +452,13 @@ namespace INNO6.Core.Manager
                     }
                 case (int)eDataType.Object:
                     {
-                        if (_SetpointInterlockInfoList[interlockName].SetPoint.Equals(setValue))
+                        if (!notFlag && _SetpointInterlockInfoList[interlockName].SetPoint.Equals(setValue))
                         {
-                            SetpointInterlockExecute(interlockName);
-                            return true;
+                            return SetpointInterlockExecute(interlockName, setValue);
+                        }
+                        else if (notFlag && !_SetpointInterlockInfoList[interlockName].SetPoint.Equals(setValue))
+                        {                           
+                            return SetpointInterlockExecute(interlockName, setValue);
                         }
                         else
                         {
@@ -373,6 +474,8 @@ namespace INNO6.Core.Manager
 
         public bool VALUE_INTERLOCK(string interlockName, object setValue, int dataType)
         {
+            bool notFlag = _ValueInterlockInfoList[interlockName].NotFlag;
+
             if (!_ValueInterlockInfoList.ContainsKey(interlockName) || !_ValueInterlockInfoList.ContainsKey(interlockName))
             {
                 LogHelper.Instance.SystemLog.DebugFormat("[ERROR] INTERLOCK NOT DEFINE : INTERLOCK={0}", interlockName);
@@ -381,7 +484,7 @@ namespace INNO6.Core.Manager
 
             if (_ValueInterlockInfoList[interlockName].IsUse == false)
             {
-                LogHelper.Instance.SystemLog.DebugFormat("[ERROR] INTERLOCK NOT USE : INTERLOCK={0}", interlockName);
+                LogHelper.Instance.SystemLog.InfoFormat("[INFO] INTERLOCK NOT USE : INTERLOCK={0}", interlockName);
                 return false;
             }
 
@@ -396,10 +499,14 @@ namespace INNO6.Core.Manager
                         {
                             int compareValue = (int)setValue;
 
-                            if (lowValue <= compareValue && highValue >= compareValue)
+                            if (!notFlag && (lowValue > compareValue || highValue < compareValue))
                             {
-                                ValueInterlockExecute(interlockName);
-                                return true;
+                                
+                                return ValueInterlockExecute(interlockName, setValue);
+                            }
+                            else if (notFlag && !(lowValue > compareValue || highValue < compareValue))
+                            {                                
+                                return ValueInterlockExecute(interlockName, setValue);
                             }
                             else
                             {
@@ -418,10 +525,13 @@ namespace INNO6.Core.Manager
                         {
                             double compareValue = (double)setValue;
 
-                            if (lowValue <= compareValue && highValue >= compareValue)                                   
+                            if (!notFlag && (lowValue > compareValue || highValue < compareValue))
                             {
-                                ValueInterlockExecute(interlockName);
-                                return true;
+                                return ValueInterlockExecute(interlockName, setValue);
+                            }
+                            else if (notFlag && !(lowValue > compareValue || highValue < compareValue))
+                            {
+                                return ValueInterlockExecute(interlockName, setValue);
                             }
                             else
                             {
@@ -437,6 +547,19 @@ namespace INNO6.Core.Manager
                     {
                         return false;
                     }
+            }
+        }
+
+        public void INTERLOCK_RESET()
+        {
+            foreach(var setpoint in this._SetpointInterlockInfoList.Values)
+            {
+                if (setpoint.Status == INTERLOCK_ON) setpoint.Status = INTERLOCK_OFF;
+            }
+
+            foreach (var value in this._ValueInterlockInfoList.Values)
+            {
+                if (value.Status == INTERLOCK_ON) value.Status = INTERLOCK_OFF;
             }
         }
     }

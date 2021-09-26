@@ -9,6 +9,7 @@ using INNO6.Core;
 using INNO6.IO;
 using Prism.Commands;
 using Microsoft.Win32;
+using ECS.Common.Helper;
 
 namespace ECS.UI.ViewModel
 {
@@ -35,6 +36,12 @@ namespace ECS.UI.ViewModel
         private double _ProcessPositionZ;
         private double _ProcessPositionT;
         private double _ProcessPositionR;
+
+        private double _PositionOffsetX;
+        private double _PositionOffsetY;
+        private double _PositionOffsetZ;
+        private double _PositionOffsetT;
+        private double _PositionOffsetR;
 
         private double _XJogVelHigh;
         private double _XJogVelLow;
@@ -67,6 +74,12 @@ namespace ECS.UI.ViewModel
         private ICommand _ProcPosZSetButtonCommand;
         private ICommand _ProcPosTSetButtonCommand;
         private ICommand _ProcPosRSetButtonCommand;
+
+        private ICommand _OffsetXSetButtonCommand;
+        private ICommand _OffsetYSetButtonCommand;
+        private ICommand _OffsetZSetButtonCommand;
+        private ICommand _OffsetTSetButtonCommand;
+        private ICommand _OffsetRSetButtonCommand;
 
         private ICommand _XJogVelHighButtonCommand;
         private ICommand _YJogVelHighButtonCommand;
@@ -106,6 +119,13 @@ namespace ECS.UI.ViewModel
         public double ProcessPositionT { get { return _ProcessPositionT; } set { _ProcessPositionT = value; RaisePropertyChanged("ProcessPositionT"); } }
         public double ProcessPositionR { get { return _ProcessPositionR; } set { _ProcessPositionR = value; RaisePropertyChanged("ProcessPositionR"); } }
 
+        public double PositionOffsetX { get { return _PositionOffsetX; } set { _PositionOffsetX = value; RaisePropertyChanged("PositionOffsetX"); } }
+        public double PositionOffsetY { get { return _PositionOffsetY; } set { _PositionOffsetY = value; RaisePropertyChanged("PositionOffsetY"); } }
+        public double PositionOffsetZ { get { return _PositionOffsetZ; } set { _PositionOffsetZ = value; RaisePropertyChanged("PositionOffsetZ"); } }
+        public double PositionOffsetT { get { return _PositionOffsetT; } set { _PositionOffsetT = value; RaisePropertyChanged("PositionOffsetT"); } }
+        public double PositionOffsetR { get { return _PositionOffsetR; } set { _PositionOffsetR = value; RaisePropertyChanged("PositionOffsetR"); } }
+
+
         public double XJogVelHigh { get { return _XJogVelHigh; } set { _XJogVelHigh = value; RaisePropertyChanged("XJogVelHigh"); } }
         public double YJogVelHigh { get { return _YJogVelHigh; } set { _YJogVelHigh = value; RaisePropertyChanged("YJogVelHigh"); } }
         public double ZJogVelHigh { get { return _ZJogVelHigh; } set { _ZJogVelHigh = value; RaisePropertyChanged("ZJogVelHigh"); } }
@@ -128,6 +148,14 @@ namespace ECS.UI.ViewModel
         public ICommand ProcPosZSetButtonCommand { get { if (_ProcPosZSetButtonCommand == null) { _ProcPosZSetButtonCommand = new DelegateCommand(ExecuteProcPosZSetButtonCommand); } return _ProcPosZSetButtonCommand; } }
         public ICommand ProcPosTSetButtonCommand { get { if (_ProcPosTSetButtonCommand == null) { _ProcPosTSetButtonCommand = new DelegateCommand(ExecuteProcPosTSetButtonCommand); } return _ProcPosTSetButtonCommand; } }
         public ICommand ProcPosRSetButtonCommand { get { if (_ProcPosRSetButtonCommand == null) { _ProcPosRSetButtonCommand = new DelegateCommand(ExecuteProcPosRSetButtonCommand); } return _ProcPosRSetButtonCommand; } }
+
+        public ICommand OffsetXSetButtonCommand { get { if (_OffsetXSetButtonCommand == null) { _OffsetXSetButtonCommand = new DelegateCommand(ExecuteOffsetXSetButtonCommand); } return _OffsetXSetButtonCommand; } }
+        public ICommand OffsetYSetButtonCommand { get { if (_OffsetYSetButtonCommand == null) { _OffsetYSetButtonCommand = new DelegateCommand(ExecuteOffsetYSetButtonCommand); } return _OffsetYSetButtonCommand; } }
+        public ICommand OffsetZSetButtonCommand { get { if (_OffsetYSetButtonCommand == null) { _OffsetZSetButtonCommand = new DelegateCommand(ExecuteOffsetZSetButtonCommand); } return _OffsetZSetButtonCommand; } }
+        public ICommand OffsetTSetButtonCommand { get { if (_OffsetTSetButtonCommand == null) { _OffsetTSetButtonCommand = new DelegateCommand(ExecuteOffsetTSetButtonCommand); } return _OffsetTSetButtonCommand; } }
+        public ICommand OffsetRSetButtonCommand { get { if (_OffsetRSetButtonCommand == null) { _OffsetRSetButtonCommand = new DelegateCommand(ExecuteOffsetRSetButtonCommand); } return _OffsetRSetButtonCommand; } }
+
+
 
         public ICommand XJogVelHighButtonCommand { get { if (_XJogVelHighButtonCommand == null) { _XJogVelHighButtonCommand = new DelegateCommand(ExecuteXJogVelHighButtonCommand); } return _XJogVelHighButtonCommand; } }
         public ICommand YJogVelHighButtonCommand { get { if (_YJogVelHighButtonCommand == null) { _YJogVelHighButtonCommand = new DelegateCommand(ExecuteYJogVelHighButtonCommand); } return _YJogVelHighButtonCommand; } }
@@ -199,6 +227,61 @@ namespace ECS.UI.ViewModel
             LaserProgramNumber = DataManager.Instance.GET_INT_DATA("vSet.iLaser.ProgramNo", out bool _);
         }
 
+        private void ExecuteOffsetXSetButtonCommand()
+        {
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_OFFSET, PositionOffsetX);
+            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_X_OFFSET, PositionOffsetX);
+
+            ProcessPositionX = VisionPositionX + PositionOffsetX;
+
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisX.ProcessPosition", ProcessPositionX);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisX.ProcessPosition", ProcessPositionX);
+        }
+
+        private void ExecuteOffsetYSetButtonCommand()
+        {
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_OFFSET, PositionOffsetY);
+            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_Y_OFFSET, PositionOffsetY);
+
+            ProcessPositionY = VisionPositionY + PositionOffsetY;
+
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.ProcessPosition", ProcessPositionY);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.ProcessPosition", ProcessPositionY);
+        }
+
+        private void ExecuteOffsetZSetButtonCommand()
+        {
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Z_OFFSET, PositionOffsetZ);
+            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_Z_OFFSET, PositionOffsetZ);
+
+            ProcessPositionZ = VisionPositionZ + PositionOffsetZ;
+
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisZ.ProcessPosition", ProcessPositionZ);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisZ.ProcessPosition", ProcessPositionZ);
+        }
+
+        private void ExecuteOffsetRSetButtonCommand()
+        {
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_R_OFFSET, PositionOffsetR);
+            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_R_OFFSET, PositionOffsetR);
+
+            ProcessPositionR = VisionPositionR + PositionOffsetR;
+
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisR.ProcessPosition", ProcessPositionR);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisR.ProcessPosition", ProcessPositionR);
+        }
+
+        private void ExecuteOffsetTSetButtonCommand()
+        {
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_T_OFFSET, PositionOffsetT);
+            DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_DBL_SET_T_OFFSET, PositionOffsetT);
+
+            ProcessPositionT = VisionPositionT + PositionOffsetT;
+
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisT.ProcessPosition", ProcessPositionT);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisT.ProcessPosition", ProcessPositionT);
+        }
+
         private void ExecuteVisionPosXSetButtonCommand()
         {
             DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisX.VisionPosition", VisionPositionX);
@@ -209,7 +292,6 @@ namespace ECS.UI.ViewModel
         {
             DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.VisionPosition", VisionPositionY);
             DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.VisionPosition", VisionPositionY);
-
         }
 
         private void ExecuteVisionPosZSetButtonCommand()
@@ -269,56 +351,56 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteYJogVelHighButtonCommand()
         {
-            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.JogVelHigh", XJogVelHigh);
-            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.JogVelHigh", XJogVelHigh);
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.JogVelHigh", YJogVelHigh);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.JogVelHigh", YJogVelHigh);
         }
 
         private void ExecuteZJogVelHighButtonCommand()
         {
-            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisZ.JogVelHigh", XJogVelHigh);
-            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisZ.JogVelHigh", XJogVelHigh);
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisZ.JogVelHigh", ZJogVelHigh);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisZ.JogVelHigh", ZJogVelHigh);
         }
 
         private void ExecuteTJogVelHighButtonCommand()
         {
-            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisT.JogVelHigh", XJogVelHigh);
-            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisT.JogVelHigh", XJogVelHigh);
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisT.JogVelHigh", TJogVelHigh);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisT.JogVelHigh", TJogVelHigh);
         }
 
         private void ExecuteRJogVelHighButtonCommand()
         {
-            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisR.JogVelHigh", XJogVelHigh);
-            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisR.JogVelHigh", XJogVelHigh);
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisR.JogVelHigh", RJogVelHigh);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisR.JogVelHigh", RJogVelHigh);
         }
 
         private void ExecuteXJogVelLowButtonCommand()
         {
-            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisX.JogVelLow", XJogVelHigh);
-            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisX.JogVelLow", XJogVelHigh);
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisX.JogVelLow", XJogVelLow);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisX.JogVelLow", XJogVelLow);
         }
 
         private void ExecuteYJogVelLowButtonCommand()
         {
-            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.JogVelLow", XJogVelHigh);
-            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.JogVelLow", XJogVelHigh);
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisY.JogVelLow", YJogVelLow);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisY.JogVelLow", YJogVelLow);
         }
 
         private void ExecuteZJogVelLowButtonCommand()
         {
-            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisZ.JogVelLow", XJogVelHigh);
-            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisZ.JogVelLow", XJogVelHigh);
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisZ.JogVelLow", ZJogVelLow);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisZ.JogVelLow", ZJogVelLow);
         }
 
         private void ExecuteTJogVelLowButtonCommand()
         {
-            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisT.JogVelLow", XJogVelHigh);
-            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisT.JogVelLow", XJogVelHigh);
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisT.JogVelLow", TJogVelLow);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisT.JogVelLow", TJogVelLow);
         }
 
         private void ExecuteRJogVelLowButtonCommand()
         {
-            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisR.JogVelLow", XJogVelHigh);
-            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisR.JogVelLow", XJogVelHigh);
+            DataManager.Instance.SET_DOUBLE_DATA("vSet.dAxisR.JogVelLow", RJogVelLow);
+            DataManager.Instance.CHANGE_DEFAULT_DATA("vSet.dAxisR.JogVelLow", RJogVelLow);
         }
 
         private void ExecuteLaserProgramNumberSetButtonCommand()

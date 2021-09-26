@@ -602,8 +602,8 @@ namespace INNO6.Core
         }
         #endregion
 
-            #region Private Methods
-            #region FormatOCT
+        #region Private Methods
+        #region FormatOCT
         private static string FormatOct(string NativeFormat, bool Alternate,
                                             int FieldLength, int FieldPrecision,
                                             bool Left2Right,

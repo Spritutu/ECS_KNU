@@ -80,6 +80,7 @@ namespace Scanlab.Sirius
             this.mnuFast = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuStop = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnExport = new System.Windows.Forms.ToolStripButton();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -254,6 +255,7 @@ namespace Scanlab.Sirius
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GLcontrol = new SharpGL.OpenGLControl();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.trvEntity = new Scanlab.Sirius.MultiSelectTreeview();
             this.ppgEntity = new System.Windows.Forms.PropertyGrid();
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -262,8 +264,6 @@ namespace Scanlab.Sirius
             this.lblCenter = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblBound = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnExport = new System.Windows.Forms.ToolStripButton();
-            this.trvEntity = new Scanlab.Sirius.MultiSelectTreeview();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
@@ -284,6 +284,7 @@ namespace Scanlab.Sirius
             // toolStrip1
             // 
             this.toolStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnDocumentInfo,
             this.toolStripSeparator1,
@@ -321,7 +322,7 @@ namespace Scanlab.Sirius
             this.btnExport});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(906, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(906, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "Export Recipe";
             // 
@@ -331,7 +332,7 @@ namespace Scanlab.Sirius
             this.btnDocumentInfo.Image = ((System.Drawing.Image)(resources.GetObject("btnDocumentInfo.Image")));
             this.btnDocumentInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDocumentInfo.Name = "btnDocumentInfo";
-            this.btnDocumentInfo.Size = new System.Drawing.Size(23, 22);
+            this.btnDocumentInfo.Size = new System.Drawing.Size(24, 24);
             this.btnDocumentInfo.Text = "toolStripButton1";
             this.btnDocumentInfo.ToolTipText = "File Information";
             this.btnDocumentInfo.Click += new System.EventHandler(this.btnDocumentInfo_Click);
@@ -339,7 +340,7 @@ namespace Scanlab.Sirius
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // btnNew
             // 
@@ -347,7 +348,7 @@ namespace Scanlab.Sirius
             this.btnNew.Image = ((System.Drawing.Image)(resources.GetObject("btnNew.Image")));
             this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(23, 22);
+            this.btnNew.Size = new System.Drawing.Size(24, 24);
             this.btnNew.Text = "New";
             this.btnNew.ToolTipText = "New";
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
@@ -358,7 +359,7 @@ namespace Scanlab.Sirius
             this.btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("btnOpen.Image")));
             this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(23, 22);
+            this.btnOpen.Size = new System.Drawing.Size(24, 24);
             this.btnOpen.Text = "Open";
             this.btnOpen.ToolTipText = "Open";
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
@@ -369,7 +370,7 @@ namespace Scanlab.Sirius
             this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(23, 22);
+            this.btnSave.Size = new System.Drawing.Size(24, 24);
             this.btnSave.Text = "Save";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -379,14 +380,14 @@ namespace Scanlab.Sirius
             this.btnSaveAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveAs.Image")));
             this.btnSaveAs.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSaveAs.Name = "btnSaveAs";
-            this.btnSaveAs.Size = new System.Drawing.Size(23, 22);
+            this.btnSaveAs.Size = new System.Drawing.Size(24, 24);
             this.btnSaveAs.Text = "Save As";
             this.btnSaveAs.Click += new System.EventHandler(this.btnSaveAs_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
             // btnCopy
             // 
@@ -394,7 +395,7 @@ namespace Scanlab.Sirius
             this.btnCopy.Image = ((System.Drawing.Image)(resources.GetObject("btnCopy.Image")));
             this.btnCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(23, 22);
+            this.btnCopy.Size = new System.Drawing.Size(24, 24);
             this.btnCopy.Text = "Copy";
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
@@ -404,7 +405,7 @@ namespace Scanlab.Sirius
             this.btnCut.Image = ((System.Drawing.Image)(resources.GetObject("btnCut.Image")));
             this.btnCut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCut.Name = "btnCut";
-            this.btnCut.Size = new System.Drawing.Size(23, 22);
+            this.btnCut.Size = new System.Drawing.Size(24, 24);
             this.btnCut.Text = "Cut";
             this.btnCut.ToolTipText = "Cut";
             this.btnCut.Click += new System.EventHandler(this.btnCut_Click);
@@ -415,7 +416,7 @@ namespace Scanlab.Sirius
             this.btnPaste.Image = ((System.Drawing.Image)(resources.GetObject("btnPaste.Image")));
             this.btnPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPaste.Name = "btnPaste";
-            this.btnPaste.Size = new System.Drawing.Size(23, 22);
+            this.btnPaste.Size = new System.Drawing.Size(24, 24);
             this.btnPaste.Text = "Paste";
             this.btnPaste.ToolTipText = "Paste";
             this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
@@ -426,7 +427,7 @@ namespace Scanlab.Sirius
             this.btnPasteClone.Image = ((System.Drawing.Image)(resources.GetObject("btnPasteClone.Image")));
             this.btnPasteClone.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPasteClone.Name = "btnPasteClone";
-            this.btnPasteClone.Size = new System.Drawing.Size(23, 22);
+            this.btnPasteClone.Size = new System.Drawing.Size(24, 24);
             this.btnPasteClone.Text = "Paste Clone";
             this.btnPasteClone.ToolTipText = "Paste Clone";
             this.btnPasteClone.Visible = false;
@@ -438,7 +439,7 @@ namespace Scanlab.Sirius
             this.btnPasteArray.Image = ((System.Drawing.Image)(resources.GetObject("btnPasteArray.Image")));
             this.btnPasteArray.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPasteArray.Name = "btnPasteArray";
-            this.btnPasteArray.Size = new System.Drawing.Size(23, 22);
+            this.btnPasteArray.Size = new System.Drawing.Size(24, 24);
             this.btnPasteArray.Text = "Paste Array";
             this.btnPasteArray.ToolTipText = "Paste Array";
             this.btnPasteArray.Visible = false;
@@ -447,7 +448,7 @@ namespace Scanlab.Sirius
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 27);
             // 
             // btnUndo
             // 
@@ -455,7 +456,7 @@ namespace Scanlab.Sirius
             this.btnUndo.Image = ((System.Drawing.Image)(resources.GetObject("btnUndo.Image")));
             this.btnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnUndo.Name = "btnUndo";
-            this.btnUndo.Size = new System.Drawing.Size(23, 22);
+            this.btnUndo.Size = new System.Drawing.Size(24, 24);
             this.btnUndo.Text = "Undo";
             this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
             // 
@@ -465,14 +466,14 @@ namespace Scanlab.Sirius
             this.btnReDo.Image = ((System.Drawing.Image)(resources.GetObject("btnReDo.Image")));
             this.btnReDo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnReDo.Name = "btnReDo";
-            this.btnReDo.Size = new System.Drawing.Size(23, 22);
+            this.btnReDo.Size = new System.Drawing.Size(24, 24);
             this.btnReDo.Text = "Redo";
             this.btnReDo.Click += new System.EventHandler(this.btnReDo_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 27);
             // 
             // btnZoomOut
             // 
@@ -480,7 +481,7 @@ namespace Scanlab.Sirius
             this.btnZoomOut.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomOut.Image")));
             this.btnZoomOut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnZoomOut.Name = "btnZoomOut";
-            this.btnZoomOut.Size = new System.Drawing.Size(23, 22);
+            this.btnZoomOut.Size = new System.Drawing.Size(24, 24);
             this.btnZoomOut.Text = "Zoom Out";
             this.btnZoomOut.ToolTipText = "Zoom Out";
             this.btnZoomOut.Click += new System.EventHandler(this.btnZoomOut_Click);
@@ -491,7 +492,7 @@ namespace Scanlab.Sirius
             this.btnZoomIn.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomIn.Image")));
             this.btnZoomIn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnZoomIn.Name = "btnZoomIn";
-            this.btnZoomIn.Size = new System.Drawing.Size(23, 22);
+            this.btnZoomIn.Size = new System.Drawing.Size(24, 24);
             this.btnZoomIn.Text = "Zoom In";
             this.btnZoomIn.ToolTipText = "Zoom In";
             this.btnZoomIn.Click += new System.EventHandler(this.btnZoomIn_Click);
@@ -502,7 +503,7 @@ namespace Scanlab.Sirius
             this.btnZoomFit.Image = ((System.Drawing.Image)(resources.GetObject("btnZoomFit.Image")));
             this.btnZoomFit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnZoomFit.Name = "btnZoomFit";
-            this.btnZoomFit.Size = new System.Drawing.Size(23, 22);
+            this.btnZoomFit.Size = new System.Drawing.Size(24, 24);
             this.btnZoomFit.Text = "Zoom Fit";
             this.btnZoomFit.ToolTipText = "Zoom Fit";
             this.btnZoomFit.Click += new System.EventHandler(this.btnZoomFit_Click);
@@ -514,7 +515,7 @@ namespace Scanlab.Sirius
             this.btnPan.Image = ((System.Drawing.Image)(resources.GetObject("btnPan.Image")));
             this.btnPan.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPan.Name = "btnPan";
-            this.btnPan.Size = new System.Drawing.Size(23, 22);
+            this.btnPan.Size = new System.Drawing.Size(24, 24);
             this.btnPan.Text = "Pan";
             this.btnPan.ToolTipText = "Pan";
             this.btnPan.Click += new System.EventHandler(this.btnPan_Click);
@@ -522,7 +523,7 @@ namespace Scanlab.Sirius
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
             // 
             // btnExplode
             // 
@@ -530,7 +531,7 @@ namespace Scanlab.Sirius
             this.btnExplode.Image = ((System.Drawing.Image)(resources.GetObject("btnExplode.Image")));
             this.btnExplode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExplode.Name = "btnExplode";
-            this.btnExplode.Size = new System.Drawing.Size(23, 22);
+            this.btnExplode.Size = new System.Drawing.Size(24, 24);
             this.btnExplode.Text = "Explode";
             this.btnExplode.ToolTipText = "Explode";
             this.btnExplode.Click += new System.EventHandler(this.btnExplode_Click);
@@ -541,7 +542,7 @@ namespace Scanlab.Sirius
             this.btnHatch.Image = ((System.Drawing.Image)(resources.GetObject("btnHatch.Image")));
             this.btnHatch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnHatch.Name = "btnHatch";
-            this.btnHatch.Size = new System.Drawing.Size(23, 22);
+            this.btnHatch.Size = new System.Drawing.Size(24, 24);
             this.btnHatch.Text = "Hatch";
             this.btnHatch.ToolTipText = "Hatch";
             this.btnHatch.Click += new System.EventHandler(this.btnHatch_Click);
@@ -552,7 +553,7 @@ namespace Scanlab.Sirius
             this.btnDivide.Image = ((System.Drawing.Image)(resources.GetObject("btnDivide.Image")));
             this.btnDivide.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDivide.Name = "btnDivide";
-            this.btnDivide.Size = new System.Drawing.Size(23, 22);
+            this.btnDivide.Size = new System.Drawing.Size(24, 24);
             this.btnDivide.Text = "Divide";
             this.btnDivide.ToolTipText = "Divide";
             this.btnDivide.Click += new System.EventHandler(this.btnDivide_Click);
@@ -563,7 +564,7 @@ namespace Scanlab.Sirius
             this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
             this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(23, 22);
+            this.btnDelete.Size = new System.Drawing.Size(24, 24);
             this.btnDelete.Text = "Delete";
             this.btnDelete.ToolTipText = "Delete";
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -571,7 +572,7 @@ namespace Scanlab.Sirius
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 27);
             // 
             // ddbAlignment
             // 
@@ -586,7 +587,7 @@ namespace Scanlab.Sirius
             this.ddbAlignment.Image = ((System.Drawing.Image)(resources.GetObject("ddbAlignment.Image")));
             this.ddbAlignment.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbAlignment.Name = "ddbAlignment";
-            this.ddbAlignment.Size = new System.Drawing.Size(29, 22);
+            this.ddbAlignment.Size = new System.Drawing.Size(33, 24);
             this.ddbAlignment.Text = "Alignment";
             this.ddbAlignment.ToolTipText = "Align";
             this.ddbAlignment.Visible = false;
@@ -642,7 +643,7 @@ namespace Scanlab.Sirius
             this.btnRotateCCW.Image = ((System.Drawing.Image)(resources.GetObject("btnRotateCCW.Image")));
             this.btnRotateCCW.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRotateCCW.Name = "btnRotateCCW";
-            this.btnRotateCCW.Size = new System.Drawing.Size(23, 22);
+            this.btnRotateCCW.Size = new System.Drawing.Size(24, 24);
             this.btnRotateCCW.Text = "Rotate CW";
             this.btnRotateCCW.ToolTipText = "Rotate Counter Clock Wise";
             this.btnRotateCCW.Visible = false;
@@ -654,7 +655,7 @@ namespace Scanlab.Sirius
             this.btnRotateCW.Image = ((System.Drawing.Image)(resources.GetObject("btnRotateCW.Image")));
             this.btnRotateCW.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRotateCW.Name = "btnRotateCW";
-            this.btnRotateCW.Size = new System.Drawing.Size(23, 22);
+            this.btnRotateCW.Size = new System.Drawing.Size(24, 24);
             this.btnRotateCW.Text = "Rotate CCW";
             this.btnRotateCW.ToolTipText = "Rotate Clock Wise";
             this.btnRotateCW.Visible = false;
@@ -666,7 +667,7 @@ namespace Scanlab.Sirius
             this.btnRotateCustom.Image = ((System.Drawing.Image)(resources.GetObject("btnRotateCustom.Image")));
             this.btnRotateCustom.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRotateCustom.Name = "btnRotateCustom";
-            this.btnRotateCustom.Size = new System.Drawing.Size(23, 22);
+            this.btnRotateCustom.Size = new System.Drawing.Size(24, 24);
             this.btnRotateCustom.Text = "Rotate Custom";
             this.btnRotateCustom.Visible = false;
             this.btnRotateCustom.Click += new System.EventHandler(this.btnRotateCustom_Click);
@@ -674,7 +675,7 @@ namespace Scanlab.Sirius
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 27);
             this.toolStripSeparator7.Visible = false;
             // 
             // ddbSort
@@ -688,7 +689,7 @@ namespace Scanlab.Sirius
             this.ddbSort.Image = ((System.Drawing.Image)(resources.GetObject("ddbSort.Image")));
             this.ddbSort.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbSort.Name = "ddbSort";
-            this.ddbSort.Size = new System.Drawing.Size(29, 22);
+            this.ddbSort.Size = new System.Drawing.Size(33, 24);
             this.ddbSort.Text = "Sort";
             this.ddbSort.Visible = false;
             // 
@@ -733,14 +734,14 @@ namespace Scanlab.Sirius
             this.ddbSimulate.Image = ((System.Drawing.Image)(resources.GetObject("ddbSimulate.Image")));
             this.ddbSimulate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbSimulate.Name = "ddbSimulate";
-            this.ddbSimulate.Size = new System.Drawing.Size(29, 22);
+            this.ddbSimulate.Size = new System.Drawing.Size(33, 24);
             this.ddbSimulate.Text = "Laser Path Simulator";
             // 
             // mnuSlow
             // 
             this.mnuSlow.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mnuSlow.Name = "mnuSlow";
-            this.mnuSlow.Size = new System.Drawing.Size(180, 22);
+            this.mnuSlow.Size = new System.Drawing.Size(114, 22);
             this.mnuSlow.Text = "Slow";
             this.mnuSlow.ToolTipText = "Slow";
             this.mnuSlow.Click += new System.EventHandler(this.slowToolStripMenuItem_Click);
@@ -749,7 +750,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuNormal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mnuNormal.Name = "mnuNormal";
-            this.mnuNormal.Size = new System.Drawing.Size(180, 22);
+            this.mnuNormal.Size = new System.Drawing.Size(114, 22);
             this.mnuNormal.Text = "Normal";
             this.mnuNormal.ToolTipText = "Normal";
             this.mnuNormal.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
@@ -758,7 +759,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuFast.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.mnuFast.Name = "mnuFast";
-            this.mnuFast.Size = new System.Drawing.Size(180, 22);
+            this.mnuFast.Size = new System.Drawing.Size(114, 22);
             this.mnuFast.Text = "Fast";
             this.mnuFast.ToolTipText = "Fast";
             this.mnuFast.Click += new System.EventHandler(this.fastToolStripMenuItem_Click);
@@ -766,21 +767,32 @@ namespace Scanlab.Sirius
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(111, 6);
             // 
             // mnuStop
             // 
             this.mnuStop.Image = ((System.Drawing.Image)(resources.GetObject("mnuStop.Image")));
             this.mnuStop.Name = "mnuStop";
-            this.mnuStop.Size = new System.Drawing.Size(180, 22);
+            this.mnuStop.Size = new System.Drawing.Size(114, 22);
             this.mnuStop.Text = "Stop";
             this.mnuStop.ToolTipText = "Stop";
             this.mnuStop.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
             // 
+            // btnExport
+            // 
+            this.btnExport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExport.BackgroundImage")));
+            this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnExport.Image = ((System.Drawing.Image)(resources.GetObject("btnExport.Image")));
+            this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(24, 24);
+            this.btnExport.Text = "Export Recipe";
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter1.Location = new System.Drawing.Point(0, 25);
+            this.splitter1.Location = new System.Drawing.Point(0, 27);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(906, 3);
             this.splitter1.TabIndex = 11;
@@ -788,6 +800,7 @@ namespace Scanlab.Sirius
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.entityToolStripMenuItem,
@@ -803,7 +816,7 @@ namespace Scanlab.Sirius
             this.toolStripSeparator12,
             this.aboutToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(163, 242);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(185, 304);
             // 
             // fileToolStripMenuItem
             // 
@@ -817,7 +830,7 @@ namespace Scanlab.Sirius
             this.infoToolStripMenuItem});
             this.fileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("fileToolStripMenuItem.Image")));
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // newToolStripMenuItem
@@ -908,7 +921,7 @@ namespace Scanlab.Sirius
             this.toolStripSeparator22});
             this.entityToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("entityToolStripMenuItem.Image")));
             this.entityToolStripMenuItem.Name = "entityToolStripMenuItem";
-            this.entityToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.entityToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.entityToolStripMenuItem.Text = "Entity";
             // 
             // layerToolStripMenuItem
@@ -1006,7 +1019,6 @@ namespace Scanlab.Sirius
             this.siriusTextToolStripMenuItem.Name = "siriusTextToolStripMenuItem";
             this.siriusTextToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.siriusTextToolStripMenuItem.Text = "Sirius Text";
-            this.siriusTextToolStripMenuItem.Visible = false;
             this.siriusTextToolStripMenuItem.Click += new System.EventHandler(this.siriusTextToolStripMenuItem_Click);
             // 
             // textToolStripMenuItem
@@ -1193,7 +1205,7 @@ namespace Scanlab.Sirius
             this.panToolStripMenuItem});
             this.zoomToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("zoomToolStripMenuItem.Image")));
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.zoomToolStripMenuItem.Text = "&Zoom";
             // 
             // iNToolStripMenuItem
@@ -1252,7 +1264,7 @@ namespace Scanlab.Sirius
             this.pasteArrayToolStripMenuItem});
             this.editToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editToolStripMenuItem.Image")));
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // undoToolStripMenuItem
@@ -1596,7 +1608,7 @@ namespace Scanlab.Sirius
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(159, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(181, 6);
             // 
             // fieldCorrectionToolStripMenuItem
             // 
@@ -1605,7 +1617,7 @@ namespace Scanlab.Sirius
             this.mnuCorrection3D});
             this.fieldCorrectionToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("fieldCorrectionToolStripMenuItem.Image")));
             this.fieldCorrectionToolStripMenuItem.Name = "fieldCorrectionToolStripMenuItem";
-            this.fieldCorrectionToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.fieldCorrectionToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.fieldCorrectionToolStripMenuItem.Text = "Field Correction";
             // 
             // mnuCorrection2D
@@ -1626,7 +1638,7 @@ namespace Scanlab.Sirius
             this.mnuIO.Image = ((System.Drawing.Image)(resources.GetObject("mnuIO.Image")));
             this.mnuIO.Name = "mnuIO";
             this.mnuIO.ShortcutKeyDisplayString = "F3";
-            this.mnuIO.Size = new System.Drawing.Size(162, 22);
+            this.mnuIO.Size = new System.Drawing.Size(184, 26);
             this.mnuIO.Text = "I/O";
             this.mnuIO.Visible = false;
             // 
@@ -1635,7 +1647,7 @@ namespace Scanlab.Sirius
             this.laserToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("laserToolStripMenuItem.Image")));
             this.laserToolStripMenuItem.Name = "laserToolStripMenuItem";
             this.laserToolStripMenuItem.ShortcutKeyDisplayString = "F2";
-            this.laserToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.laserToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.laserToolStripMenuItem.Text = "Laser";
             this.laserToolStripMenuItem.Visible = false;
             // 
@@ -1644,40 +1656,41 @@ namespace Scanlab.Sirius
             this.markerToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("markerToolStripMenuItem.Image")));
             this.markerToolStripMenuItem.Name = "markerToolStripMenuItem";
             this.markerToolStripMenuItem.ShortcutKeyDisplayString = "F1";
-            this.markerToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.markerToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.markerToolStripMenuItem.Text = "Marker";
             this.markerToolStripMenuItem.Visible = false;
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(159, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(181, 6);
             // 
             // logWindowToolStripMenuItem
             // 
             this.logWindowToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("logWindowToolStripMenuItem.Image")));
             this.logWindowToolStripMenuItem.Name = "logWindowToolStripMenuItem";
             this.logWindowToolStripMenuItem.ShortcutKeyDisplayString = "F5";
-            this.logWindowToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.logWindowToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.logWindowToolStripMenuItem.Text = "Log Window";
             this.logWindowToolStripMenuItem.Visible = false;
             // 
             // toolStripSeparator12
             // 
             this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(159, 6);
+            this.toolStripSeparator12.Size = new System.Drawing.Size(181, 6);
             this.toolStripSeparator12.Visible = false;
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Visible = false;
             // 
             // contextMenuStrip2
             // 
+            this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.groupToolStripMenuItem,
             this.toolStripSeparator13,
@@ -1718,9 +1731,9 @@ namespace Scanlab.Sirius
             this.lblEntityCount,
             this.lblRenderTime,
             this.lblFileName});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 477);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 473);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(906, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(906, 26);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
@@ -1731,7 +1744,7 @@ namespace Scanlab.Sirius
             this.lblName.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblName.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(55, 18);
+            this.lblName.Size = new System.Drawing.Size(55, 22);
             this.lblName.Text = "NoName";
             // 
             // pgbProgress
@@ -1739,7 +1752,7 @@ namespace Scanlab.Sirius
             this.pgbProgress.AutoSize = false;
             this.pgbProgress.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
             this.pgbProgress.Name = "pgbProgress";
-            this.pgbProgress.Size = new System.Drawing.Size(100, 18);
+            this.pgbProgress.Size = new System.Drawing.Size(100, 22);
             this.pgbProgress.Step = 1;
             // 
             // lblXPos
@@ -1747,7 +1760,7 @@ namespace Scanlab.Sirius
             this.lblXPos.AutoSize = false;
             this.lblXPos.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
             this.lblXPos.Name = "lblXPos";
-            this.lblXPos.Size = new System.Drawing.Size(80, 18);
+            this.lblXPos.Size = new System.Drawing.Size(80, 22);
             this.lblXPos.Text = "X: 0.000";
             // 
             // lblYPos
@@ -1755,7 +1768,7 @@ namespace Scanlab.Sirius
             this.lblYPos.AutoSize = false;
             this.lblYPos.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
             this.lblYPos.Name = "lblYPos";
-            this.lblYPos.Size = new System.Drawing.Size(80, 18);
+            this.lblYPos.Size = new System.Drawing.Size(80, 22);
             this.lblYPos.Text = "Y: 0.000";
             // 
             // lblEntityCount
@@ -1763,27 +1776,28 @@ namespace Scanlab.Sirius
             this.lblEntityCount.AutoSize = false;
             this.lblEntityCount.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
             this.lblEntityCount.Name = "lblEntityCount";
-            this.lblEntityCount.Size = new System.Drawing.Size(80, 18);
+            this.lblEntityCount.Size = new System.Drawing.Size(80, 22);
             this.lblEntityCount.Text = "Selected: 0";
             // 
             // lblRenderTime
             // 
             this.lblRenderTime.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
             this.lblRenderTime.Name = "lblRenderTime";
-            this.lblRenderTime.Size = new System.Drawing.Size(82, 18);
+            this.lblRenderTime.Size = new System.Drawing.Size(82, 22);
             this.lblRenderTime.Text = "Render: 0 ms";
             // 
             // lblFileName
             // 
             this.lblFileName.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
             this.lblFileName.Name = "lblFileName";
-            this.lblFileName.Size = new System.Drawing.Size(57, 18);
+            this.lblFileName.Size = new System.Drawing.Size(57, 22);
             this.lblFileName.Text = "NoName";
             // 
             // toolStrip2
             // 
             this.toolStrip2.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStrip2.GripMargin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnPoint,
             this.btnPoints,
@@ -1824,7 +1838,7 @@ namespace Scanlab.Sirius
             this.btnPoint.Image = ((System.Drawing.Image)(resources.GetObject("btnPoint.Image")));
             this.btnPoint.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPoint.Name = "btnPoint";
-            this.btnPoint.Size = new System.Drawing.Size(23, 22);
+            this.btnPoint.Size = new System.Drawing.Size(24, 22);
             this.btnPoint.Text = "Point Entity";
             this.btnPoint.ToolTipText = "Point";
             this.btnPoint.Click += new System.EventHandler(this.btnPoint_Click);
@@ -1835,7 +1849,7 @@ namespace Scanlab.Sirius
             this.btnPoints.Image = ((System.Drawing.Image)(resources.GetObject("btnPoints.Image")));
             this.btnPoints.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPoints.Name = "btnPoints";
-            this.btnPoints.Size = new System.Drawing.Size(23, 22);
+            this.btnPoints.Size = new System.Drawing.Size(24, 22);
             this.btnPoints.Text = "Points Entity";
             this.btnPoints.ToolTipText = "Points";
             this.btnPoints.Click += new System.EventHandler(this.btnPoints_Click);
@@ -1846,7 +1860,7 @@ namespace Scanlab.Sirius
             this.btnRaster.Image = ((System.Drawing.Image)(resources.GetObject("btnRaster.Image")));
             this.btnRaster.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRaster.Name = "btnRaster";
-            this.btnRaster.Size = new System.Drawing.Size(23, 22);
+            this.btnRaster.Size = new System.Drawing.Size(24, 22);
             this.btnRaster.Text = "Raster";
             this.btnRaster.Click += new System.EventHandler(this.btnRaster_Click);
             // 
@@ -1856,7 +1870,7 @@ namespace Scanlab.Sirius
             this.btnLine.Image = ((System.Drawing.Image)(resources.GetObject("btnLine.Image")));
             this.btnLine.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLine.Name = "btnLine";
-            this.btnLine.Size = new System.Drawing.Size(23, 22);
+            this.btnLine.Size = new System.Drawing.Size(24, 22);
             this.btnLine.Text = "Line Entity";
             this.btnLine.ToolTipText = "Line";
             this.btnLine.Click += new System.EventHandler(this.btnLine_Click);
@@ -1867,7 +1881,7 @@ namespace Scanlab.Sirius
             this.btnArc.Image = ((System.Drawing.Image)(resources.GetObject("btnArc.Image")));
             this.btnArc.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnArc.Name = "btnArc";
-            this.btnArc.Size = new System.Drawing.Size(23, 22);
+            this.btnArc.Size = new System.Drawing.Size(24, 22);
             this.btnArc.Text = "Arc Entity";
             this.btnArc.ToolTipText = "Arc";
             this.btnArc.Click += new System.EventHandler(this.btnArc_Click);
@@ -1878,7 +1892,7 @@ namespace Scanlab.Sirius
             this.btnCircle.Image = ((System.Drawing.Image)(resources.GetObject("btnCircle.Image")));
             this.btnCircle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCircle.Name = "btnCircle";
-            this.btnCircle.Size = new System.Drawing.Size(23, 22);
+            this.btnCircle.Size = new System.Drawing.Size(24, 22);
             this.btnCircle.Text = "Circle Entity";
             this.btnCircle.ToolTipText = "Circle";
             this.btnCircle.Click += new System.EventHandler(this.btnCircle_Click);
@@ -1889,7 +1903,7 @@ namespace Scanlab.Sirius
             this.btnEllipse.Image = ((System.Drawing.Image)(resources.GetObject("btnEllipse.Image")));
             this.btnEllipse.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnEllipse.Name = "btnEllipse";
-            this.btnEllipse.Size = new System.Drawing.Size(23, 22);
+            this.btnEllipse.Size = new System.Drawing.Size(24, 22);
             this.btnEllipse.Text = "Ellipse";
             this.btnEllipse.Click += new System.EventHandler(this.btnEllipse_Click);
             // 
@@ -1899,7 +1913,7 @@ namespace Scanlab.Sirius
             this.btnTrepan.Image = ((System.Drawing.Image)(resources.GetObject("btnTrepan.Image")));
             this.btnTrepan.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnTrepan.Name = "btnTrepan";
-            this.btnTrepan.Size = new System.Drawing.Size(23, 22);
+            this.btnTrepan.Size = new System.Drawing.Size(24, 22);
             this.btnTrepan.Text = "Trepan";
             this.btnTrepan.Click += new System.EventHandler(this.btnTrepan_Click);
             // 
@@ -1909,7 +1923,7 @@ namespace Scanlab.Sirius
             this.btnRectangle.Image = ((System.Drawing.Image)(resources.GetObject("btnRectangle.Image")));
             this.btnRectangle.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRectangle.Name = "btnRectangle";
-            this.btnRectangle.Size = new System.Drawing.Size(23, 22);
+            this.btnRectangle.Size = new System.Drawing.Size(24, 22);
             this.btnRectangle.Text = "Rectangle Entity";
             this.btnRectangle.ToolTipText = "Rectangle";
             this.btnRectangle.Click += new System.EventHandler(this.btnRectangle_Click);
@@ -1920,7 +1934,7 @@ namespace Scanlab.Sirius
             this.btnLWPolyline.Image = ((System.Drawing.Image)(resources.GetObject("btnLWPolyline.Image")));
             this.btnLWPolyline.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLWPolyline.Name = "btnLWPolyline";
-            this.btnLWPolyline.Size = new System.Drawing.Size(23, 22);
+            this.btnLWPolyline.Size = new System.Drawing.Size(24, 22);
             this.btnLWPolyline.Text = "Polyline Entity";
             this.btnLWPolyline.ToolTipText = "LW Polyline";
             this.btnLWPolyline.Click += new System.EventHandler(this.btnLWPolyline_Click);
@@ -1931,7 +1945,7 @@ namespace Scanlab.Sirius
             this.btnSpiral.Image = ((System.Drawing.Image)(resources.GetObject("btnSpiral.Image")));
             this.btnSpiral.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSpiral.Name = "btnSpiral";
-            this.btnSpiral.Size = new System.Drawing.Size(23, 22);
+            this.btnSpiral.Size = new System.Drawing.Size(24, 22);
             this.btnSpiral.Text = "Spiral Entity";
             this.btnSpiral.ToolTipText = "Spiral";
             this.btnSpiral.Click += new System.EventHandler(this.btnSpiral_Click);
@@ -1949,7 +1963,7 @@ namespace Scanlab.Sirius
             this.ddbSiriusText.Image = ((System.Drawing.Image)(resources.GetObject("ddbSiriusText.Image")));
             this.ddbSiriusText.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbSiriusText.Name = "ddbSiriusText";
-            this.ddbSiriusText.Size = new System.Drawing.Size(29, 22);
+            this.ddbSiriusText.Size = new System.Drawing.Size(33, 22);
             this.ddbSiriusText.Text = "Special text entity";
             this.ddbSiriusText.ToolTipText = "Sirius Text";
             this.ddbSiriusText.Click += new System.EventHandler(this.siriusTextToolStripMenuItem_Click);
@@ -1958,7 +1972,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuSiriusText.Image = ((System.Drawing.Image)(resources.GetObject("mnuSiriusText.Image")));
             this.mnuSiriusText.Name = "mnuSiriusText";
-            this.mnuSiriusText.Size = new System.Drawing.Size(118, 22);
+            this.mnuSiriusText.Size = new System.Drawing.Size(122, 26);
             this.mnuSiriusText.Text = "Text";
             this.mnuSiriusText.ToolTipText = "Text";
             this.mnuSiriusText.Click += new System.EventHandler(this.mnuSiriusText_Click);
@@ -1966,20 +1980,20 @@ namespace Scanlab.Sirius
             // mnuSiriusTextArc
             // 
             this.mnuSiriusTextArc.Name = "mnuSiriusTextArc";
-            this.mnuSiriusTextArc.Size = new System.Drawing.Size(118, 22);
+            this.mnuSiriusTextArc.Size = new System.Drawing.Size(122, 26);
             this.mnuSiriusTextArc.Text = "Text (Arc)";
             this.mnuSiriusTextArc.Click += new System.EventHandler(this.btnSiriusArcText_Click);
             // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(115, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(119, 6);
             // 
             // mnuSiriusTime
             // 
             this.mnuSiriusTime.Image = ((System.Drawing.Image)(resources.GetObject("mnuSiriusTime.Image")));
             this.mnuSiriusTime.Name = "mnuSiriusTime";
-            this.mnuSiriusTime.Size = new System.Drawing.Size(118, 22);
+            this.mnuSiriusTime.Size = new System.Drawing.Size(122, 26);
             this.mnuSiriusTime.Text = "Time";
             this.mnuSiriusTime.ToolTipText = "Time";
             this.mnuSiriusTime.Click += new System.EventHandler(this.timeToolStripMenuItem_Click);
@@ -1988,7 +2002,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuSiriusDate.Image = ((System.Drawing.Image)(resources.GetObject("mnuSiriusDate.Image")));
             this.mnuSiriusDate.Name = "mnuSiriusDate";
-            this.mnuSiriusDate.Size = new System.Drawing.Size(118, 22);
+            this.mnuSiriusDate.Size = new System.Drawing.Size(122, 26);
             this.mnuSiriusDate.Text = "Date";
             this.mnuSiriusDate.ToolTipText = "Date";
             this.mnuSiriusDate.Click += new System.EventHandler(this.dateToolStripMenuItem_Click);
@@ -1997,7 +2011,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuSiriusSerial.Image = ((System.Drawing.Image)(resources.GetObject("mnuSiriusSerial.Image")));
             this.mnuSiriusSerial.Name = "mnuSiriusSerial";
-            this.mnuSiriusSerial.Size = new System.Drawing.Size(118, 22);
+            this.mnuSiriusSerial.Size = new System.Drawing.Size(122, 26);
             this.mnuSiriusSerial.Text = "Serial";
             this.mnuSiriusSerial.ToolTipText = "Serial";
             this.mnuSiriusSerial.Click += new System.EventHandler(this.serialToolStripMenuItem_Click);
@@ -2015,7 +2029,7 @@ namespace Scanlab.Sirius
             this.ddbText.Image = ((System.Drawing.Image)(resources.GetObject("ddbText.Image")));
             this.ddbText.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbText.Name = "ddbText";
-            this.ddbText.Size = new System.Drawing.Size(29, 22);
+            this.ddbText.Size = new System.Drawing.Size(33, 22);
             this.ddbText.Text = "True type font";
             this.ddbText.Click += new System.EventHandler(this.btnText_Click);
             // 
@@ -2023,7 +2037,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuText.Image = ((System.Drawing.Image)(resources.GetObject("mnuText.Image")));
             this.mnuText.Name = "mnuText";
-            this.mnuText.Size = new System.Drawing.Size(118, 22);
+            this.mnuText.Size = new System.Drawing.Size(122, 26);
             this.mnuText.Text = "Text";
             this.mnuText.ToolTipText = "Text";
             this.mnuText.Click += new System.EventHandler(this.mnuText_Click);
@@ -2031,7 +2045,7 @@ namespace Scanlab.Sirius
             // mnuTextArc
             // 
             this.mnuTextArc.Name = "mnuTextArc";
-            this.mnuTextArc.Size = new System.Drawing.Size(118, 22);
+            this.mnuTextArc.Size = new System.Drawing.Size(122, 26);
             this.mnuTextArc.Text = "Text (Arc)";
             this.mnuTextArc.ToolTipText = "Text (Arc)";
             this.mnuTextArc.Click += new System.EventHandler(this.btnTextArc_Click);
@@ -2039,13 +2053,13 @@ namespace Scanlab.Sirius
             // toolStripSeparator15
             // 
             this.toolStripSeparator15.Name = "toolStripSeparator15";
-            this.toolStripSeparator15.Size = new System.Drawing.Size(115, 6);
+            this.toolStripSeparator15.Size = new System.Drawing.Size(119, 6);
             // 
             // mnuTextTime
             // 
             this.mnuTextTime.Image = ((System.Drawing.Image)(resources.GetObject("mnuTextTime.Image")));
             this.mnuTextTime.Name = "mnuTextTime";
-            this.mnuTextTime.Size = new System.Drawing.Size(118, 22);
+            this.mnuTextTime.Size = new System.Drawing.Size(122, 26);
             this.mnuTextTime.Text = "Time";
             this.mnuTextTime.ToolTipText = "Time";
             // 
@@ -2053,7 +2067,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuTextDate.Image = ((System.Drawing.Image)(resources.GetObject("mnuTextDate.Image")));
             this.mnuTextDate.Name = "mnuTextDate";
-            this.mnuTextDate.Size = new System.Drawing.Size(118, 22);
+            this.mnuTextDate.Size = new System.Drawing.Size(122, 26);
             this.mnuTextDate.Text = "Date";
             this.mnuTextDate.ToolTipText = "Date";
             // 
@@ -2061,7 +2075,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuTextSerial.Image = ((System.Drawing.Image)(resources.GetObject("mnuTextSerial.Image")));
             this.mnuTextSerial.Name = "mnuTextSerial";
-            this.mnuTextSerial.Size = new System.Drawing.Size(118, 22);
+            this.mnuTextSerial.Size = new System.Drawing.Size(122, 26);
             this.mnuTextSerial.Text = "Serial";
             this.mnuTextSerial.ToolTipText = "Serial";
             // 
@@ -2071,7 +2085,7 @@ namespace Scanlab.Sirius
             this.btnBarcode1D.Image = ((System.Drawing.Image)(resources.GetObject("btnBarcode1D.Image")));
             this.btnBarcode1D.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBarcode1D.Name = "btnBarcode1D";
-            this.btnBarcode1D.Size = new System.Drawing.Size(23, 22);
+            this.btnBarcode1D.Size = new System.Drawing.Size(24, 22);
             this.btnBarcode1D.Text = "1D Barcode";
             this.btnBarcode1D.Click += new System.EventHandler(this.btnBarcode1D_Click);
             // 
@@ -2084,14 +2098,14 @@ namespace Scanlab.Sirius
             this.btnBarcode2D.Image = ((System.Drawing.Image)(resources.GetObject("btnBarcode2D.Image")));
             this.btnBarcode2D.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBarcode2D.Name = "btnBarcode2D";
-            this.btnBarcode2D.Size = new System.Drawing.Size(29, 22);
+            this.btnBarcode2D.Size = new System.Drawing.Size(33, 22);
             this.btnBarcode2D.Text = "2D Barcode";
             // 
             // mnuDataMatrix
             // 
             this.mnuDataMatrix.Image = ((System.Drawing.Image)(resources.GetObject("mnuDataMatrix.Image")));
             this.mnuDataMatrix.Name = "mnuDataMatrix";
-            this.mnuDataMatrix.Size = new System.Drawing.Size(122, 22);
+            this.mnuDataMatrix.Size = new System.Drawing.Size(126, 26);
             this.mnuDataMatrix.Text = "DataMatrix";
             this.mnuDataMatrix.ToolTipText = "DataMatrix";
             this.mnuDataMatrix.Click += new System.EventHandler(this.mnuDataMatrix_Click);
@@ -2100,7 +2114,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuQRCode.Image = ((System.Drawing.Image)(resources.GetObject("mnuQRCode.Image")));
             this.mnuQRCode.Name = "mnuQRCode";
-            this.mnuQRCode.Size = new System.Drawing.Size(122, 22);
+            this.mnuQRCode.Size = new System.Drawing.Size(126, 26);
             this.mnuQRCode.Text = "QR Code";
             this.mnuQRCode.ToolTipText = "QR Code";
             this.mnuQRCode.Click += new System.EventHandler(this.mnuQRCode_Click);
@@ -2111,7 +2125,7 @@ namespace Scanlab.Sirius
             this.btnHPGL.Image = ((System.Drawing.Image)(resources.GetObject("btnHPGL.Image")));
             this.btnHPGL.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnHPGL.Name = "btnHPGL";
-            this.btnHPGL.Size = new System.Drawing.Size(23, 22);
+            this.btnHPGL.Size = new System.Drawing.Size(24, 22);
             this.btnHPGL.Text = "HPGL";
             this.btnHPGL.ToolTipText = "HPGL (PLT)";
             this.btnHPGL.Click += new System.EventHandler(this.btnHPGL_Click);
@@ -2122,7 +2136,7 @@ namespace Scanlab.Sirius
             this.btmImage.Image = ((System.Drawing.Image)(resources.GetObject("btmImage.Image")));
             this.btmImage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btmImage.Name = "btmImage";
-            this.btmImage.Size = new System.Drawing.Size(23, 22);
+            this.btmImage.Size = new System.Drawing.Size(24, 22);
             this.btmImage.Text = "toolStripButton1";
             this.btmImage.Click += new System.EventHandler(this.btnImage_Click);
             // 
@@ -2136,14 +2150,14 @@ namespace Scanlab.Sirius
             this.toolStripDropDownButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton2.Image")));
             this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
-            this.toolStripDropDownButton2.Size = new System.Drawing.Size(29, 22);
+            this.toolStripDropDownButton2.Size = new System.Drawing.Size(33, 22);
             this.toolStripDropDownButton2.Text = "Stitched Image";
             // 
             // mnuStitchedImage
             // 
             this.mnuStitchedImage.Image = ((System.Drawing.Image)(resources.GetObject("mnuStitchedImage.Image")));
             this.mnuStitchedImage.Name = "mnuStitchedImage";
-            this.mnuStitchedImage.Size = new System.Drawing.Size(124, 22);
+            this.mnuStitchedImage.Size = new System.Drawing.Size(128, 26);
             this.mnuStitchedImage.Text = "Create";
             this.mnuStitchedImage.ToolTipText = "Stitched Image";
             this.mnuStitchedImage.Click += new System.EventHandler(this.stitchedImageToolStripMenuItem_Click);
@@ -2152,7 +2166,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuLoadCells.Image = ((System.Drawing.Image)(resources.GetObject("mnuLoadCells.Image")));
             this.mnuLoadCells.Name = "mnuLoadCells";
-            this.mnuLoadCells.Size = new System.Drawing.Size(124, 22);
+            this.mnuLoadCells.Size = new System.Drawing.Size(128, 26);
             this.mnuLoadCells.Text = "Load Cells";
             this.mnuLoadCells.ToolTipText = "Load Cells";
             this.mnuLoadCells.Click += new System.EventHandler(this.mnuLoadCells_Click);
@@ -2161,7 +2175,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuClearCells.Image = ((System.Drawing.Image)(resources.GetObject("mnuClearCells.Image")));
             this.mnuClearCells.Name = "mnuClearCells";
-            this.mnuClearCells.Size = new System.Drawing.Size(124, 22);
+            this.mnuClearCells.Size = new System.Drawing.Size(128, 26);
             this.mnuClearCells.Text = "Clear Cells";
             this.mnuClearCells.ToolTipText = "Clear Cells";
             this.mnuClearCells.Click += new System.EventHandler(this.mnuClearCells_Click);
@@ -2181,7 +2195,7 @@ namespace Scanlab.Sirius
             this.ddbPen.Image = ((System.Drawing.Image)(resources.GetObject("ddbPen.Image")));
             this.ddbPen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbPen.Name = "ddbPen";
-            this.ddbPen.Size = new System.Drawing.Size(29, 22);
+            this.ddbPen.Size = new System.Drawing.Size(33, 22);
             this.ddbPen.Text = "Pen entity";
             this.ddbPen.ToolTipText = "Pen";
             // 
@@ -2189,7 +2203,7 @@ namespace Scanlab.Sirius
             // 
             this.mnuPen.Image = ((System.Drawing.Image)(resources.GetObject("mnuPen.Image")));
             this.mnuPen.Name = "mnuPen";
-            this.mnuPen.Size = new System.Drawing.Size(123, 22);
+            this.mnuPen.Size = new System.Drawing.Size(127, 26);
             this.mnuPen.Text = "&Pen";
             this.mnuPen.ToolTipText = "Default Pen";
             this.mnuPen.Click += new System.EventHandler(this.mnuPen_Click);
@@ -2197,13 +2211,13 @@ namespace Scanlab.Sirius
             // toolStripSeparator17
             // 
             this.toolStripSeparator17.Name = "toolStripSeparator17";
-            this.toolStripSeparator17.Size = new System.Drawing.Size(120, 6);
+            this.toolStripSeparator17.Size = new System.Drawing.Size(124, 6);
             // 
             // mnuPenReturn
             // 
             this.mnuPenReturn.Image = ((System.Drawing.Image)(resources.GetObject("mnuPenReturn.Image")));
             this.mnuPenReturn.Name = "mnuPenReturn";
-            this.mnuPenReturn.Size = new System.Drawing.Size(123, 22);
+            this.mnuPenReturn.Size = new System.Drawing.Size(127, 26);
             this.mnuPenReturn.Text = "Pen Return";
             this.mnuPenReturn.ToolTipText = "Pen Return";
             this.mnuPenReturn.Click += new System.EventHandler(this.mnuPenReturn_Click);
@@ -2217,7 +2231,7 @@ namespace Scanlab.Sirius
             this.btnWriteData.Image = ((System.Drawing.Image)(resources.GetObject("btnWriteData.Image")));
             this.btnWriteData.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnWriteData.Name = "btnWriteData";
-            this.btnWriteData.Size = new System.Drawing.Size(29, 22);
+            this.btnWriteData.Size = new System.Drawing.Size(33, 22);
             this.btnWriteData.Text = "Write Data";
             // 
             // mnuWriteData
@@ -2242,7 +2256,7 @@ namespace Scanlab.Sirius
             this.btnTimer.Image = ((System.Drawing.Image)(resources.GetObject("btnTimer.Image")));
             this.btnTimer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnTimer.Name = "btnTimer";
-            this.btnTimer.Size = new System.Drawing.Size(23, 22);
+            this.btnTimer.Size = new System.Drawing.Size(24, 22);
             this.btnTimer.Text = "Timer Entity";
             this.btnTimer.ToolTipText = "Timer";
             this.btnTimer.Click += new System.EventHandler(this.btnTimer_Click);
@@ -2257,7 +2271,7 @@ namespace Scanlab.Sirius
             this.ddbMotf.Image = ((System.Drawing.Image)(resources.GetObject("ddbMotf.Image")));
             this.ddbMotf.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbMotf.Name = "ddbMotf";
-            this.ddbMotf.Size = new System.Drawing.Size(29, 22);
+            this.ddbMotf.Size = new System.Drawing.Size(33, 22);
             this.ddbMotf.Text = "Motf entity";
             this.ddbMotf.ToolTipText = "Marking On The Fly";
             // 
@@ -2299,7 +2313,7 @@ namespace Scanlab.Sirius
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(33, 22);
             this.toolStripDropDownButton1.Text = "Vector Defined";
             this.toolStripDropDownButton1.ToolTipText = "Automatic Laser Control";
             // 
@@ -2317,14 +2331,14 @@ namespace Scanlab.Sirius
             this.btnLayer.Image = ((System.Drawing.Image)(resources.GetObject("btnLayer.Image")));
             this.btnLayer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLayer.Name = "btnLayer";
-            this.btnLayer.Size = new System.Drawing.Size(23, 22);
+            this.btnLayer.Size = new System.Drawing.Size(24, 22);
             this.btnLayer.Text = "Add Layer";
             this.btnLayer.Click += new System.EventHandler(this.btnLayer_Click);
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 28);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 30);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -2334,8 +2348,8 @@ namespace Scanlab.Sirius
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(906, 449);
-            this.splitContainer1.SplitterDistance = 700;
+            this.splitContainer1.Size = new System.Drawing.Size(906, 443);
+            this.splitContainer1.SplitterDistance = 699;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 14;
             // 
@@ -2346,11 +2360,12 @@ namespace Scanlab.Sirius
             this.GLcontrol.DrawFPS = false;
             this.GLcontrol.FrameRate = 30;
             this.GLcontrol.Location = new System.Drawing.Point(0, 0);
+            this.GLcontrol.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.GLcontrol.Name = "GLcontrol";
             this.GLcontrol.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
             this.GLcontrol.RenderContextType = SharpGL.RenderContextType.DIBSection;
             this.GLcontrol.RenderTrigger = SharpGL.RenderTrigger.Manual;
-            this.GLcontrol.Size = new System.Drawing.Size(700, 449);
+            this.GLcontrol.Size = new System.Drawing.Size(699, 443);
             this.GLcontrol.TabIndex = 3;
             this.GLcontrol.OpenGLInitialized += new System.EventHandler(this.OnInitialized);
             this.GLcontrol.OpenGLDraw += new SharpGL.RenderEventHandler(this.OnDraw);
@@ -2374,9 +2389,25 @@ namespace Scanlab.Sirius
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.ppgEntity);
-            this.splitContainer2.Size = new System.Drawing.Size(203, 449);
-            this.splitContainer2.SplitterDistance = 211;
+            this.splitContainer2.Size = new System.Drawing.Size(204, 443);
+            this.splitContainer2.SplitterDistance = 206;
             this.splitContainer2.TabIndex = 2;
+            // 
+            // trvEntity
+            // 
+            this.trvEntity.AllowDrop = true;
+            this.trvEntity.ContextMenuStrip = this.contextMenuStrip2;
+            this.trvEntity.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trvEntity.Location = new System.Drawing.Point(0, 0);
+            this.trvEntity.Name = "trvEntity";
+            this.trvEntity.SelectedNodes = ((System.Collections.Generic.List<System.Windows.Forms.TreeNode>)(resources.GetObject("trvEntity.SelectedNodes")));
+            this.trvEntity.Size = new System.Drawing.Size(204, 206);
+            this.trvEntity.TabIndex = 3;
+            this.trvEntity.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.trvEntity_ItemDrag);
+            this.trvEntity.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvEntity_AfterSelect);
+            this.trvEntity.DragDrop += new System.Windows.Forms.DragEventHandler(this.trvEntity_DragDrop);
+            this.trvEntity.DragEnter += new System.Windows.Forms.DragEventHandler(this.trvEntity_DragEnter);
+            this.trvEntity.DragOver += new System.Windows.Forms.DragEventHandler(this.trvEntity_DragOver);
             // 
             // ppgEntity
             // 
@@ -2384,11 +2415,12 @@ namespace Scanlab.Sirius
             this.ppgEntity.Location = new System.Drawing.Point(0, 0);
             this.ppgEntity.Name = "ppgEntity";
             this.ppgEntity.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.ppgEntity.Size = new System.Drawing.Size(203, 234);
+            this.ppgEntity.Size = new System.Drawing.Size(204, 233);
             this.ppgEntity.TabIndex = 1;
             // 
             // statusStrip2
             // 
+            this.statusStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel2,
             this.lblWH,
@@ -2455,33 +2487,6 @@ namespace Scanlab.Sirius
             this.lblBound.Name = "lblBound";
             this.lblBound.Size = new System.Drawing.Size(44, 19);
             this.lblBound.Text = "0,0 0,0";
-            // 
-            // btnExport
-            // 
-            this.btnExport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExport.BackgroundImage")));
-            this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnExport.Image = ((System.Drawing.Image)(resources.GetObject("btnExport.Image")));
-            this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(23, 22);
-            this.btnExport.Text = "Export Recipe";
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
-            // 
-            // trvEntity
-            // 
-            this.trvEntity.AllowDrop = true;
-            this.trvEntity.ContextMenuStrip = this.contextMenuStrip2;
-            this.trvEntity.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trvEntity.Location = new System.Drawing.Point(0, 0);
-            this.trvEntity.Name = "trvEntity";
-            this.trvEntity.SelectedNodes = ((System.Collections.Generic.List<System.Windows.Forms.TreeNode>)(resources.GetObject("trvEntity.SelectedNodes")));
-            this.trvEntity.Size = new System.Drawing.Size(203, 211);
-            this.trvEntity.TabIndex = 3;
-            this.trvEntity.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.trvEntity_ItemDrag);
-            this.trvEntity.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvEntity_AfterSelect);
-            this.trvEntity.DragDrop += new System.Windows.Forms.DragEventHandler(this.trvEntity_DragDrop);
-            this.trvEntity.DragEnter += new System.Windows.Forms.DragEventHandler(this.trvEntity_DragEnter);
-            this.trvEntity.DragOver += new System.Windows.Forms.DragEventHandler(this.trvEntity_DragOver);
             // 
             // SiriusEditorForm
             // 

@@ -17,15 +17,19 @@ namespace ECS.Interlock.SetPoint
     /// </summary>
     public class I_SETPOINT_EMO_STOP : IExecuteInterlock
     {
-        public void Execute()
+        public bool Execute(object setValue)
         {
             // emergency stop alarm activative
             
 
             FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.LASER_STOP);
             FunctionManager.Instance.ABORT_FUNCTION_ALL();
+            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_ALL_MOTION_ABORT, 1);
+            DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_ALL_SERVOKILL, 1);
             AlarmManager.Instance.SetAlarm("E9002");
-            DataManager.Instance.SET_INT_DATA(IoNameHelper.V_INT_SYS_EQP_INTERLOCK, 1);            
+            DataManager.Instance.SET_INT_DATA(IoNameHelper.V_INT_SYS_EQP_INTERLOCK, 1);
+
+            return true;
         }
     }
 }

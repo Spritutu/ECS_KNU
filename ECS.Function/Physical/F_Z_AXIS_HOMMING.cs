@@ -31,7 +31,6 @@ namespace ECS.Function.Physical
 
             if (DataManager.Instance.SET_INT_DATA(IO_Z_HOMMING_START, 1))
             {
-                Thread.Sleep(1000);
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 

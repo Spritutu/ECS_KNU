@@ -50,11 +50,10 @@ namespace ECS.Function.Physical
             DataManager.Instance.SET_DOUBLE_DATA(IO_DBL_R_SET_POSITION, setPosition);
             DataManager.Instance.SET_DOUBLE_DATA(IO_DBL_R_SET_VELOCITY, setVelocity);
 
-            Thread.SpinWait(500);
 
             if (DataManager.Instance.SET_INT_DATA(IO_R_MOVE_TO_SETPOS, 1))
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Timers;
+using System.Windows.Forms;
 using INNO6.Core;
 using INNO6.IO.Interface;
 using Pcomm32Functions;
@@ -18,14 +20,15 @@ namespace DEV.MotionControl
         private string _deviceName;
         private eDevMode _deviceMode;
         private int _deviceLog;
+        private bool _isWriteLog;
         private float _XAxisUnitPerCounts = 5000;
         private float _YAxisUnitPerCounts = 5000;
         private float _ZAxisUnitPerCounts = 1000;
         private float _TAxisUnitPerCounts = 2400;
-        private float _RAxisUnitPerCOunts = 1000;
+        private float _RAxisUnitPerCounts = 1000;
 
         // mm/s -> counts/msec 
-        private float _XAxisVelocityConvert = 5.0F; 
+        private float _XAxisVelocityConvert = 5.0F;
         private float _YAxisVelocityConvert = 5.0F;
         private float _ZAxisVelocityConvert = 1.0F;
         private float _TAxisVelocityConvert = 2.4F;
@@ -53,11 +56,15 @@ namespace DEV.MotionControl
         private const string JOG_FORWARD = "+";
         private const string JOG_BACKWARD = "-";
         private const string JOG_STOP = "/";
+        private const string SERVO_STOP = "K";
+        private const string MOTION_ABORT = "A";
+        private const string MOTION_QUIT = "Q";
 
         private const string GET_POSITION = "P";
         private const string GET_VELOCITY = "V";
         private const string SET_VELOCITY = "F";
 
+        private const int iAXIS_ALL = 0;
         private const int iAXIS_X = 2;
         private const int iAXIS_Y = 1;
         private const int iAXIS_Z = 5;
@@ -87,6 +94,7 @@ namespace DEV.MotionControl
         public const string ID_2_DOUBLE = "1";
         public const string ID_2_INT = "2";
         public const string ID_2_STRING = "3";
+
 
         private const string AXIS_Y_GET_POSITION = "P421";
         private const string AXIS_Y_GET_VELOCITY = "P422";
@@ -177,7 +185,7 @@ namespace DEV.MotionControl
         private const string TABLE_VACCUM_DIGITAL_PRESSURE_STATUS = "M7111";
 
 
-        
+
         private const string SET_LASER_SHUTTER_FORWARD = "M7210";
         private const string SET_LASER_SHUTTER_BACKWARD = "M7211";
         private const string SET_TABLE_VACCUM_ONOFF = "M7212";
@@ -230,7 +238,7 @@ namespace DEV.MotionControl
         {
             _100msTimer = null;
             _deviceMode = eDevMode.UNKNOWN;
-
+            _isWriteLog = false;
         }
 
 
@@ -255,20 +263,32 @@ namespace DEV.MotionControl
             m_dwDevice = PCOMM32.PmacSelect(deviceNumber);
             m_bDriverOpen = PCOMM32.OpenPmacDevice(m_dwDevice);
             _deviceLog = int.Parse(arg2);
+
+            if (_deviceLog > 0) _isWriteLog = true;
+            else _isWriteLog = false;
+
             if (m_bDriverOpen == 0)
             {
                 _deviceMode = eDevMode.DISCONNECT;
 
-                if(_deviceLog > 0)
-                {
+                if (_deviceLog > 0)
+                {                   
                     LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] Device name : {0} is not open!", _deviceName);
                 }
-                
+
                 return false;
             }
 
+            //_100msTimer = new System.Timers.Timer(500);          
+            //_100msTimer.Elapsed += _100msTimer_Elapsed;
+            //_100msTimer.Start();
             _deviceMode = eDevMode.CONNECT;
             return true;
+        }
+
+        private void _100msTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            //QueryMotionStatus(1, out bool[] status);
         }
 
         public bool DeviceDettach()
@@ -325,57 +345,77 @@ namespace DEV.MotionControl
             {
                 if (id_3.Equals(sAXIS_X)) // AXIS X
                 {
-                    if(id_4.Equals("1")) // POSITION
+                    if (id_4.Equals("1")) // POSITION
                     {
-                        result = QueryPosition(AXIS_X_GET_POSITION, ref retValue);
+                        result = QueryPosisionByAxis(sAXIS_X, ref retValue);
+                        retValue /= _XAxisUnitPerCounts;
+                        //result = QueryPosition(AXIS_X_GET_POSITION, ref retValue);
                     }
-                    else if(id_4.Equals("2")) // VELOCITY
+                    else if (id_4.Equals("2")) // VELOCITY
                     {
-                        result = QueryVelocity(AXIS_X_GET_VELOCITY, ref retValue);
+                        result = QueryVelocityByAxis(sAXIS_X, ref retValue);
+                        retValue *= _XAxisVelocityConvert;
+                        //result = QueryVelocity(AXIS_X_GET_VELOCITY, ref retValue);
                     }
                 }
                 else if (id_3.Equals(sAXIS_Y)) // AXIS Y
                 {
                     if (id_4.Equals("1")) // POSITION
                     {
-                        result = QueryPosition(AXIS_Y_GET_POSITION, ref retValue);
+                        result = QueryPosisionByAxis(sAXIS_Y, ref retValue);
+                        retValue /= _YAxisUnitPerCounts;
+                        //result = QueryPosition(AXIS_Y_GET_POSITION, ref retValue);
                     }
                     else if (id_4.Equals("2")) // VELOCITY
                     {
-                        result = QueryVelocity(AXIS_Y_GET_VELOCITY, ref retValue);
+                        result = QueryVelocityByAxis(sAXIS_Y, ref retValue);
+                        retValue *= _YAxisVelocityConvert;
+                        //result = QueryVelocity(AXIS_Y_GET_VELOCITY, ref retValue);
                     }
                 }
                 else if (id_3.Equals(sAXIS_Z)) // AXIS Z
                 {
                     if (id_4.Equals("1")) // POSITION
                     {
-                        result = QueryPosition(AXIS_Z_GET_POSITION, ref retValue);
+                        result = QueryPosisionByAxis(sAXIS_Z, ref retValue);
+                        retValue /= _ZAxisUnitPerCounts;
+                        //result = QueryPosition(AXIS_Z_GET_POSITION, ref retValue);
                     }
                     else if (id_4.Equals("2")) // VELOCITY
                     {
-                        result = QueryVelocity(AXIS_Z_GET_VELOCITY, ref retValue);
+                        result = QueryVelocityByAxis(sAXIS_Z, ref retValue);
+                        retValue *= _ZAxisVelocityConvert;
+                        //result = QueryVelocity(AXIS_Z_GET_VELOCITY, ref retValue);
                     }
                 }
                 else if (id_3.Equals(sAXIS_T)) // AXIS T
                 {
                     if (id_4.Equals("1")) // POSITION
                     {
-                        result = QueryPosition(AXIS_T_GET_POSITION, ref retValue);
+                        result = QueryPosisionByAxis(sAXIS_T, ref retValue);
+                        retValue /= _TAxisUnitPerCounts;
+                        //result = QueryPosition(AXIS_T_GET_POSITION, ref retValue);
                     }
                     else if (id_4.Equals("2")) // VELOCITY
                     {
-                        result = QueryVelocity(AXIS_T_GET_VELOCITY, ref retValue);
+                        result = QueryVelocityByAxis(sAXIS_T, ref retValue);
+                        retValue *= _TAxisVelocityConvert;
+                        //result = QueryVelocity(AXIS_T_GET_VELOCITY, ref retValue);
                     }
                 }
                 else if (id_3.Equals(sAXIS_R)) // AXIS R
                 {
                     if (id_4.Equals("1")) // POSITION
                     {
-                        result = QueryPosition(AXIS_R_GET_POSITION, ref retValue);
+                        result = QueryPosisionByAxis(sAXIS_R, ref retValue);
+                        retValue /= _RAxisUnitPerCounts;
+                        //result = QueryPosition(AXIS_R_GET_POSITION, ref retValue);
                     }
                     else if (id_4.Equals("2")) // VELOCITY
                     {
-                        result = QueryVelocity(AXIS_R_GET_VELOCITY, ref retValue);
+                        result = QueryVelocityByAxis(sAXIS_R, ref retValue);
+                        retValue *= _RAxisVelocityConvert;
+                        //result = QueryVelocity(AXIS_R_GET_VELOCITY, ref retValue);
                     }
                 }
             }
@@ -434,7 +474,7 @@ namespace DEV.MotionControl
                         result = QueryIsMovingAxisX(ref retValue);
                     }
                 }
-                else if(id_3.Equals(sAXIS_Y)) // AXIS Y
+                else if (id_3.Equals(sAXIS_Y)) // AXIS Y
                 {
                     if (id_4.Equals("1")) // Y AXIS IS HOMMING?
                     {
@@ -500,11 +540,11 @@ namespace DEV.MotionControl
                     {
                         result = GetDigitalValue(EMERGENCY_DOOR_OPEN_STATUS, ref retValue);
                     }
-                    else if(id_4.Equals("1")) //M7101 Emergency input (CpBox) : id1 = '1', id2 = '2', id3 = '9', id4 = '1'
+                    else if (id_4.Equals("1")) //M7101 Emergency input (CpBox) : id1 = '1', id2 = '2', id3 = '9', id4 = '1'
                     {
                         result = GetDigitalValue(EMERGENCY_CPBOX_OPEN_STATUS, ref retValue);
                     }
-                    else if(id_4.Equals("3")) //M7103 DOOR INPUT 1 FRONT: id1 = '1', id2 = '2', id3 = '9', id4 = '3'
+                    else if (id_4.Equals("3")) //M7103 DOOR INPUT 1 FRONT: id1 = '1', id2 = '2', id3 = '9', id4 = '3'
                     {
                         result = GetDigitalValue(GET_DOOR_INPUT_1_FRONT, ref retValue);
                     }
@@ -562,7 +602,7 @@ namespace DEV.MotionControl
                     }
                 }
             }
-            
+
             return retValue;
         }
 
@@ -607,11 +647,11 @@ namespace DEV.MotionControl
                     {
                         result = SetVelocity(iAXIS_X, value);
                     }
-                    else if(id_4.Equals("3"))
+                    else if (id_4.Equals("3"))
                     {
                         result = SetVelocity(iAXIS_X, value);
                     }
-                    else if(id_4.Equals("4"))
+                    else if (id_4.Equals("4"))
                     {
                         result = SetRelPosition(iAXIS_X, value);
                     }
@@ -731,9 +771,30 @@ namespace DEV.MotionControl
         /// <param name="result"></param>
         public void SET_INT_OUT(string id_1, string id_2, string id_3, string id_4, int value, ref bool result)
         {
-            if(id_1.Equals(ID_1_OUTPUT) && id_2.Equals(ID_2_INT))
+            if (id_1.Equals(ID_1_OUTPUT) && id_2.Equals(ID_2_INT))
             {
-                if (id_3.Equals(sAXIS_X)) // AXIS X
+                if (id_3 == "0")
+                {
+                    if (id_4.Equals("1"))
+                    {
+                        if (value == 1)
+                        {
+                            result = CommandServoKillAll();
+                        }
+                        else
+                        {
+                            result = true;
+                        }
+                    }
+                    else if (id_4.Equals("2"))
+                    {
+                        if(value == 1)
+                        {
+                            result = CommandMotonAbort(iAXIS_ALL);
+                        }
+                    }
+                }
+                else if (id_3.Equals(sAXIS_X)) // AXIS X
                 {
                     if (id_4.Equals("1")) // JOG FORWARD
                     {
@@ -759,7 +820,7 @@ namespace DEV.MotionControl
                     }
                     else if (id_4.Equals("3")) // HOMMING X AXIS
                     {
-                        if(value == 1)
+                        if (value == 1)
                         {
                             result = CommandAxisXHomming(value);
                         }
@@ -770,10 +831,10 @@ namespace DEV.MotionControl
                     }
                     else if (id_4.Equals("4")) // HOMMING STOP X AXIS
                     {
-                        if(value == 1)
+                        if (value == 1)
                         {
                             result = CommandAxisXHommingStop(value);
-                        }         
+                        }
                         else
                         {
                             result = CommandAxisXHommingStop(0);
@@ -781,13 +842,13 @@ namespace DEV.MotionControl
                     }
                     else if (id_4.Equals("5")) // ABSOLUTE POSTION MOVE X AXIS
                     {
-                        if(value == 1)
+                        if (value == 1)
                         {
                             result = CommnadMoveToSetPosition(iAXIS_X, value);
-                        }   
+                        }
                         else
                         {
-                            result = CommandJogStop(iAXIS_X);
+                            result = true;
                         }
                     }
                     else if (id_4.Equals("6")) // ABSOLUTE POSTION MOVE X AXIS
@@ -803,10 +864,10 @@ namespace DEV.MotionControl
                     }
                     else if (id_4.Equals("7"))
                     {
-                        if(value == 1)
+                        if (value == 1)
                         {
                             result = CommandJogStop(iAXIS_X);
-                        }   
+                        }
                         else
                         {
                             result = true;
@@ -814,7 +875,7 @@ namespace DEV.MotionControl
                     }
                     else if (id_4.Equals("8"))
                     {
-                        if(value == 1)
+                        if (value == 1)
                         {
                             result = CommandMoveToRelPosition(iAXIS_X, value);
                         }
@@ -822,7 +883,18 @@ namespace DEV.MotionControl
                         {
                             result = true;
                         }
-                    }   
+                    }
+                    else if (id_4.Equals("9"))
+                    {
+                        if (value == 1)
+                        {
+                            result = CommandServoStop(iAXIS_X);
+                        }
+                        else
+                        {
+                            result = true;
+                        }
+                    }
                 }
                 else if (id_3.Equals(sAXIS_Y)) // AXIS Y
                 {
@@ -852,7 +924,7 @@ namespace DEV.MotionControl
                     {
                         if (value == 1)
                             result = CommandAxisYHomming(value);
-                        else 
+                        else
                             result = CommandAxisYHomming(0);
                     }
                     else if (id_4.Equals("4")) // HOMMING STOP Y AXIS
@@ -864,7 +936,10 @@ namespace DEV.MotionControl
                     }
                     else if (id_4.Equals("5")) // ABSOLUTE POSTION MOVE Y AXIS
                     {
-                        result = CommnadMoveToSetPosition(iAXIS_Y, value);
+                        if (value == 1)
+                            result = CommnadMoveToSetPosition(iAXIS_Y, value);
+                        else
+                            result = true;
                     }
                     else if (id_4.Equals("6")) // ABSOLUTE POSTION MOVE Y AXIS
                     {
@@ -888,8 +963,19 @@ namespace DEV.MotionControl
                             result = true;
                         }
                     }
+                    else if (id_4.Equals("9"))
+                    {
+                        if (value == 1)
+                        {
+                            result = CommandServoStop(iAXIS_Y);
+                        }
+                        else
+                        {
+                            result = true;
+                        }
+                    }
                 }
-                else if(id_3.Equals(sAXIS_Z))
+                else if (id_3.Equals(sAXIS_Z))
                 {
                     if (id_4.Equals("1")) // JOG FORWARD
                     {
@@ -929,7 +1015,10 @@ namespace DEV.MotionControl
                     }
                     else if (id_4.Equals("5")) // ABSOLUTE POSTION MOVE Y AXIS
                     {
-                        result = CommnadMoveToSetPosition(iAXIS_Z, value);
+                        if (value == 1)
+                            result = CommnadMoveToSetPosition(iAXIS_Z, value);
+                        else
+                            result = result;
                     }
                     else if (id_4.Equals("6")) // ABSOLUTE POSTION MOVE Y AXIS
                     {
@@ -947,6 +1036,17 @@ namespace DEV.MotionControl
                         if (value == 1)
                         {
                             result = CommandMoveToRelPosition(iAXIS_Z, value);
+                        }
+                        else
+                        {
+                            result = true;
+                        }
+                    }
+                    else if (id_4.Equals("9"))
+                    {
+                        if (value == 1)
+                        {
+                            result = CommandServoStop(iAXIS_Z);
                         }
                         else
                         {
@@ -994,7 +1094,10 @@ namespace DEV.MotionControl
                     }
                     else if (id_4.Equals("5")) // ABSOLUTE POSTION MOVE Y AXIS
                     {
-                        result = CommnadMoveToSetPosition(iAXIS_T, value);
+                        if (value == 1)
+                            result = CommnadMoveToSetPosition(iAXIS_T, value);
+                        else
+                            result = result;
                     }
                     else if (id_4.Equals("6")) // ABSOLUTE POSTION MOVE Y AXIS
                     {
@@ -1012,6 +1115,17 @@ namespace DEV.MotionControl
                         if (value == 1)
                         {
                             result = CommandMoveToRelPosition(iAXIS_T, value);
+                        }
+                        else
+                        {
+                            result = true;
+                        }
+                    }
+                    else if (id_4.Equals("9"))
+                    {
+                        if (value == 1)
+                        {
+                            result = CommandServoStop(iAXIS_T);
                         }
                         else
                         {
@@ -1059,7 +1173,10 @@ namespace DEV.MotionControl
                     }
                     else if (id_4.Equals("5")) // ABSOLUTE POSTION MOVE Y AXIS
                     {
-                        result = CommnadMoveToSetPosition(iAXIS_R, value);
+                        if (value == 1)
+                            result = CommnadMoveToSetPosition(iAXIS_R, value);
+                        else
+                            result = result;
                     }
                     else if (id_4.Equals("6")) // ABSOLUTE POSTION MOVE R AXIS
                     {
@@ -1077,6 +1194,17 @@ namespace DEV.MotionControl
                         if (value == 1)
                         {
                             result = CommandMoveToRelPosition(iAXIS_R, value);
+                        }
+                        else
+                        {
+                            result = true;
+                        }
+                    }
+                    else if (id_4.Equals("9"))
+                    {
+                        if (value == 1)
+                        {
+                            result = CommandServoStop(iAXIS_R);
                         }
                         else
                         {
@@ -1182,11 +1310,11 @@ namespace DEV.MotionControl
             string strResponse = "";
 
 
-            strRequest.AppendFormat("{0}={1}", SET_TOWERLAMP_RED, setOnOff);        
+            strRequest.AppendFormat("{0}={1}", SET_TOWERLAMP_RED, setOnOff);
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTowerLampRedOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if(_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTowerLampRedOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1206,7 +1334,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTowerLampYellowOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTowerLampYellowOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1226,7 +1354,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTowerLampGreenOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTowerLampGreenOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1246,7 +1374,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandBuzzerOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandBuzzerOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1267,7 +1395,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandLedLightOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandLedLightOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1287,7 +1415,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandLaserShutterFwd() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandLaserShutterFwd() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1306,7 +1434,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandLaserShutterBwd() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandLaserShutterBwd() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1325,7 +1453,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTableVaccumOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTableVaccumOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1344,7 +1472,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTableFurgeOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTableFurgeOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1359,12 +1487,12 @@ namespace DEV.MotionControl
             switch (axis)
             {
                 case iAXIS_X:
-                    {                       
+                    {
                         _XAxisRelSetPosition = distance;
                     }
                     break;
                 case iAXIS_Y:
-                    {                       
+                    {
                         _YAxisRelSetPosition = distance;
                     }
                     break;
@@ -1440,13 +1568,13 @@ namespace DEV.MotionControl
                     break;
             }
 
-            
+
 
             CommandOrQuery(strRequest.ToString(), out strResponse);
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] SetPostion() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] SetPostion() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1460,7 +1588,7 @@ namespace DEV.MotionControl
         {
             StringBuilder strRequest = new StringBuilder();
             string strResponse = "";
-           
+
 
             switch (axis)
             {
@@ -1469,7 +1597,7 @@ namespace DEV.MotionControl
                         _XAxisSetVelocity = velocity * _XAxisVelocityConvert;
                         string strVelocity = velocity.ToString("F3", CultureInfo.CreateSpecificCulture("es-ES"));
                         strRequest.AppendFormat("{0}={1}", "I222", _XAxisSetVelocity);
-                        
+
                     }
                     break;
                 case iAXIS_Y:
@@ -1477,7 +1605,7 @@ namespace DEV.MotionControl
                         _YAxisSetVelocity = velocity * _YAxisVelocityConvert;
                         string strVelocity = _YAxisSetVelocity.ToString("F3", CultureInfo.CreateSpecificCulture("es-ES"));
                         strRequest.AppendFormat("{0}={1}", "I122", strVelocity);
-                       
+
                     }
                     break;
                 case iAXIS_Z:
@@ -1485,7 +1613,7 @@ namespace DEV.MotionControl
                         _ZAxisSetVelocity = velocity * _ZAxisVelocityConvert;
                         string strVelocity = _ZAxisSetVelocity.ToString("F3", CultureInfo.CreateSpecificCulture("es-ES"));
                         strRequest.AppendFormat("{0}={1}", "I522", strVelocity);
-                        
+
                     }
                     break;
                 case iAXIS_T:
@@ -1493,7 +1621,7 @@ namespace DEV.MotionControl
                         _TAxisSetVelocity = velocity * _TAxisVelocityConvert;
                         string strVelocity = _TAxisSetVelocity.ToString("F3", CultureInfo.CreateSpecificCulture("es-ES"));
                         strRequest.AppendFormat("{0}={1}", "I322", strVelocity);
-                        
+
                     }
                     break;
                 case iAXIS_R:
@@ -1501,7 +1629,7 @@ namespace DEV.MotionControl
                         _RAxisSetVelocity = velocity * _RAxisVelocityConvert;
                         string strVelocity = _RAxisSetVelocity.ToString("F3", CultureInfo.CreateSpecificCulture("es-ES"));
                         strRequest.AppendFormat("{0}={1}", "I422", strVelocity);
-                        
+
                     }
                     break;
                 default:
@@ -1510,13 +1638,13 @@ namespace DEV.MotionControl
                         return false;
                     }
                     break;
-            }        
+            }
 
             CommandOrQuery(strRequest.ToString(), out strResponse);
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] SetVelocity() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] SetVelocity() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1568,7 +1696,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAbsPostionMoveStop() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAbsPostionMoveStop() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                 return true;
             }
             else
@@ -1608,7 +1736,7 @@ namespace DEV.MotionControl
                     break;
                 case iAXIS_R:
                     {
-                        strRequest.AppendFormat("{0}:{1}", "#4J", _RAxisRelSetPosition * _RAxisUnitPerCOunts);
+                        strRequest.AppendFormat("{0}:{1}", "#4J", _RAxisRelSetPosition * _RAxisUnitPerCounts);
                     }
                     break;
                 default:
@@ -1623,7 +1751,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommnadMoveToSetPosition() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommnadMoveToSetPosition() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                 return true;
             }
             else
@@ -1633,6 +1761,131 @@ namespace DEV.MotionControl
             }
         }
 
+        private bool CommandMotonAbort(int axis)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+
+            switch (axis)
+            {
+                case iAXIS_ALL:
+                    strRequest.AppendFormat("#1A #2A #3A #4A #5A");
+                    break;
+                case iAXIS_X:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_X,  MOTION_ABORT);
+                    break;
+                case iAXIS_Y:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_Y, MOTION_ABORT);
+                    break;
+                case iAXIS_Z:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_Z, MOTION_ABORT);
+                    break;
+                case iAXIS_T:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_T, MOTION_ABORT);
+                    break;
+                case iAXIS_R:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_R, MOTION_ABORT);
+                    break;
+                default:
+                    LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] CommandMotonAbort() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                    return false;
+            }
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (string.IsNullOrEmpty(strResponse))
+            {
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandMotonAbort() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] CommandMotonAbort() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool CommandMotonQuit(int axis)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+
+            switch (axis)
+            {
+                case iAXIS_X:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_X, MOTION_QUIT);
+                    break;
+                case iAXIS_Y:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_Y, MOTION_QUIT);
+                    break;
+                case iAXIS_Z:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_Z, MOTION_QUIT);
+                    break;
+                case iAXIS_T:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_T, MOTION_QUIT);
+                    break;
+                case iAXIS_R:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_R, MOTION_QUIT);
+                    break;
+                default:
+                    LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] CommandMotonQuit() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                    return false;
+            }
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (string.IsNullOrEmpty(strResponse))
+            {
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandMotonQuit() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] CommandMotonQuit() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool CommandServoStop(int axis)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+
+            switch (axis)
+            {
+                case iAXIS_X:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_X, SERVO_STOP);
+                    break;
+                case iAXIS_Y:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_Y, SERVO_STOP);
+                    break;
+                case iAXIS_Z:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_Z, SERVO_STOP);
+                    break;
+                case iAXIS_T:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_T, SERVO_STOP);
+                    break;
+                case iAXIS_R:
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_R, SERVO_STOP);
+                    break;
+                default:
+                    LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] CommandServoStop() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                    return false;
+            }
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (string.IsNullOrEmpty(strResponse))
+            {
+                if (this._deviceLog > 0) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] CommandServoStop() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.DebugFormat("[ERROR] CommandServoStop() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                return false;
+            }
+        }
         private bool CommnadMoveToSetPosition(int axis, int setValue)
         {
             StringBuilder strRequest = new StringBuilder();
@@ -1662,7 +1915,7 @@ namespace DEV.MotionControl
                     break;
                 case iAXIS_R:
                     {
-                        strRequest.AppendFormat("{0}={1}", "#4J", _RAxisAbsSetPosition*_RAxisUnitPerCOunts);
+                        strRequest.AppendFormat("{0}={1}", "#4J", _RAxisAbsSetPosition*_RAxisUnitPerCounts);
                     }
                     break;
                 default:
@@ -1677,7 +1930,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommnadMoveToSetPosition() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommnadMoveToSetPosition() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                 return true;
             }
             else
@@ -1728,7 +1981,7 @@ namespace DEV.MotionControl
 
                     if (string.IsNullOrEmpty(strResponse))
                     {
-                        LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandJogFoward() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
+                        if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandJogFoward() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                         return true;
                     }
                     else
@@ -1784,7 +2037,7 @@ namespace DEV.MotionControl
 
                     if (string.IsNullOrEmpty(strResponse))
                     {
-                        LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandJogBackward() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
+                        if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandJogBackward() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                         return true;
                     }
                     else
@@ -1843,7 +2096,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandJogStop() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandJogStop() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                 return true;
             }
             else
@@ -1868,7 +2121,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisXHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisXHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1889,7 +2142,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisXHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisXHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1910,7 +2163,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisYHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisYHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1931,7 +2184,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisYHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisYHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1952,7 +2205,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisZHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisZHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1973,7 +2226,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisZHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisZHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1994,7 +2247,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisTHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisTHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2015,7 +2268,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisTHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisTHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2036,7 +2289,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisRHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisRHomming() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2057,7 +2310,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisRHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisRHommingStop() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2066,6 +2319,75 @@ namespace DEV.MotionControl
                 return false;
             }
         }
+
+        private bool CommandServoKillAll()
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+
+            //strRequest.Append(0x1D);
+            strRequest.Append("#1K #2K #3K #4K #5K");
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (string.IsNullOrEmpty(strResponse))
+            {
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandAxisRHommingStop() : SendMessage={0}, ResponseMessage={1}", "^k", strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] CommandAxisRHommingStop() : SendMessage={0}, ResponseMessage={1}", "^k", strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryPosisionByAxis(string axis, ref double position)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            int result = 0;
+            double retVal = 0.0;
+
+            strRequest.AppendFormat("#{0} {1}", axis, GET_POSITION);
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (double.TryParse(strResponse, out position))
+            {
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryPosVelByAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] QueryPosVelByAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryVelocityByAxis(string axis, ref double velocity)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            int result = 0;
+            double retVal = 0.0;
+
+            strRequest.AppendFormat("#{0} {1}", axis, GET_VELOCITY);
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (double.TryParse(strResponse, out velocity))
+            {
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryPosVelByAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] QueryPosVelByAxis() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
 
         private bool QueryPosition(string address, ref double pos)
         {
@@ -2079,7 +2401,7 @@ namespace DEV.MotionControl
 
             if(double.TryParse(strResponse, out pos))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryPositionAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryPositionAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2101,7 +2423,7 @@ namespace DEV.MotionControl
 
             if (double.TryParse(strResponse, out vel))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryPositionAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryPositionAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2123,7 +2445,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isHomming))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsHommingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsHommingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2145,7 +2467,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isHomming))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsHommingAxisY() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsHommingAxisY() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2167,7 +2489,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isHomming))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsHommingAxisZ() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsHommingAxisZ() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2189,7 +2511,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isHomming))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsHommingAxisT() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsHommingAxisT() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2211,7 +2533,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isHomming))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsHommingAxisR() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsHommingAxisR() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2233,7 +2555,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isCompleted))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryHommingCompletedAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryHommingCompletedAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2255,7 +2577,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isCompleted))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryHommingCompletedAxisY() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryHommingCompletedAxisY() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2277,7 +2599,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isCompleted))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryHommingCompletedAxisZ() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryHommingCompletedAxisZ() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2300,7 +2622,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isCompleted))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryHommingCompletedAxisT() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryHommingCompletedAxisT() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2322,7 +2644,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isCompleted))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryHommingCompletedAxisR() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryHommingCompletedAxisR() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2344,7 +2666,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isMoving))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsMovingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsMovingAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2366,7 +2688,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isMoving))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsMovingAxisY() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsMovingAxisY() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2388,7 +2710,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isMoving))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsMovingAxisZ() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsMovingAxisZ() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2410,7 +2732,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isMoving))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsMovingAxisT() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsMovingAxisT() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2432,7 +2754,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isMoving))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsMovingAxisR() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryIsMovingAxisR() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2454,7 +2776,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isOpen))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryEmergencyDoorOpen() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryEmergencyDoorOpen() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2476,7 +2798,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isOpen))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryEmergencyCpBoxOpen() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryEmergencyCpBoxOpen() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2498,7 +2820,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isAlarm))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryGasAlarmStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryGasAlarmStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2520,7 +2842,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isForward))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryLaserShutterFwdStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryLaserShutterFwdStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2542,7 +2864,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isBackward))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryLaserShutterBwdStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryLaserShutterBwdStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2564,7 +2886,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out isVaccumOn))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryTableVaccumStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryTableVaccumStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2586,7 +2908,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out vaccumPressure))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryTableVaccumPressureOnStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryTableVaccumPressureOnStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -2608,12 +2930,55 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out vaccumPressure))
             {
-                LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryTableVaccumDigitalPressure() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryTableVaccumDigitalPressure() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
             {
                 LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] QueryTableVaccumDigitalPressure() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryMotionStatus(int iAxis, out bool[] status)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            bool result = false;
+            status = null;
+            strRequest.AppendFormat("#{0}{1}", iAxis, "?");
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            byte[] arrByte = ASCIIEncoding.ASCII.GetBytes(strResponse);
+
+            if(arrByte != null && arrByte.Length > 0)
+            {
+                List<bool> bitList = new List<bool>();
+
+                foreach(byte c in arrByte)
+                {
+                    bool[] bitArr = AppUtil.ConvertByteToBoolArray(c);
+                    bitList.AddRange(bitArr);
+                }
+
+                status = bitList.ToArray();
+
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            if (result)
+            {
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryMotionStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] QueryMotionStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return false;
             }
         }

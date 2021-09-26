@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonData.cs" />
+    <Compile Include="DataChangedEvent.cs" />
     <Compile Include="Engine.cs" />
   </ItemGroup>
   <ItemGroup>

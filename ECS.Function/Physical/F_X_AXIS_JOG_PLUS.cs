@@ -27,7 +27,7 @@ namespace ECS.Function.Physical
 
         public override bool CanExecute()
         {
-            return this.EquipmentStatusCheck();
+            return true;
         }
 
         public override string Execute()

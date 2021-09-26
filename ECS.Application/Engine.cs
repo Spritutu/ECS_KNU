@@ -16,7 +16,8 @@ using log4net;
 using INNO6.Core.Manager;
 using ECS.Recipe;
 using INNO6.Core.Manager.Model;
-using ECS.Common.Helper;
+using System.Diagnostics;
+using System.IO;
 
 namespace ECS.Application
 {
@@ -24,16 +25,20 @@ namespace ECS.Application
     {
         private string _configFilePath;
         private string _dbFilePath;
+        private string _recipeFolderPath;
+        private string _currentRecipe;
+        private ConfigManager _config;
         private DataManager _dataManager;
         private FunctionManager _functionManager;
-        private AlarmManager _alarmManager;
-        private InterlockManager _interlockManager;
         private RecipeManager _recipeManager;
         private UserAuthorityManager _userAuthorityManager;
+        private AlarmManager _alarmManager;
+        private InterlockManager _interlockManager;
         private WorkQueue _workQueue;
         private int[] stats;
         private TimeSpan refreshInterval;
         private DateTime nextRefreshTime;
+        private List<Process> managedProcess;
 
         private bool _isRunResetCheck;
 
@@ -45,9 +50,12 @@ namespace ECS.Application
         public string ConfigFilePath { set { _configFilePath = value; } }
         public string DbFilePath { set { _dbFilePath = value; } }
 
+        public string RecipeFolderPath { set { _recipeFolderPath = value; } }
+        public string CurrentRecipe { get { return _currentRecipe; } set { _currentRecipe = value; } }
+
         private Engine()
         {
-
+            
         }
 
 
@@ -81,100 +89,9 @@ namespace ECS.Application
                 string simulation_mode = dr["SIMULATION_MODE"] as string;
                 if (simulation_mode.Substring(0, 1).ToUpper().Equals("Y")) CommonData.Instance.EQP_SETTINGS.SIMULATION_MODE = true;
                 else CommonData.Instance.EQP_SETTINGS.SIMULATION_MODE = false;
-
-                //    var eqpInfo = (from m in eqpData.AsEnumerable()
-                //                   where m.Field<string>("MACADDRESS") == CommonData.Instance.EQP_SETTINGS.MACADDRESS
-                //                   select m).FirstOrDefault();
-
-                    //    if (eqpInfo != null)
-                    //    {
-
-                    //        DataRow dr = eqpInfo as DataRow;
-
-
-                    //        CommonData.Instance.EQP_SETTINGS.EQPID = dr["EQPID"] as string;
-                    //        CommonData.Instance.EQP_SETTINGS.EQPNAME = dr["EQPNAME"] as string;
-                    //        CommonData.Instance.EQP_SETTINGS.IPADDRESS = dr["IPADDRESS"] as string;
-                    //        CommonData.Instance.EQP_SETTINGS.MACADDRESS = dr["MACADDRESS"] as string;
-                    //        CommonData.Instance.EQP_SETTINGS.EQP_SW_VERSION = dr["EQP_SW_VERSION"] as string;
-                    //        CommonData.Instance.EQP_SETTINGS.MACADDRESS = dr["MACADDRESS"] as string;
-
-                    //        try
-                    //        {
-                    //            String ipAddr = getIpAddress(CommonData.Instance.EQP_SETTINGS.MACADDRESS);
-
-                    //            if (!string.IsNullOrEmpty(ipAddr))
-                    //            {
-                    //                CommonData.Instance.EQP_SETTINGS.IPADDRESS = ipAddr;
-                    //                string setQuery = string.Format(@"UPDATE master_equipment SET IPADDRESS = '{0}' WHERE IPADDRESS = '{1}'", ipAddr, CommonData.Instance.EQP_SETTINGS.MACADDRESS);
-                    //                DbHandler.Instance.ExecuteQueryToWorkQueue(_dbFilePath, setQuery);
-                    //                LogHelper.Instance.DBManagerLog.DebugFormat("[INFO] UPDATE master_equipment SET IPADDRESS = '{0}' WHERE IPADDRESS = '{1}'", ipAddr, CommonData.Instance.EQP_SETTINGS.MACADDRESS);
-                    //            }
-
-                    //        }
-                    //        catch (Exception e)
-                    //        {
-                    //            LogHelper.Instance.ErrorLog.DebugFormat("[ERROR] Fail UPDATE master_equipment SET IPADDRESS" + e.Message);
-                    //            throw e;
-                    //        }
-                    //        macAddressNotFound = false;
-
-                    //        break;
-                    //    }
-                    //}
-
-                    //if (macAddressNotFound)
-                    //{
-
-                    //    foreach (var item in localIPs)
-                    //    {
-                    //        var address = (from m in eqpData.AsEnumerable()
-                    //                       where m.Field<string>("IPADDRESS") == item
-                    //                       select m).FirstOrDefault();
-
-
-
-                    //        if (address != null)
-                    //        {
-                    //            ipAddressNotFound = false;
-                    //            DataRow dr = address as DataRow;
-
-                    //            CommonData.Instance.EQP_SETTINGS.EQPID = dr["EQPID"] as string;
-                    //            CommonData.Instance.EQP_SETTINGS.EQPNAME = dr["EQPNAME"] as string;
-                    //            CommonData.Instance.EQP_SETTINGS.IPADDRESS = dr["IPADDRESS"] as string;
-                    //            CommonData.Instance.EQP_SETTINGS.MACADDRESS = dr["MACADDRESS"] as string;
-                    //            CommonData.Instance.EQP_SETTINGS.EQP_SW_VERSION = dr["EQP_SW_VERSION"] as string;
-                    //            CommonData.Instance.EQP_SETTINGS.MACADDRESS = dr["MACADDRESS"] as string;
-
-                    //            try
-                    //            {
-                    //                String macAddr = getMacAddress(item);
-
-                    //                if (!string.IsNullOrEmpty(macAddr) && !macAddr.Equals(CommonData.Instance.EQP_SETTINGS.MACADDRESS))
-                    //                {
-                    //                    CommonData.Instance.EQP_SETTINGS.MACADDRESS = macAddr;
-                    //                    string setQuery = string.Format(@"UPDATE master_equipment SET MACADDRESS = '{0}' WHERE IPADDRESS = '{1}'", macAddr, CommonData.Instance.EQP_SETTINGS.IPADDRESS);
-                    //                    DbHandler.Instance.ExecuteQueryToWorkQueue(_dbFilePath, setQuery);
-                    //                    LogHelper.Instance.DBManagerLog.DebugFormat("[INFO] UPDATE master_equipment SET MACADDRESS = '{0}' WHERE IPADDRESS = '{1}'", macAddr, CommonData.Instance.EQP_SETTINGS.IPADDRESS);
-                    //                }
-                    //            }
-                    //            catch (Exception e)
-                    //            {
-                    //                LogHelper.Instance.ErrorLog.DebugFormat("[ERROR] Fail UPDATE master_equipment SET MACADDRESS" + e.Message);
-                    //                throw e;
-                    //            }
-                    //            break;
-                    //        }
-
-                    //    }
-                    //}
-
-                    //if (ipAddressNotFound && macAddressNotFound)
-                    //{
-                    //    LogHelper.Instance.DBManagerLog.DebugFormat("[ERROR] Not found Equipment informations");
-                    //    throw new Exception("IO_DB.mdb has not IpAddress or MacAddress");
-                    //}
             }
+
+            managedProcess = new List<Process>();
         }
 
         private void ResetCheckThreadStart()
@@ -187,10 +104,6 @@ namespace ECS.Application
             _isRunResetCheck = true;
             _resetCheckTask.Start();
 
-            //_resetCheckThread = null;
-            //_resetCheckThread = new Thread(ResetCheckMethod);
-            //_isRunResetCheck = true;
-            //_resetCheckThread.Start();
             LogHelper.Instance._debug.DebugFormat("[INFO] _resetCheckThread.Start();");
         }
 
@@ -289,27 +202,30 @@ namespace ECS.Application
             nextRefreshTime = DateTime.Now;
             refreshInterval = TimeSpan.FromSeconds(1.0);
 
-            _interlockManager = InterlockManager.Instance;
-            _interlockManager.Initialize(@"./config/db_io.mdb");
-            _interlockManager.InterlockEvent += _interlockManager_InterlockEvent;
-
-            _dataManager = DataManager.Instance;
-            _dataManager.Initialize(_configFilePath);
-            _functionManager = FunctionManager.Instance;
-            _functionManager.Initialize(@"./config/db_io.mdb");
+            _config = new ConfigManager(_configFilePath);
 
             _alarmManager = AlarmManager.Instance;
-            _alarmManager.Initialize(@"./config/db_io.mdb");
+            _alarmManager.Initialize(_dbFilePath);
             _alarmManager.SetAlarmEvent += _alarmManager_SetAlarmEvent;
             _alarmManager.ResetAlarmEvent += _alarmManager_ResetAlarmEvent;
 
+            _interlockManager = InterlockManager.Instance;
+            _interlockManager.Initialize(_dbFilePath);
+            _dataManager = DataManager.Instance;
+            _dataManager.Initialize(_configFilePath);
+            _dataManager.DataAccess.DataChangedEvent += DataChangedEvent.DataManager_DataChangedEvent;
+
+            _functionManager = FunctionManager.Instance;
+            _functionManager.Initialize(_dbFilePath);
 
 
+            RecipeFolderPath = _config.GetIniValue("RECIPE", "PATH");
             _recipeManager = RecipeManager.Instance;
-            _recipeManager.Initialize(@"./config/db_io.mdb", @"./config/recipe", DataManager.Instance.GET_STRING_DATA("vSys.sEqp.CurrentRecipe", out _));
+            _recipeManager.Initialize(_dbFilePath, _recipeFolderPath, DataManager.Instance.GET_STRING_DATA("vSys.sEqp.CurrentRecipe", out _));
 
             _userAuthorityManager = UserAuthorityManager.Instance;
             _userAuthorityManager.Initialize(@"./config/db_io.mdb");
+
 
             _workQueue = WorkQueue.Instance;
             _workQueue.ConcurrentLimit = 10;
@@ -323,27 +239,18 @@ namespace ECS.Application
 
             if(CommonData.Instance.EQP_SETTINGS.SIMULATION_MODE)
             {
-                DataManager.Instance.SET_STRING_DATA(IoNameHelper.V_STR_SYS_SIMULATION_MODE, "SIMULATION");
+                DataManager.Instance.SET_STRING_DATA("vSys.sEqp.SimulationMode", "SIMULATION");
             }
             else
             {
-                DataManager.Instance.SET_STRING_DATA(IoNameHelper.V_STR_SYS_SIMULATION_MODE, "NORMAL");
+                DataManager.Instance.SET_STRING_DATA("vSys.sEqp.SimulationMode", "NORMAL");
             }
-        }
-
-        private void _interlockManager_InterlockEvent(object sender, EventArgs e)
-        {
-            DataManager.Instance.SET_INT_DATA("vSys.iEqp.Interlock", 1);
-            DataManager.Instance.SET_INT_DATA("vSys.iEqp.Availability", 1);
-            DataManager.Instance.SET_INT_DATA("vSys.iEqp.Move", 1);
-
-            DataManager.Instance.SET_INT_DATA("oPMAC.iTowerLamp.Yellow", 1);
-            DataManager.Instance.SET_INT_DATA("oPMAC.iTowerLamp.Red", 1);
-            DataManager.Instance.SET_INT_DATA("oPMAC.iTowerLamp.Green", 0);
         }
 
         private void _alarmManager_ResetAlarmEvent(object sender, EventArgs e)
         {
+            InterlockManager.Instance.INTERLOCK_RESET();
+
             List<ALARM> currentAlarms = _alarmManager.GetCurrentAlarmAsList();
 
             if (currentAlarms.FindAll((a) => (a.LEVEL == eALCD.Heavy)).Count > 0)
@@ -354,7 +261,6 @@ namespace ECS.Application
             {
                 DataManager.Instance.SET_INT_DATA("vSys.iEqp.Alarm", 0);
                 DataManager.Instance.SET_INT_DATA("vSys.iEqp.Availability", 2);
-                DataManager.Instance.SET_INT_DATA("vSys.iEqp.Interlock", 2);
                 DataManager.Instance.SET_INT_DATA("vSys.iEqp.Move", 2);
 
                 DataManager.Instance.SET_INT_DATA("vSys.iSignalTower.Red", 0);

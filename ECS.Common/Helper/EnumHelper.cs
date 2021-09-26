@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace ECS.Common.Helper
 {
-    class EnumHelper
+    public enum OnOff
     {
-
+        ON = 1,
+        OFF = 0
+    }
+    public class EnumHelper
+    {
+        
     }
 }

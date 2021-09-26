@@ -20,6 +20,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using INNO6.IO;
+using ECS.Common.Helper;
 
 namespace ECS.UI.ViewModel
 {
@@ -36,11 +38,12 @@ namespace ECS.UI.ViewModel
 
         private Camera camera = null;
         private ImageSource bitmapSource;
-        private PixelDataConverter converter; 
+        private PixelDataConverter converter;
         private Stopwatch stopWatch = new Stopwatch();
         private ObservableCollection<VisionCamera> visionCameraList;
         private VisionCamera selectedVisionCamera;
         private Timer updateDeviceListTimer;
+        private System.Windows.Point _MousePoint;
 
         private bool buttonOneShotEnabled;
         private string buttonOneShotContent;
@@ -51,18 +54,48 @@ namespace ECS.UI.ViewModel
         private bool buttonStopGrabEnabled;
         private string buttonStopGrabContent;
 
+        private ICommand _MouseMoveEventCommand;
+
+        public ICommand MouseMoveEventCommand
+        {
+            get
+            {
+                if (_MouseMoveEventCommand == null)
+                {
+                    _MouseMoveEventCommand = new DelegateCommand<object>(ExecuteMouseMoveEventCommand);
+                }
+
+                return _MouseMoveEventCommand;
+            }
+        }
+
         private ICommand visionCameraChangedCommand;
 
         public ICommand VisionCameraChangedCommand
         {
             get
             {
-                if(visionCameraChangedCommand == null)
+                if (visionCameraChangedCommand == null)
                 {
                     visionCameraChangedCommand = new DelegateCommand(VisionCameraChanged);
                 }
 
                 return visionCameraChangedCommand;
+            }
+        }
+
+        private ICommand _MnuMoveToHereCommand;
+
+        public ICommand MnuMoveToHereCommand
+        {
+            get
+            {
+                if (_MnuMoveToHereCommand == null)
+                {
+                    _MnuMoveToHereCommand = new DelegateCommand(ExecuteMnuMoveToHere);
+                }
+
+                return _MnuMoveToHereCommand;
             }
         }
 
@@ -133,6 +166,29 @@ namespace ECS.UI.ViewModel
                 {
                     ShowException(exception);
                 }
+            }
+        }
+
+        private void ExecuteMnuMoveToHere()
+        {
+            double xPos = _MousePoint.X;
+            double yPos = _MousePoint.Y;
+            
+//DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_PMAC_X_SETDISTANCE, xPos);
+            //DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_PMAC_Y_SETDISTANCE, yPos);
+
+
+        }
+
+        private void ExecuteMouseMoveEventCommand(object args)
+        {
+            if (camera == null || !camera.IsOpen) return;
+
+            if(args is MouseEventArgs)
+            {
+                MouseEventArgs mouseEventArgs = args as MouseEventArgs;
+
+                _MousePoint = mouseEventArgs.GetPosition(mouseEventArgs.Source as IInputElement);              
             }
         }
 

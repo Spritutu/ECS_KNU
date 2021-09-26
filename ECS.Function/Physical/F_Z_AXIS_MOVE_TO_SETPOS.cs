@@ -52,7 +52,7 @@ namespace ECS.Function.Physical
 
             if (DataManager.Instance.SET_INT_DATA(IO_Z_MOVE_TO_SETPOS, 1))
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
@@ -64,10 +64,12 @@ namespace ECS.Function.Physical
 
                     if (Abort)
                     {
+                        DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_Z_JOGSTOP, 1);
                         return F_RESULT_ABORT;
                     }
                     else if (stopwatch.ElapsedMilliseconds > TimeoutMiliseconds)
                     {
+                        DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_PMAC_Z_JOGSTOP, 1);
                         AlarmManager.Instance.SetAlarm(ALARM_Z_AXIS_MOVE_TIMEOUT);
                         return this.F_RESULT_TIMEOUT;
                     }

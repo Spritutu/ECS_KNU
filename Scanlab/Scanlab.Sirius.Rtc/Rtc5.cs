@@ -251,6 +251,7 @@ namespace Scanlab.Sirius
                     Logger.Log(Logger.Type.Error, string.Format("rtc5 [{0}]: fail to init_rtc5_dll = {1}", (object)this.Index, (object)num), Array.Empty<object>());
                 RTC5Wrap.Initialized = num == 0U;
             }
+
             RTC5Wrap.n_stop_execution(this.Index + 1U);
             uint num1 = RTC5Wrap.n_load_program_file(this.Index + 1U, string.Empty);
             if (num1 != 0U)
@@ -327,6 +328,10 @@ namespace Scanlab.Sirius
             RTC5Wrap.n_set_standby(this.Index + 1U, 0U, 0U);
             RTC5Wrap.n_time_update(this.Index + 1U);
             RTC5Wrap.n_config_list(this.Index + 1U, this.RTC5_LIST_BUFFER_MAX * 2U, this.RTC5_LIST_BUFFER_MAX * 2U);
+
+            // scan head rotation 270도 
+            // Stage X, Y와 Scanner X, Y를 Sync.
+            RTC5Wrap.n_set_angle(this.Index + 1U, this.Index + 1U, 270.0, 0U);
             Logger.Log(Logger.Type.Info, string.Format("rtc5 [{0}]: serial no = {1} initialized", (object)this.Index, (object)num6), Array.Empty<object>());
             return true;
         }

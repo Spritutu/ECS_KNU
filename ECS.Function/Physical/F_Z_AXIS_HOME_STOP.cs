@@ -1,4 +1,5 @@
-﻿using INNO6.Core.Manager;
+﻿using ECS.Common.Helper;
+using INNO6.Core.Manager;
 using INNO6.IO;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,11 @@ namespace ECS.Function.Physical
         public override string Execute()
         {
             bool result = false;
+            FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.Z_AXIS_HOMMING);
 
             if (DataManager.Instance.SET_INT_DATA(IO_Z_HOME_STOP, 1))
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
@@ -72,7 +74,7 @@ namespace ECS.Function.Physical
         {
             Abort = false;
             IsProcessing = false;
-            DataManager.Instance.SET_INT_DATA(IO_Z_HOME_STOP, 0);
+            DataManager.Instance.SET_INT_DATA(IO_Z_HOME_STOP, 0);          
         }
     }
 }

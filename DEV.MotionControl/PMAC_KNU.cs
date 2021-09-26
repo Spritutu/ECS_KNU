@@ -21,7 +21,7 @@ namespace DEV.MotionControl
 
             if (int.TryParse(strResponse, out onOff))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] GetDigitalValue() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] GetDigitalValue() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else
@@ -43,7 +43,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] SetDigitalValue() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.DebugFormat("[SUCCESS] SetDigitalValue() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
             }
             else

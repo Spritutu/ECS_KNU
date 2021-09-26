@@ -93,15 +93,15 @@ namespace DEV.ScanlabControl
 
                 result = _Rtc.Initialize(kfactor, LaserMode.Yag1, _FieldCorrectionFilePath);
 
+
                 _Rtc.CtlFrequency(_Frequency * 1000, _PulseWidth); // laser frequency : 50KHz, pulse width : 2usec
                 _Rtc.CtlSpeed(_JumpSpeed, _MarkSpeed); // default jump and mark speed : 100mm/s
                 _Rtc.CtlDelay(_LaserOnDelay, _LaserOffDelay, _ScannerJumpDelay, _ScannerMarkDelay, _ScannerPolygonDelay); // scanner and laser delays
-
+                
                 #region initialize Laser (virtual)
                 _Laser = new LaserVirtual(0, "virtual", _LaserMaxPower);
                 _Laser.Rtc = _Rtc;
                 #endregion
-
                 Start();
 
                 if(result)

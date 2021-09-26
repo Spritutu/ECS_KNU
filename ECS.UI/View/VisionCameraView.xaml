@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:ECS.UI.View"
-             
+             xmlns:mvvm="http://www.galasoft.ch/mvvmlight" xmlns:Behaviors="clr-namespace:ECS.UI.Behaviors"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              
              TextOptions.TextFormattingMode="Ideal"
@@ -57,7 +57,20 @@
                     </i:Interaction.Triggers>
                 </ComboBox>
             </StackPanel>
-            <Image Grid.Row="1"  Source="{Binding Path=BitmapSource}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"></Image>
+            <Image Grid.Row="1"  Source="{Binding Path=BitmapSource}" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseMove">
+                        <mvvm:EventToCommand Command="{Binding MouseMoveEventCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Image.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Move to here" Command="{Binding MnuMoveToHereCommand}">
+                            
+                        </MenuItem>
+                    </ContextMenu>
+                </Image.ContextMenu>
+            </Image>
         </Grid>
     </GroupBox>
    

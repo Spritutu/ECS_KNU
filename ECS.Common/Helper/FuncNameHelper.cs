@@ -30,6 +30,7 @@ namespace ECS.Common.Helper
         public const string R_AXIS_JOG_STOP = "F_R_AXIS_JOG_STOP";
         public const string R_AXIS_MOVE_TO_SETDIS = "F_R_AXIS_MOVE_TO_SETDIS";
         public const string R_AXIS_MOVE_TO_SETPOS = "F_R_AXIS_MOVE_TO_SETPOS";
+        public const string R_AXIS_SERVO_STOP = "F_R_AXIS_SERVO_STOP";
 
         public const string SCAN_PROCDOC_START = "F_SCAN_PROCDOC_START";
         public const string SCAN_PROCESS_ABORT = "F_SCAN_PROCESS_ABORT";
@@ -42,6 +43,7 @@ namespace ECS.Common.Helper
         public const string T_AXIS_JOG_STOP = "F_T_AXIS_JOG_STOP";
         public const string T_AXIS_MOVE_TO_SETDIS = "F_T_AXIS_MOVE_TO_SETDIS";
         public const string T_AXIS_MOVE_TO_SETPOS = "F_T_AXIS_MOVE_TO_SETPOS";
+        public const string T_AXIS_SERVO_STOP = "F_T_AXIS_SERVO_STOP";
 
         public const string Z_AXIS_HOME_STOP = "F_Z_AXIS_HOME_STOP";
         public const string Z_AXIS_HOMMING = "F_Z_AXIS_HOMMING";
@@ -50,6 +52,7 @@ namespace ECS.Common.Helper
         public const string Z_AXIS_JOG_STOP = "F_Z_AXIS_JOG_STOP";
         public const string Z_AXIS_MOVE_TO_SETDIS = "F_Z_AXIS_MOVE_TO_SETDIS";
         public const string Z_AXIS_MOVE_TO_SETPOS = "F_Z_AXIS_MOVE_TO_SETPOS";
+        public const string Z_AXIS_SERVO_STOP = "F_Z_AXIS_SERVO_STOP";
 
         public const string X_AXIS_HOME_STOP = "F_X_AXIS_HOME_STOP";
         public const string X_AXIS_HOMMING = "F_X_AXIS_HOMMING";
@@ -58,6 +61,7 @@ namespace ECS.Common.Helper
         public const string X_AXIS_JOG_STOP = "F_X_AXIS_JOG_STOP";
         public const string X_AXIS_MOVE_TO_SETDIS = "F_X_AXIS_MOVE_TO_SETDIS";
         public const string X_AXIS_MOVE_TO_SETPOS = "F_X_AXIS_MOVE_TO_SETPOS";
+        public const string X_AXIS_SERVO_STOP = "F_X_AXIS_SERVO_STOP";
 
         public const string Y_AXIS_HOME_STOP = "F_Y_AXIS_HOME_STOP";
         public const string Y_AXIS_HOMMING = "F_Y_AXIS_HOMMING";
@@ -66,10 +70,6 @@ namespace ECS.Common.Helper
         public const string Y_AXIS_JOG_STOP = "F_Y_AXIS_JOG_STOP";
         public const string Y_AXIS_MOVE_TO_SETDIS = "F_Y_AXIS_MOVE_TO_SETDIS";
         public const string Y_AXIS_MOVE_TO_SETPOS = "F_Y_AXIS_MOVE_TO_SETPOS";
-
-        public const string SET_MODE_EGYNGR = "F_SET_MODE_EGYNGR";
-        public const string SET_MODE_EGYBURSTNGR = "F_SET_MODE_EGYBURSTNGR";
-
-        public const string SET_MODE_HVNGR = "F_SET_MODE_HVNGR";
+        public const string Y_AXIS_SERVO_STOP = "F_Y_AXIS_SERVO_STOP";
     }
 }

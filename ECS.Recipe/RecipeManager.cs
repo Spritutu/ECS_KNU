@@ -11,6 +11,7 @@ using ECS.Recipe.Model;
 using INNO6.IO;
 using log4net;
 using ECS.Common.Helper;
+using System.Runtime.Serialization;
 
 namespace ECS.Recipe
 {
@@ -126,6 +127,20 @@ namespace ECS.Recipe
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
                 return binaryFormatter.Deserialize(fileStreamObject);
 
+            }
+            catch (SerializationException e)
+            {
+                LogHelper.Instance.SystemLog.WarnFormat("[WARNING] Recipe file serialization Exception : " + e.Message);
+                string newRecipeName = "new_recipe";
+                DataManager.Instance.SET_STRING_DATA(IoNameHelper.V_STR_SYS_CURRENT_RECIPE, newRecipeName);
+                DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_STR_SYS_CURRENT_RECIPE, newRecipeName);
+
+                RecipeManager.Instance.SAVE_RECIPE_FILE(newRecipeName, "ecs");
+
+                fileStreamObject = new FileStream(filename, FileMode.Open);
+
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                return binaryFormatter.Deserialize(fileStreamObject);
             }
             catch (FileNotFoundException e)
             {
