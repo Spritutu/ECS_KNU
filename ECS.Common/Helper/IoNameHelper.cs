@@ -325,5 +325,11 @@ namespace ECS.Common.Helper
         public const string V_STR_SET_Y_JOGVEL_MODE = "vSet.sAxisY.JogVelMode";
         public const string V_STR_SET_Z_JOGVEL_MODE = "vSet.sAxisZ.JogVelMode";
 
+        public const string V_DBL_SET_X_POSITION_OFFSET = "vSet.dAxisX.Offset";
+        public const string V_DBL_SET_Y_POSITION_OFFSET = "vSet.dAxisY.Offset";
+        public const string V_DBL_SET_Z_POSITION_OFFSET = "vSet.dAxisZ.Offset";
+        public const string V_DBL_SET_R_POSITION_OFFSET = "vSet.dAxisR.Offset";
+        public const string V_DBL_SET_T_POSITION_OFFSET = "vSet.dAxisT.Offset";
+
     }
 }

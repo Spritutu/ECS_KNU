@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ECS.Common.Helper;
 using INNO6.Core.Manager;
 using INNO6.IO;
 
@@ -43,24 +44,24 @@ namespace ECS.Function.Physical
         {
             
             bool result = true;
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
 
-            _VisionPosZ = DataManager.Instance.GET_DOUBLE_DATA("iPMAC.dAxisZ.Position", out bool _);
+            //_VisionPosZ = DataManager.Instance.GET_DOUBLE_DATA("iPMAC.dAxisZ.Position", out bool _);
 
-            if (_VisionPosZ > 200)
-            {
-                DataManager.Instance.SET_DOUBLE_DATA(VIO_DBL_Z_ABS_POSITION, 200);
+            //if (_VisionPosZ > 200)
+            //{
+            //    DataManager.Instance.SET_DOUBLE_DATA(VIO_DBL_Z_ABS_POSITION, 200);
 
-                if (FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(F_Z_AXIS_MOVE_TO_SETPOS) == F_RESULT_SUCCESS)
-                {
-                    result &= true;
-                }
-                else
-                {
-                    result &= false;
-                }
-            }
+            //    if (FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(F_Z_AXIS_MOVE_TO_SETPOS) == F_RESULT_SUCCESS)
+            //    {
+            //        result &= true;
+            //    }
+            //    else
+            //    {
+            //        result &= false;
+            //    }
+            //}
 
             return this.EquipmentStatusCheck();
         }
@@ -81,10 +82,10 @@ namespace ECS.Function.Physical
             DataManager.Instance.SET_DOUBLE_DATA(VIO_DBL_T_ABS_POSITION, visionPosT);
             DataManager.Instance.SET_DOUBLE_DATA(VIO_DBL_R_ABS_POSITION, visionPosR);
 
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_MOVE_TO_SETPOS);
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_Y_AXIS_MOVE_TO_SETPOS);
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_R_AXIS_MOVE_TO_SETPOS);
-            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_T_AXIS_MOVE_TO_SETPOS);
+            ExecuteFunctionAsync(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
+            ExecuteFunctionAsync(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
+            ExecuteFunctionAsync(FuncNameHelper.R_AXIS_MOVE_TO_SETPOS);
+            ExecuteFunctionAsync(FuncNameHelper.T_AXIS_MOVE_TO_SETPOS);
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 
@@ -93,7 +94,7 @@ namespace ECS.Function.Physical
 
                 Thread.Sleep(100);
 
-                if (Abort)
+                if (IsAbort)
                 {
                     return F_RESULT_ABORT;
                 }

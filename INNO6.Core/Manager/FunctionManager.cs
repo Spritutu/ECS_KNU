@@ -109,8 +109,8 @@ namespace INNO6.Core.Manager
             {
                 object instance = _functionList[T.Key];
                 Type type = instance.GetType();
-                PropertyInfo property = type.GetProperty("Abort");
-                property.SetValue(instance, true);
+                MethodInfo method = type.GetMethod("Abort");
+                method.Invoke(instance, null);
             }
         }
 
@@ -120,8 +120,8 @@ namespace INNO6.Core.Manager
             {
                 object instance = _functionList[executeName];
                 Type type =instance.GetType();
-                PropertyInfo property = type.GetProperty("Abort");
-                property.SetValue(instance, true);
+                MethodInfo method = type.GetMethod("Abort");
+                method.Invoke(instance, null);
 
                 return true;
             }
@@ -280,8 +280,7 @@ namespace INNO6.Core.Manager
                     if (resultCanExecute)
                     {
                         MethodInfo execute = type.GetMethod(FUNCTION_EXECUTE);
-                        resultExecute = (string)execute.Invoke(instance, null);
-
+                        resultExecute = (string)execute.Invoke(instance, null);     
                         MethodInfo postExecute = type.GetMethod(FUNCTION_POSTEXECUTRE);
                         postExecute.Invoke(instance, null);
                     }

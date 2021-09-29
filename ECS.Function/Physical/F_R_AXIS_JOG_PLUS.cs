@@ -55,7 +55,7 @@ namespace ECS.Function.Physical
 
         public override void PostExecute()
         {
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
             DataManager.Instance.SET_INT_DATA(IO_R_JOG_PLUS, 0);
         }

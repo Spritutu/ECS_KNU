@@ -22,7 +22,7 @@ namespace ECS.Function.Physical
         private const string DI_NAME_LASER_READY = "iPMAC.iLaser.Ready";
         public override bool CanExecute()
         {
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
 
             return this.EquipmentStatusCheck();
@@ -42,7 +42,7 @@ namespace ECS.Function.Physical
                 {
                     Thread.Sleep(100);
 
-                    if (Abort)
+                    if (IsAbort)
                     {
                         return F_RESULT_ABORT;
                     }

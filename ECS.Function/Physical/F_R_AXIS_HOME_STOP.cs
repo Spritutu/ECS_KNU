@@ -19,7 +19,7 @@ namespace ECS.Function.Physical
 
         public override bool CanExecute()
         {
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
 
             return this.EquipmentStatusCheck();
@@ -39,7 +39,7 @@ namespace ECS.Function.Physical
                 {
                     Thread.Sleep(100);
 
-                    if (Abort)
+                    if (IsAbort)
                     {
                         return F_RESULT_ABORT;
                     }
@@ -77,7 +77,7 @@ namespace ECS.Function.Physical
 
         public override void PostExecute()
         {
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
 
             if (EquipmentSimulation == OperationMode.SIMULATION.ToString())

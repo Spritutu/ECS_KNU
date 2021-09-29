@@ -17,24 +17,24 @@ namespace ECS.Function.Physical
         public override bool CanExecute()
         {
             bool result = true;
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
 
-            _VisionPosZ = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_Z_POSITION, out bool _);
+            //_VisionPosZ = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_Z_POSITION, out bool _);
 
-            if (_VisionPosZ > 200)
-            {
-                DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_PMAC_Z_SETPOSITION, 200);
+            //if (_VisionPosZ > 200)
+            //{
+            //    DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_PMAC_Z_SETPOSITION, 200);
 
-                if (FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(FuncNameHelper.Z_AXIS_MOVE_TO_SETPOS) == F_RESULT_SUCCESS)
-                {
-                    result &= true;
-                }
-                else
-                {
-                    result &= false;
-                }
-            }
+            //    if (FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(FuncNameHelper.Z_AXIS_MOVE_TO_SETPOS) == F_RESULT_SUCCESS)
+            //    {
+            //        result &= true;
+            //    }
+            //    else
+            //    {
+            //        result &= false;
+            //    }
+            //}
 
             return this.EquipmentStatusCheck();
         }
@@ -63,7 +63,7 @@ namespace ECS.Function.Physical
             {
                 Thread.Sleep(100);
 
-                if (Abort)
+                if (IsAbort)
                 {
                     return F_RESULT_ABORT;
                 }

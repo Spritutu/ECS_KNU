@@ -73,19 +73,18 @@ namespace ECS.Function.Operation
                 {
                     StopWatch.Restart();
 
-                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
-                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
-                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Z_AXIS_MOVE_TO_SETPOS);
-                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.R_AXIS_MOVE_TO_SETPOS);
-                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.T_AXIS_MOVE_TO_SETPOS);
+                    ExecuteFunctionAsync(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
+                    ExecuteFunctionAsync(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
+                    ExecuteFunctionAsync(FuncNameHelper.Z_AXIS_MOVE_TO_SETPOS);
+                    ExecuteFunctionAsync(FuncNameHelper.R_AXIS_MOVE_TO_SETPOS);
+                    ExecuteFunctionAsync(FuncNameHelper.T_AXIS_MOVE_TO_SETPOS);
                     {
                         while(true)
                         {
                             Thread.Sleep(100);
 
-                            if (Abort)
+                            if (IsAbort)
                             {
-                                FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.MOVE_PROCESS_POSITION);
                                 return F_RESULT_ABORT;
                             }
                             else if(!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS)
@@ -106,7 +105,7 @@ namespace ECS.Function.Operation
                         {
                             Thread.Sleep(100);
 
-                            if (Abort)
+                            if (IsAbort)
                             {
                                 FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.SCAN_PROCDOC_START);
                                 return F_RESULT_ABORT;
