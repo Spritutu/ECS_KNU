@@ -671,6 +671,7 @@ namespace ECS.UI.ViewModel
         public void ResourceRelease()
         {
             _engine.Stop();
+            ViewModelLocator.Instance.VisionCameraViewModel.Stop();
         }
 
         private void DataAccess_SystemDataChanged(object sender, DataChangedEventHandlerArgs args)

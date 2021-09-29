@@ -300,7 +300,7 @@ namespace ECS.UI.ViewModel
 
         private void OnButtonStopGrabClicked()
         {
-            Stop(); // Stop the grabbing of images.
+            GrabStop(); // Stop the grabbing of images.
         }
 
         private void OnButtonContinuousClicked()
@@ -438,7 +438,7 @@ namespace ECS.UI.ViewModel
         }
 
         // Stops the grabbing of images and handles exceptions.
-        private void Stop()
+        private void GrabStop()
         {
             // Stop the grabbing.
             try
@@ -448,6 +448,16 @@ namespace ECS.UI.ViewModel
             catch (Exception exception)
             {
                 ShowException(exception);
+            }
+        }
+
+        public void Stop()
+        {
+            // Destroy the old camera object.
+            if (camera != null)
+            {
+                GrabStop();
+                DestroyCamera();
             }
         }
 

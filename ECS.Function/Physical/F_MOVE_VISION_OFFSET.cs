@@ -50,7 +50,7 @@ namespace ECS.Function.Physical
         public override bool CanExecute()
         {
             bool result = true;
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
 
             _VisionPosZ = DataManager.Instance.GET_DOUBLE_DATA("iPMAC.dAxisZ.Position", out bool _);
@@ -109,7 +109,7 @@ namespace ECS.Function.Physical
             {
                 Thread.Sleep(100);
 
-                if (Abort)
+                if (IsAbort)
                 {
                     return F_RESULT_ABORT;
                 }
