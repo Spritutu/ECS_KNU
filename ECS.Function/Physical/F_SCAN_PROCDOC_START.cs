@@ -50,7 +50,7 @@ namespace ECS.Function.Physical
         public override bool CanExecute()
         {
             bool check = true;
-            Abort = false;
+            IsAbort = false;
             IsProcessing = false;
             string filePath = DataManager.Instance.GET_STRING_DATA(IoNameHelper.V_STR_SET_SCAN_DOCUMENT_FILEPATH, out bool _);
 
@@ -197,7 +197,7 @@ namespace ECS.Function.Physical
             {
                 Thread.Sleep(10);
 
-                if (Abort)
+                if (IsAbort)
                 {
                     return F_RESULT_ABORT;
                 }
