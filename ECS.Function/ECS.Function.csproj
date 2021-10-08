@@ -42,10 +42,12 @@
     <Compile Include="AbstractFunction.cs" />
     <Compile Include="Operation\OP_AUTO_PROCESS.cs" />
     <Compile Include="Operation\OP_INIT_PROCESS.cs" />
+    <Compile Include="Physical\F_ALL_AXIS_MOVE_STOP.cs" />
     <Compile Include="Physical\F_LASER_ON.cs" />
     <Compile Include="Physical\F_LASER_PROGRAM_START.cs" />
     <Compile Include="Physical\F_LASER_REQUEST.cs" />
     <Compile Include="Physical\F_LASER_RESET.cs" />
+    <Compile Include="Physical\F_LASER_STANDBY.cs" />
     <Compile Include="Physical\F_LASER_STOP.cs" />
     <Compile Include="Physical\F_LED_CH1_OFF.cs" />
     <Compile Include="Physical\F_LED_CH1_ON.cs" />

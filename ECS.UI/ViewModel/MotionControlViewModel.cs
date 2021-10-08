@@ -1,4 +1,5 @@
 ﻿using ECS.Common.Helper;
+using ECS.UI.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using INNO6.Core.Manager;
@@ -169,11 +170,14 @@ namespace ECS.UI.ViewModel
         private string _ButtonJogMinusContent;
         private string _ButtonVisionMoveContent;
         private string _ButtonProcessMoveContent;
+        private string _ButtonMoveStopContent;
         private string _ButtonOffsetVisionMoveContent;
         private string _ButtonOffsetProcessMoveContent;
         private string _TextBlockJogSpeedHighLow;
 
         private string _LabelAbsoluteMove;
+        private string _LabelPositionUnit;
+        private string _LabelVelocityUnit;
         private double _AbsolutePosition;
         private double _AbsoluteVelocity;
         private string _ButtonAbsoluteMoveContent;
@@ -181,7 +185,8 @@ namespace ECS.UI.ViewModel
         private string _LabelRelativeMove;
         private double _MoveDistance;
         private double _RelativeVelocity;
-        private string _ButtonRelativeMoveContent;
+        private string _ButtonRelativePlusMoveContent;
+        private string _ButtonRelativeMinusMoveContent;
 
         private bool _ToggleButtonJogSpeedHighLow;
         private bool _ButtonHommingEnable;
@@ -195,6 +200,7 @@ namespace ECS.UI.ViewModel
         private bool _ButtonOffsetVisionMoveEnable;
         private bool _ButtonOffsetProcessMoveEnable;
         private bool _ButtonProcessMoveEnable;
+        private bool _ButtonMoveStopEnable;
 
         private double _XAxisVelocity;
         private double _YAxisVelocity;
@@ -235,7 +241,8 @@ namespace ECS.UI.ViewModel
         private ICommand _JogMinusPreviewMouseLeftButtonUpCommand;
         private ICommand _JogMinusPreviewMouseLeftButtonDownCommand;
         private ICommand _ButtonAbsoluteMoveCommand;
-        private ICommand _ButtonRelativeMoveCommand;
+        private ICommand _ButtonRelativePlusMoveCommand;
+        private ICommand _ButtonRelativeMinusMoveCommand;
 
         private ICommand _JogSpeedHighCommand;
         private ICommand _JogSpeedLowCommand;
@@ -247,6 +254,7 @@ namespace ECS.UI.ViewModel
 
         private ICommand _ButtonVisionMoveCommand;
         private ICommand _ButtonProcessMoveCommand;
+        private ICommand _ButtonMoveStopCommand;
         private ICommand _ButtonOffsetVisionMoveCommand;
         private ICommand _ButtonOffsetProcessMoveCommand;
 
@@ -261,6 +269,7 @@ namespace ECS.UI.ViewModel
 
             ButtonVisionMoveContent = "To Vision";
             ButtonProcessMoveContent = "To Process";
+            ButtonMoveStopContent = "Move Stop";
             ButtonOffsetVisionMoveContent = "Vision(REL)";
             ButtonOffsetProcessMoveContent = "Process(REL)";
 
@@ -268,6 +277,7 @@ namespace ECS.UI.ViewModel
             ButtonProcessMoveEnable = true;
             ButtonOffsetVisionMoveEnable = true;
             ButtonOffsetProcessMoveEnable = true;
+            ButtonMoveStopEnable = true;
 
             ButtonKillAllContent = "KILL ALL";
             ButtonKillAllEnable = true;
@@ -286,14 +296,19 @@ namespace ECS.UI.ViewModel
         public string ButtonJogPlusContent { get { return _ButtonJogPlusContent; } set { _ButtonJogPlusContent = value; RaisePropertyChanged("ButtonJogPlusContent"); } }
         public string ButtonJogMinusContent { get { return _ButtonJogMinusContent; } set { _ButtonJogMinusContent = value; RaisePropertyChanged("ButtonJogMinusContent"); } }
         public string ButtonAbsoluteMoveContent { get { return _ButtonAbsoluteMoveContent; } set { _ButtonAbsoluteMoveContent = value; RaisePropertyChanged("ButtonAbsoluteMoveContent"); } }
-        public string ButtonRelativeMoveContent { get { return _ButtonRelativeMoveContent; } set { _ButtonRelativeMoveContent = value; RaisePropertyChanged("ButtonRelativeMoveContent"); } }
+        public string ButtonRelativePlusMoveContent { get { return _ButtonRelativePlusMoveContent; } set { _ButtonRelativePlusMoveContent = value; RaisePropertyChanged("ButtonRelativePlusMoveContent"); } }
+        public string ButtonRelativeMinusMoveContent { get { return _ButtonRelativeMinusMoveContent; } set { _ButtonRelativeMinusMoveContent = value; RaisePropertyChanged("ButtonRelativeMinusMoveContent"); } }
         public string ButtonVisionMoveContent { get { return _ButtonVisionMoveContent; } set { _ButtonVisionMoveContent = value; RaisePropertyChanged("ButtonVisionMoveContent"); } }
         public string ButtonProcessMoveContent { get { return _ButtonProcessMoveContent; } set { _ButtonProcessMoveContent = value; RaisePropertyChanged("ButtonProcessMoveContent"); } }
+        public string ButtonMoveStopContent { get { return _ButtonMoveStopContent; } set { _ButtonMoveStopContent = value; RaisePropertyChanged("ButtonMoveStopContent"); } }
         public string ButtonOffsetVisionMoveContent { get { return _ButtonOffsetVisionMoveContent; } set { _ButtonOffsetVisionMoveContent = value; RaisePropertyChanged("ButtonOffsetVisionMoveContent"); } }
         public string ButtonOffsetProcessMoveContent { get { return _ButtonOffsetProcessMoveContent; } set { _ButtonOffsetProcessMoveContent = value; RaisePropertyChanged("ButtonOffsetProcessMoveContent"); } }
 
 
         public string LabelAbsoluteMove { get { return _LabelAbsoluteMove; } set { _LabelAbsoluteMove = value; RaisePropertyChanged("LabelAbsoluteMove"); } }
+        public string LabelPositionUnit { get { return _LabelPositionUnit; } set { _LabelPositionUnit = value; RaisePropertyChanged("LabelPositionUnit"); } }
+        public string LabelVelocityUnit { get { return _LabelVelocityUnit; } set { _LabelVelocityUnit = value; RaisePropertyChanged("LabelVelocityUnit"); } }
+
         public double AbsolutePosition { get { return _AbsolutePosition; } set { if (_AbsolutePosition != value) { _AbsolutePosition = value; RaisePropertyChanged("AbsolutePosition"); } } }
         public double AbsoluteVelocity { get { return _AbsoluteVelocity; } set { _AbsoluteVelocity = value; RaisePropertyChanged("AbsoluteVelocity"); } }
 
@@ -312,6 +327,8 @@ namespace ECS.UI.ViewModel
         public bool ButtonRelativeMoveEnable { get { return _ButtonRelativeMoveEnable; } set { _ButtonRelativeMoveEnable = value; RaisePropertyChanged("ButtonRelativeMoveEnable"); } }
         public bool ButtonVisionMoveEnable { get { return _ButtonVisionMoveEnable; } set { _ButtonVisionMoveEnable = value; RaisePropertyChanged("ButtonVisionMoveEnable"); } }
         public bool ButtonProcessMoveEnable { get { return _ButtonProcessMoveEnable; } set { _ButtonProcessMoveEnable = value; RaisePropertyChanged("ButtonProcessMoveEnable"); } }
+        public bool ButtonMoveStopEnable { get { return _ButtonMoveStopEnable; } set { _ButtonMoveStopEnable = value; RaisePropertyChanged("ButtonMoveStopEnable"); } }
+
         public bool ButtonOffsetVisionMoveEnable { get { return _ButtonOffsetVisionMoveEnable; } set { _ButtonOffsetVisionMoveEnable = value; RaisePropertyChanged("ButtonOffsetVisionMoveEnable"); } }
         public bool ButtonOffsetProcessMoveEnable { get { return _ButtonOffsetProcessMoveEnable; } set { _ButtonOffsetProcessMoveEnable = value; RaisePropertyChanged("ButtonOffsetProcessMoveEnable"); } }
 
@@ -356,7 +373,8 @@ namespace ECS.UI.ViewModel
         public ICommand JogSpeedHighCommand { get { return this._JogSpeedHighCommand ?? (this._JogSpeedHighCommand = new RelayCommand(ExecuteJogSpeedHighCommand)); } }
         public ICommand JogSpeedLowCommand { get { return this._JogSpeedLowCommand ?? (this._JogSpeedLowCommand = new RelayCommand(ExecuteJogSpeedLowCommand)); } }
         public ICommand ButtonAbsoluteMoveCommand { get { return this._ButtonAbsoluteMoveCommand ?? (this._ButtonAbsoluteMoveCommand = new RelayCommand(ExecuteAbsoluteMoveCommand)); } }
-        public ICommand ButtonRelativeMoveCommand { get { return this._ButtonRelativeMoveCommand ?? (this._ButtonRelativeMoveCommand = new RelayCommand(ExecuteRelativeMoveCommand)); } }
+        public ICommand ButtonRelativePlusMoveCommand { get { return this._ButtonRelativePlusMoveCommand ?? (this._ButtonRelativePlusMoveCommand = new RelayCommand(ExecuteRelativePlusMoveCommand)); } }
+        public ICommand ButtonRelativeMinusMoveCommand { get { return this._ButtonRelativeMinusMoveCommand ?? (this._ButtonRelativeMinusMoveCommand = new RelayCommand(ExecuteRelativeMinusMoveCommand)); } }
 
 
         public ICommand JogPlusPreviewMouseLeftButtonUpCommand { get { return this._JogPlusPreviewMouseLeftButtonUpCommand ?? (this._JogPlusPreviewMouseLeftButtonUpCommand = new RelayCommand(ExecuteJogPlusMouseLeftButtonUpCommand)); } }
@@ -377,6 +395,7 @@ namespace ECS.UI.ViewModel
 
         public ICommand ButtonVisionMoveCommand { get { return this._ButtonVisionMoveCommand ?? (this._ButtonVisionMoveCommand = new RelayCommand(ExecuteVisionMoveCommand)); } }
         public ICommand ButtonProcessMoveCommand { get { return this._ButtonProcessMoveCommand ?? (this._ButtonProcessMoveCommand = new RelayCommand(ExecuteProcessMoveCommand)); } }
+        public ICommand ButtonMoveStopCommand { get { return this._ButtonMoveStopCommand ?? (this._ButtonMoveStopCommand = new RelayCommand(ExecuteMoveStopCommand)); } }
         public ICommand ButtonOffsetVisionMoveCommand { get { return this._ButtonOffsetVisionMoveCommand ?? (this._ButtonOffsetVisionMoveCommand = new RelayCommand(ExecuteOffsetVisionMoveCommand)); } }
         public ICommand ButtonOffsetProcessMoveCommand { get { return this._ButtonOffsetProcessMoveCommand ?? (this._ButtonOffsetProcessMoveCommand = new RelayCommand(ExecuteOffsetProcessMoveCommand)); } }
 
@@ -543,10 +562,10 @@ namespace ECS.UI.ViewModel
         {
             if (RadioButtonXAxisIsChecked)
             {
-                if(!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(F_X_AXIS_ABSOLUTE_MOVE))
+                if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(F_X_AXIS_ABSOLUTE_MOVE))
                 {
                     FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_ABSOLUTE_MOVE);
-                }         
+                }
             }
             else if (RadioButtonYAxisIsChecked)
             {
@@ -580,17 +599,22 @@ namespace ECS.UI.ViewModel
 
         }
 
-        private void ExecuteRelativeMoveCommand()
+        private void ExecuteRelativePlusMoveCommand()
         {
+
             if (RadioButtonXAxisIsChecked)
             {
+                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_X_REL_DISTANCE, MoveDistance);
+
                 if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.X_AXIS_MOVE_TO_SETDIS))
                 {
                     FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_MOVE_TO_SETDIS);
                 }
             }
-            else if(RadioButtonYAxisIsChecked)
+            else if (RadioButtonYAxisIsChecked)
             {
+                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_Y_REL_DISTANCE, MoveDistance);
+
                 if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.Y_AXIS_MOVE_TO_SETDIS))
                 {
                     FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_MOVE_TO_SETDIS);
@@ -598,6 +622,8 @@ namespace ECS.UI.ViewModel
             }
             else if (RadioButtonZAxisIsChecked)
             {
+                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_Z_REL_DISTANCE, MoveDistance);
+
                 if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.Z_AXIS_MOVE_TO_SETDIS))
                 {
                     FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Z_AXIS_MOVE_TO_SETDIS);
@@ -605,6 +631,8 @@ namespace ECS.UI.ViewModel
             }
             else if (RadioButtonTAxisIsChecked)
             {
+                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_T_REL_DISTANCE, MoveDistance);
+
                 if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.T_AXIS_MOVE_TO_SETDIS))
                 {
                     FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.T_AXIS_MOVE_TO_SETDIS);
@@ -612,6 +640,57 @@ namespace ECS.UI.ViewModel
             }
             else if (RadioButtonRAxisIsChecked)
             {
+                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_R_REL_DISTANCE, MoveDistance);
+
+                if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.R_AXIS_MOVE_TO_SETDIS))
+                {
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.R_AXIS_MOVE_TO_SETDIS);
+                }
+            }
+        }
+
+        private void ExecuteRelativeMinusMoveCommand()
+        {
+            if (RadioButtonXAxisIsChecked)
+            {
+                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_X_REL_DISTANCE, MoveDistance * (-1.0));
+
+                if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.X_AXIS_MOVE_TO_SETDIS))
+                {
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_MOVE_TO_SETDIS);
+                }
+            }
+            else if (RadioButtonYAxisIsChecked)
+            {
+                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_Y_REL_DISTANCE, MoveDistance * (-1.0));
+
+                if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.Y_AXIS_MOVE_TO_SETDIS))
+                {
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_MOVE_TO_SETDIS);
+                }
+            }
+            else if (RadioButtonZAxisIsChecked)
+            {
+                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_Z_REL_DISTANCE, MoveDistance * (-1.0));
+
+                if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.Z_AXIS_MOVE_TO_SETDIS))
+                {
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Z_AXIS_MOVE_TO_SETDIS);
+                }
+            }
+            else if (RadioButtonTAxisIsChecked)
+            {
+                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_T_REL_DISTANCE, MoveDistance * (-1.0));
+
+                if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.T_AXIS_MOVE_TO_SETDIS))
+                {
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.T_AXIS_MOVE_TO_SETDIS);
+                }
+            }
+            else if (RadioButtonRAxisIsChecked)
+            {
+                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_R_REL_DISTANCE, MoveDistance * (-1.0));
+
                 if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.R_AXIS_MOVE_TO_SETDIS))
                 {
                     FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.R_AXIS_MOVE_TO_SETDIS);
@@ -645,26 +724,7 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteMoveDistanceInputCommand()
         {
-            if (RadioButtonXAxisIsChecked)
-            {
-                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_X_REL_DISTANCE, MoveDistance);
-            }
-            else if (RadioButtonYAxisIsChecked)
-            {
-                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_Y_REL_DISTANCE, MoveDistance);
-            }
-            else if (RadioButtonZAxisIsChecked)
-            {
-                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_Z_REL_DISTANCE, MoveDistance);
-            }
-            else if (RadioButtonTAxisIsChecked)
-            {
-                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_T_REL_DISTANCE, MoveDistance);
-            }
-            else if (RadioButtonRAxisIsChecked)
-            {
-                DataManager.Instance.SET_DOUBLE_DATA(V_DBL_R_REL_DISTANCE, MoveDistance);
-            }
+
         }
 
         private void ExecuteAbsoluteVelocityInputCommand()
@@ -713,7 +773,7 @@ namespace ECS.UI.ViewModel
             {
                 DataManager.Instance.SET_DOUBLE_DATA(V_DBL_R_ABS_POSITION, AbsolutePosition);
             }
-            
+
         }
 
         private void ExecuteXJogPlusMouseLeftButtonUpCommand()
@@ -742,8 +802,11 @@ namespace ECS.UI.ViewModel
 
             LabelAbsoluteMove = "X-Axis 절대좌표 이동";
             LabelRelativeMove = "X-Axis 상대좌표 이동";
+            LabelPositionUnit = "(mm)";
+            LabelVelocityUnit = "(mm/s)";
 
-            ButtonRelativeMoveContent = "X-축 상대 이동";
+            ButtonRelativePlusMoveContent = "X 이동(+)";
+            ButtonRelativeMinusMoveContent = "X 이동(-)";
 
             ButtonJogPlusContent = "X-JOG+";
             ButtonJogMinusContent = "X-JOG-";
@@ -788,8 +851,11 @@ namespace ECS.UI.ViewModel
 
             LabelAbsoluteMove = "Y-Axis 절대좌표 이동";
             LabelRelativeMove = "Y-Axis 상대좌표 이동";
+            LabelPositionUnit = "(mm)";
+            LabelVelocityUnit = "(mm/s)";
 
-            ButtonRelativeMoveContent = "Y-축 상대 이동";
+            ButtonRelativePlusMoveContent = "Y 이동(+)";
+            ButtonRelativeMinusMoveContent = "Y 이동(-)";
 
             ButtonServoContent = "E-STOP(Y)";
 
@@ -830,10 +896,13 @@ namespace ECS.UI.ViewModel
 
             LabelAbsoluteMove = "Z-Axis 절대좌표 이동";
             LabelRelativeMove = "Z-Axis 상대좌표 이동";
+            LabelPositionUnit = "(mm)";
+            LabelVelocityUnit = "(mm/s)";
 
             ButtonServoContent = "E-STOP(Z)";
 
-            ButtonRelativeMoveContent = "Z-축 상대 이동";
+            ButtonRelativePlusMoveContent = "Z 이동(+)";
+            ButtonRelativeMinusMoveContent = "Z 이동(-)";
             ButtonJogPlusContent = "Z-JOG+";
             ButtonJogMinusContent = "Z-JOG-";
 
@@ -873,10 +942,13 @@ namespace ECS.UI.ViewModel
 
             LabelAbsoluteMove = "T-Axis 절대좌표 이동";
             LabelRelativeMove = "T-Axis 상대좌표 이동";
+            LabelPositionUnit = "(deg)";
+            LabelVelocityUnit = "(deg/s)";
 
             ButtonServoContent = "E-STOP(T)";
 
-            ButtonRelativeMoveContent = "T-축 상대 이동";
+            ButtonRelativePlusMoveContent = "T 이동(+)";
+            ButtonRelativeMinusMoveContent = "T 이동(-)";
             ButtonJogPlusContent = "T-JOG+";
             ButtonJogMinusContent = "T-JOG-";
 
@@ -915,10 +987,13 @@ namespace ECS.UI.ViewModel
 
             LabelAbsoluteMove = "R-Axis 절대좌표 이동";
             LabelRelativeMove = "R-Axis 상대좌표 이동";
+            LabelPositionUnit = "(deg)";
+            LabelVelocityUnit = "(deg/s)";
 
             ButtonServoContent = "E-STOP(R)";
 
-            ButtonRelativeMoveContent = "R-축 상대 이동";
+            ButtonRelativePlusMoveContent = "R 이동(+)";
+            ButtonRelativeMinusMoveContent = "R 이동(-)";
             ButtonJogPlusContent = "R-JOG+";
             ButtonJogMinusContent = "R-JOG-";
 
@@ -1039,7 +1114,7 @@ namespace ECS.UI.ViewModel
 
             if (RadioButtonXAxisIsChecked)
             {
-                DataManager.Instance.SET_STRING_DATA(V_STR_X_JOGVEL_MODE, TextBlockJogSpeedHighLow);        
+                DataManager.Instance.SET_STRING_DATA(V_STR_X_JOGVEL_MODE, TextBlockJogSpeedHighLow);
             }
             else if (RadioButtonYAxisIsChecked)
             {
@@ -1174,11 +1249,11 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteJogPlusMouseLeftButtonDownCommand()
         {
-            if(RadioButtonXAxisIsChecked)
+            if (RadioButtonXAxisIsChecked)
             {
                 FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_X_AXIS_JOG_PLUS);
             }
-            else if(RadioButtonYAxisIsChecked)
+            else if (RadioButtonYAxisIsChecked)
             {
                 FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_Y_AXIS_JOG_PLUS);
             }
@@ -1288,22 +1363,35 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteVisionMoveCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_SYNC("F_MOVE_VISION_POSITION");
+            if (MessageBoxManager.ShowYesNoBox("비전카메라 위치로 이동하시겠습니까?", "Move Vision Position") == MSGBOX_RESULT.OK)
+            {
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC("F_MOVE_VISION_POSITION");
+            }
         }
 
         private void ExecuteProcessMoveCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_SYNC("F_MOVE_PROCESS_POSITION");
+            if (MessageBoxManager.ShowYesNoBox("프로세스 위치로 이동하시겠습니까?", "Move Process Position") == MSGBOX_RESULT.OK)
+            {
+                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC("F_MOVE_PROCESS_POSITION");
+            }
+        }
+
+        private void ExecuteMoveStopCommand()
+        {
+            FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.MOVE_PROCESS_POSITION);
+            FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.MOVE_VISION_POSITION);
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.ALL_AXIS_MOVE_STOP);
         }
 
         private void ExecuteOffsetVisionMoveCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(FuncNameHelper.MOVE_PROCESS_OFFSET);
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.MOVE_PROCESS_OFFSET);             
         }
 
         private void ExecuteOffsetProcessMoveCommand()
         {
-            FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(FuncNameHelper.MOVE_PROCESS_OFFSET);
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.MOVE_PROCESS_OFFSET);
         }
 
         #endregion

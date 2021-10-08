@@ -198,6 +198,13 @@ namespace ECS.UI.ViewModel
             ProcessPositionT = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisT.ProcessPosition", out bool _);
             ProcessPositionR = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisR.ProcessPosition", out bool _);
 
+            
+            PositionOffsetX = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisX.Offset", out bool _);
+            PositionOffsetY = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisY.Offset", out bool _);
+            PositionOffsetZ = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisZ.Offset", out bool _);
+            PositionOffsetT = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisT.Offset", out bool _);
+            PositionOffsetR = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisR.Offset", out bool _);
+
 
             XJogVelHigh = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisX.JogVelHigh", out bool _);
             YJogVelHigh = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisY.JogVelHigh", out bool _);

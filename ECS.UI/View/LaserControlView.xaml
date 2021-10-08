@@ -101,6 +101,7 @@
                         </i:Interaction.Triggers>
                     </mah:NumericUpDown>
                     <Button Content="{Binding LaserShutterButtonContent}" Command="{Binding LaserShutterButtonCommand}" IsEnabled="{Binding LaserShutterButtonEnable}" Width="120" Margin="5" FontSize="12"/>
+                    <Button Content="{Binding PilotLaserOnOffButtonContent}" Command="{Binding PilotLaserOnOffButtonCommand}" IsEnabled="{Binding PilotLaserOnOffButtonEnable}" Visibility="Hidden" Width="120" Margin="5" FontSize="12"/>
                 </StackPanel>
             </Grid>
         </GroupBox>

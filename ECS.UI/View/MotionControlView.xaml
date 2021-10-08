@@ -251,6 +251,13 @@
                     <Label Content="{Binding LabelAbsoluteMove}" FontSize="14" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="위치 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+                        <!--<TextBox Text="{Binding AbsolutePosition, StringFormat=N3}" Width="120" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LostFocus">
+                                    <mvvm:EventToCommand Command="{Binding AbsolutePositionInputCommand}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>-->
                         <mah:NumericUpDown Value="{Binding AbsolutePosition}" StringFormat="N3" Minimum="{Binding PositionLimitMin}" Maximum="{Binding PositionLimitMax}" Interval="{Binding PositionInterval}" Width="140" Margin="5" HorizontalContentAlignment="Center">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="LostFocus">
@@ -258,10 +265,17 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </mah:NumericUpDown>
-                        <Label Content="(mm)" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Label Content="{Binding LabelPositionUnit}" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="속도:" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+                        <!--<TextBox Text="{Binding AbsoluteVelocity, StringFormat=N3}" Width="120" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LostFocus">
+                                    <mvvm:EventToCommand Command="{Binding AbsoluteVelocityInputCommand}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>-->
                         <mah:NumericUpDown Value="{Binding AbsoluteVelocity}" StringFormat="N3"  Minimum="{Binding VelocityLimitMin}" Maximum="{Binding VelocityLimitMax}" Interval="{Binding VelocityInterval}" Width="140" Margin="5" HorizontalContentAlignment="Center">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="LostFocus">
@@ -269,7 +283,7 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </mah:NumericUpDown>
-                        <Label Content="(mm/s)" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Label Content="{Binding LabelVelocityUnit}" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                     <Button Content="{Binding ButtonAbsoluteMoveContent}" Command="{Binding ButtonAbsoluteMoveCommand}" IsEnabled="{Binding ButtonAbsoluteMoveEnable}" Margin="5"/>
                 </StackPanel>
@@ -277,6 +291,13 @@
                     <Label Content="{Binding LabelRelativeMove}" FontSize="14" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="거리 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+                        <!--<TextBox Text="{Binding MoveDistance, StringFormat=N3}" Width="120" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LostFocus">
+                                    <mvvm:EventToCommand Command="{Binding MoveDistanceInputCommand}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>-->
                         <mah:NumericUpDown Value="{Binding MoveDistance}" StringFormat="N3" Interval="{Binding PositionInterval}" Width="140" Margin="5" HorizontalContentAlignment="Center">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="LostFocus">
@@ -284,10 +305,17 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </mah:NumericUpDown>
-                        <Label Content="(mm)" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Label Content="{Binding LabelPositionUnit}" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label Content="속도 :" FontSize="14" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+                        <!--<TextBox Text="{Binding RelativeVelocity, StringFormat=N3}" Width="120" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LostFocus">
+                                    <mvvm:EventToCommand Command="{Binding RelativeVelocityInputCommand}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>-->
                         <mah:NumericUpDown Value="{Binding RelativeVelocity}" StringFormat="N3"  Minimum="{Binding VelocityLimitMin}" Maximum="{Binding VelocityLimitMax}" Interval="{Binding VelocityInterval}" Width="140" Margin="5" HorizontalContentAlignment="Center">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="LostFocus">
@@ -295,9 +323,13 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </mah:NumericUpDown>
-                        <Label Content="(mm/s)" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Label Content="{Binding LabelVelocityUnit}" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
-                    <Button Content="{Binding ButtonRelativeMoveContent}" Command="{Binding ButtonRelativeMoveCommand}" IsEnabled="{Binding ButtonRelativeMoveEnable}" Margin="5"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="{Binding ButtonRelativePlusMoveContent}" Command="{Binding ButtonRelativePlusMoveCommand}" IsEnabled="{Binding ButtonRelativeMoveEnable}" Margin="5" Width="120"/>
+                        <Button Content="{Binding ButtonRelativeMinusMoveContent}" Command="{Binding ButtonRelativeMinusMoveCommand}" IsEnabled="{Binding ButtonRelativeMoveEnable}" Margin="5" Width="120"/>
+                    </StackPanel>
+                    
                 </StackPanel>
             </Grid>
 
@@ -306,6 +338,7 @@
             <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="{Binding ButtonVisionMoveContent}" Command="{Binding ButtonVisionMoveCommand}" IsEnabled="{Binding ButtonVisionMoveEnable}" Margin="10" Width="120"/>
                 <Button Content="{Binding ButtonProcessMoveContent}" Command="{Binding ButtonProcessMoveCommand}" IsEnabled="{Binding ButtonProcessMoveEnable}" Margin="10" Width="120"/>
+                <Button Content="{Binding ButtonMoveStopContent}" Command="{Binding ButtonMoveStopCommand}" IsEnabled="{Binding ButtonMoveStopEnable}" Margin="10" Width="120"/>
                 <!--Button Content="{Binding ButtonOffsetVisionMoveContent}" Command="{Binding ButtonOffsetVisionMoveCommand}" IsEnabled="{Binding ButtonOffsetVisionMoveEnable}" Margin="10" Width="120"/-->
                 <!--Button Content="{Binding ButtonOffsetProcessMoveContent}" Command="{Binding ButtonOffsetProcessMoveCommand}" IsEnabled="{Binding ButtonOffsetProcessMoveEnable}" Margin="10" Width="120"/-->
             </StackPanel>
