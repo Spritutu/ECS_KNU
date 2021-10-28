@@ -99,6 +99,9 @@ namespace ECS.Common.Helper
         public const string IN_INT_SWITCH_START = "iPMAC.iSwitch.Start";
         public const string IN_INT_SWITCH_STOP = "iPMAC.iSwitch.Stop";
 
+        public const string IN_INT_SCAN_AIR_CLEANNING = "iPMAC.iScan.AirCleanning";
+        public const string IN_INT_SCAN_AIR_BLOW = "iPMAC.iScan.AirBlow";
+
         public const string IN_INT_SCAN_BUSY_STATUS = "iRTC.iScan.BusyStatus";
         public const string IN_INT_SCAN_ERROR_STATUS = "iRTC.iScan.ErrorStatus";
         public const string IN_INT_SCAN_POSITION_ACK_STATUS = "iRTC.iScan.PosAckStatus";
@@ -214,6 +217,7 @@ namespace ECS.Common.Helper
         public const string OUT_INT_LASER_STANDBY = "oPMAC.iLaser.Standby";
         public const string OUT_INT_LEDLIGHT_ONOFF = "oPMAC.iLedLight.OnOff";
         public const string OUT_INT_SCAN_AIR_BLOW = "oPMAC.iScan.Blow";
+        public const string OUT_INT_SCAN_AIR_CLEANNING = "oPMAC.iScan.AirCleanning";
 
         public const string OUT_INT_PMAC_TOWERLAMP_YELLOW = "oPMAC.iTowerLamp.Yellow";
         public const string OUT_INT_PMAC_TOWERLAMP_RED = "oPMAC.iTowerLamp.Red";

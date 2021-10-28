@@ -153,6 +153,8 @@
                     <Button Content="{Binding ScanProcessButtonContent}" Command="{Binding ScanProcessButtonCommand}" IsEnabled="{Binding ScanProcessButtonEnable}" Width="120" Margin="5" FontSize="12"/>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <Button Content="{Binding AirCleanningButtonContent}" Command="{Binding AirCleanningButtonCommand}" IsEnabled="{Binding AirCleanningButtonEnable}" Width="120" Margin="5" FontSize="12"/>
+                    <Button Content="{Binding AirBlowButtonContent}" Command="{Binding AirBlowButtonCommand}" IsEnabled="{Binding AirBlowButtonEnable}" Width="120" Margin="5" FontSize="12"/>
                 </StackPanel>
             </Grid>
         </GroupBox>

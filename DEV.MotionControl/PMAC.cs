@@ -201,6 +201,9 @@ namespace DEV.MotionControl
         private const string GET_STOP_SWITCH_INPUT = "M7107"; //KNU
         private const string GET_RESET_SWITCH_INPUT = "M7108"; //KNU
 
+        private const string GET_AIR_CLEANNING = "M7210";
+        private const string GET_SCANNER_BLOW = "M7211";
+
         private const string GET_PROGRAM_COMPLETED = "M7116"; //KNU
         private const string GET_FAULT_LASER = "M7117";
         private const string GET_LASER_READY = "M7118"; //KNU
@@ -213,8 +216,8 @@ namespace DEV.MotionControl
         private const string SET_START_LAMP = "M7206";
         private const string SET_STOP_LAMP = "M7206";
         private const string SET_RESET_LAMP = "M7208";
-        private const string SET_SCANNER_BLOW = "M7210";
-        private const string SET_CLEARNING = "M7211";
+        private const string SET_CLEARNING = "M7210";
+        private const string SET_SCANNER_BLOW = "M7211";
 
         private const string SET_EXT_ACTIVATION = "M7216";
         private const string SET_LASER_RESET = "M7217";
@@ -272,7 +275,7 @@ namespace DEV.MotionControl
                 _deviceMode = eDevMode.DISCONNECT;
 
                 if (_deviceLog > 0)
-                {                   
+                {
                     LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] Device name : {0} is not open!", _deviceName);
                 }
 
@@ -568,6 +571,14 @@ namespace DEV.MotionControl
                     {
                         result = GetDigitalValue(GET_RESET_SWITCH_INPUT, ref retValue);
                     }
+                    else if (id_4.Equals("9"))
+                    {
+                        result = GetDigitalValue(GET_AIR_CLEANNING, ref retValue);
+                    }
+                    else if (id_4.Equals("10"))
+                    {
+                        result = GetDigitalValue(GET_SCANNER_BLOW, ref retValue);
+                    }
                     else if (id_4.Equals("16")) //M7116 PROGRAM COMPLETED : iid1 = '1', id2 = '2', id3 = '9', id4 = '16'
                     {
                         result = GetDigitalValue(GET_PROGRAM_COMPLETED, ref retValue);
@@ -788,7 +799,7 @@ namespace DEV.MotionControl
                     }
                     else if (id_4.Equals("2"))
                     {
-                        if(value == 1)
+                        if (value == 1)
                         {
                             result = CommandMotonAbort(iAXIS_ALL);
                         }
@@ -1314,7 +1325,7 @@ namespace DEV.MotionControl
 
             if (string.IsNullOrEmpty(strResponse))
             {
-                if(_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTowerLampRedOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] CommandTowerLampRedOnOff() : SendMessage={1}, ResponseMessage={2}", strRequest, strResponse);
                 return true;
             }
             else
@@ -1772,7 +1783,7 @@ namespace DEV.MotionControl
                     strRequest.AppendFormat("#1A #2A #3A #4A #5A");
                     break;
                 case iAXIS_X:
-                    strRequest.AppendFormat("#{0}{1}", sAXIS_X,  MOTION_ABORT);
+                    strRequest.AppendFormat("#{0}{1}", sAXIS_X, MOTION_ABORT);
                     break;
                 case iAXIS_Y:
                     strRequest.AppendFormat("#{0}{1}", sAXIS_Y, MOTION_ABORT);
@@ -1895,27 +1906,27 @@ namespace DEV.MotionControl
             {
                 case iAXIS_X:
                     {
-                        strRequest.AppendFormat("{0}={1}", "#2J", _XAxisAbsSetPosition*_XAxisUnitPerCounts);
+                        strRequest.AppendFormat("{0}={1}", "#2J", _XAxisAbsSetPosition * _XAxisUnitPerCounts);
                     }
                     break;
                 case iAXIS_Y:
                     {
-                        strRequest.AppendFormat("{0}={1}", "#1J", _YAxisAbsSetPosition*_YAxisUnitPerCounts);
+                        strRequest.AppendFormat("{0}={1}", "#1J", _YAxisAbsSetPosition * _YAxisUnitPerCounts);
                     }
                     break;
                 case iAXIS_Z:
                     {
-                        strRequest.AppendFormat("{0}={1}", "#5J", _ZAxisAbsSetPosition*_ZAxisUnitPerCounts);
+                        strRequest.AppendFormat("{0}={1}", "#5J", _ZAxisAbsSetPosition * _ZAxisUnitPerCounts);
                     }
                     break;
                 case iAXIS_T:
                     {
-                        strRequest.AppendFormat("{0}={1}", "#3J", _TAxisAbsSetPosition*_TAxisUnitPerCounts);
+                        strRequest.AppendFormat("{0}={1}", "#3J", _TAxisAbsSetPosition * _TAxisUnitPerCounts);
                     }
                     break;
                 case iAXIS_R:
                     {
-                        strRequest.AppendFormat("{0}={1}", "#4J", _RAxisAbsSetPosition*_RAxisUnitPerCounts);
+                        strRequest.AppendFormat("{0}={1}", "#4J", _RAxisAbsSetPosition * _RAxisUnitPerCounts);
                     }
                     break;
                 default:
@@ -1937,7 +1948,7 @@ namespace DEV.MotionControl
             {
                 LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] CommnadMoveToSetPosition() : Axis={0}, SendMessage={1}, ResponseMessage={2}", axis, strRequest, strResponse);
                 return false;
-            }        
+            }
         }
 
         private bool CommandJogFoward(int axis)
@@ -1945,7 +1956,7 @@ namespace DEV.MotionControl
             StringBuilder strRequest = new StringBuilder();
             string strResponse = "";
 
-            switch(axis)
+            switch (axis)
             {
                 case iAXIS_X:
                     {
@@ -2399,7 +2410,7 @@ namespace DEV.MotionControl
 
             CommandOrQuery(strRequest.ToString(), out strResponse);
 
-            if(double.TryParse(strResponse, out pos))
+            if (double.TryParse(strResponse, out pos))
             {
                 if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryPositionAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return true;
@@ -2429,6 +2440,50 @@ namespace DEV.MotionControl
             else
             {
                 LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] QueryPositionAxisX() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryAirCleaningStatus(ref int status)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            int result = 0;
+
+            strRequest.AppendFormat("{0}", SET_CLEARNING);
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (int.TryParse(strResponse, out status))
+            {
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryAirCleaningStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] QueryAirCleaningStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return false;
+            }
+        }
+
+        private bool QueryScanBlowStatus(ref int status)
+        {
+            StringBuilder strRequest = new StringBuilder();
+            string strResponse = "";
+            int result = 0;
+
+            strRequest.AppendFormat("{0}", SET_SCANNER_BLOW);
+
+            CommandOrQuery(strRequest.ToString(), out strResponse);
+
+            if (int.TryParse(strResponse, out status))
+            {
+                if (_isWriteLog) LogHelper.Instance.DeviceLog.InfoFormat("[SUCCESS] QueryScanBlowStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
+                return true;
+            }
+            else
+            {
+                LogHelper.Instance.DeviceLog.ErrorFormat("[ERROR] QueryScanBlowStatus() : SendMessage={0}, ResponseMessage={1}", strRequest, strResponse);
                 return false;
             }
         }
