@@ -1117,6 +1117,7 @@ namespace Scanlab.Sirius
             this.penToolStripMenuItem.Name = "penToolStripMenuItem";
             this.penToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.penToolStripMenuItem.Text = "Pen";
+            this.penToolStripMenuItem.Click += new System.EventHandler(this.penToolStripMenuItem_Click);
             // 
             // writeDataToolStripMenuItem
             // 
@@ -2390,7 +2391,7 @@ namespace Scanlab.Sirius
             // 
             this.splitContainer2.Panel2.Controls.Add(this.ppgEntity);
             this.splitContainer2.Size = new System.Drawing.Size(204, 443);
-            this.splitContainer2.SplitterDistance = 206;
+            this.splitContainer2.SplitterDistance = 205;
             this.splitContainer2.TabIndex = 2;
             // 
             // trvEntity
@@ -2401,7 +2402,7 @@ namespace Scanlab.Sirius
             this.trvEntity.Location = new System.Drawing.Point(0, 0);
             this.trvEntity.Name = "trvEntity";
             this.trvEntity.SelectedNodes = ((System.Collections.Generic.List<System.Windows.Forms.TreeNode>)(resources.GetObject("trvEntity.SelectedNodes")));
-            this.trvEntity.Size = new System.Drawing.Size(204, 206);
+            this.trvEntity.Size = new System.Drawing.Size(204, 205);
             this.trvEntity.TabIndex = 3;
             this.trvEntity.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.trvEntity_ItemDrag);
             this.trvEntity.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvEntity_AfterSelect);
@@ -2415,7 +2416,7 @@ namespace Scanlab.Sirius
             this.ppgEntity.Location = new System.Drawing.Point(0, 0);
             this.ppgEntity.Name = "ppgEntity";
             this.ppgEntity.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.ppgEntity.Size = new System.Drawing.Size(204, 233);
+            this.ppgEntity.Size = new System.Drawing.Size(204, 234);
             this.ppgEntity.TabIndex = 1;
             // 
             // statusStrip2

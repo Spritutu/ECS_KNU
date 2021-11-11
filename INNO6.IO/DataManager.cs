@@ -149,6 +149,7 @@ namespace INNO6.IO
 
         public bool SET_DOUBLE_DATA(string name, double value)
         {
+
             bool result = false;
             if (!_dataAccess.RemoteObject.GetData(name, out Data data))
                 return false;
@@ -256,6 +257,7 @@ namespace INNO6.IO
 
         public bool SET_OBJECT_DATA(string name, object value)
         {
+
             bool result = false;
             Data data;
             if (!_dataAccess.RemoteObject.GetData(name, out data))

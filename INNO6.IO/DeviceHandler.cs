@@ -70,8 +70,7 @@ namespace INNO6.IO
             MethodInfo mInfo = _type.GetMethod(eDeviceMethod.DeviceAttach.ToString());         
             result = (bool)mInfo.Invoke(DeviceObject, param);
             LogHelper.Instance.SystemLog.InfoFormat("[DeviceAttach] {0} , {1} , {2} , {3} , {4} , {5} , {6} , {7} , {8} , {9} ", arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, result);
-            return result;
-            
+            return result;          
         }
 
         public bool DeviceDettach()
@@ -113,7 +112,6 @@ namespace INNO6.IO
             MethodInfo mInfo = _type.GetMethod(eDeviceMethod.SET_INT_OUT.ToString());
             mInfo.Invoke(DeviceObject, param);
             result = (bool)param[refIndex];
-            
         }
 
         public int GET_INT_IN(string id_1, string id_2, string id_3, string id_4, ref bool result)
@@ -134,7 +132,6 @@ namespace INNO6.IO
             mInfo.Invoke(DeviceObject, param);
             result = (bool)param[refIndex];
             LogHelper.Instance.SystemLog.InfoFormat("[SET_DOUBLE_OUT] {0} , {1} , {2} , {3} , {4} , {5} ", id_1, id_2, id_3, id_4, value, result);
-            
         }
 
         public double GET_DOUBLE_IN(string id_1, string id_2, string id_3, string id_4, ref bool result)

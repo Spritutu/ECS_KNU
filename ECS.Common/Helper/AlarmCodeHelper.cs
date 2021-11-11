@@ -95,7 +95,6 @@ namespace ECS.Common.Helper
         public const string LASER_STOP_TIMEOUT = "E3009";
         public const string LASER_STOP_FAIL = "E3010";
 
-
         public const string SCAN_PROCESS_START_TIMEOUT = "E3011";
         public const string SCAN_PROCESS_START_FAIL = "E3012";
 
@@ -104,12 +103,6 @@ namespace ECS.Common.Helper
 
         public const string SCAN_PROCDOC_START_TIMEOUT = "E3015";
         public const string SCAN_PROCDOC_START_FAIL = "E3016";
-
-        public const string SCAN_AIR_CLEANNING_TIMEOUT = "E3017";
-        public const string SCAN_AIR_CLEANNING_FAIL = "E3018";
-
-        public const string SCAN_AIR_BLOW_TIMEOUT = "E3019";
-        public const string SCAN_AIR_BLOW_FAIL = "E3020";
 
         public const string STAGE_Z_AXIS_POSITION_LIMIT = "E5002";
 

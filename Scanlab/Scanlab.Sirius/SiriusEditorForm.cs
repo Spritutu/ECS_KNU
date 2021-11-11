@@ -1448,6 +1448,36 @@ namespace Scanlab.Sirius
                     eventHandler((object)this, EventArgs.Empty);
             }
         }
+
+        private void penToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.OnDocumentPenNew != null)
+            {
+                Delegate[] invocationList = this.OnDocumentPenNew?.GetInvocationList();
+                if (invocationList == null)
+                    return;
+                foreach (SiriusDocumentPenNew siriusDocumentPenNew in invocationList)
+                    siriusDocumentPenNew((object)this);
+            }
+            else
+            {
+                IPen pen1 = (IPen)new PenDefault();
+                if (this.Document.Layers.Active != null)
+                {
+                    IPen pen2 = (IPen)null;
+                    foreach (IEntity entity in (ObservableList<IEntity>)this.Document.Layers.Active)
+                    {
+                        if (entity is IPen)
+                            pen2 = entity as IPen;
+                    }
+                    if (pen2 != null)
+                        pen1 = pen2.Clone() as IPen;
+                }
+                if (DialogResult.OK != new PropertyForm((object)pen1).ShowDialog((IWin32Window)this))
+                    return;
+                this.OnPenNew(pen1);
+            }
+        }
     }
 
 

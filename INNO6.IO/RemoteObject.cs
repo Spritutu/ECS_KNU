@@ -14,7 +14,7 @@ namespace INNO6.IO.Remote
     {
         public DataChangedEvent DataChanged;
         public List<Data> DataList;
-		
+
         public RemoteObject()
         {
         }
@@ -52,14 +52,14 @@ namespace INNO6.IO.Remote
 
         public bool SetData(string name, Data data)
         {
-                if (!DataConfigList.ContainsKey(name))
-                {
-                    LogHelper.Instance.SystemLog.DebugFormat("[ERROR] SetData - Don't have {0}", name);
-                    return false;
-                }
+            if (!DataConfigList.ContainsKey(name))
+            {
+                LogHelper.Instance.SystemLog.DebugFormat("[ERROR] SetData - Don't have {0}", name);
+                return false;
+            }
 
-                DataConfigList[name] = data;
-                return true;
+            DataConfigList[name] = data;
+            return true;
         }
 
         public string GetDataId(string name)
@@ -84,22 +84,21 @@ namespace INNO6.IO.Remote
 
         public bool SetValue(string name, object value)
         {
+            if (!DataConfigList.ContainsKey(name))
+            {
+                LogHelper.Instance.SystemLog.DebugFormat("[ERROR] SetValue - Don't have {0}", name);
+                return false;
+            }
 
-                if (!DataConfigList.ContainsKey(name))
-                {
-                    LogHelper.Instance.SystemLog.DebugFormat("[ERROR] SetValue - Don't have {0}", name);
-                    return false;
-                }
+            DataConfigList[name].Value = value;
+            //DataConfigList[name].CheckTime = DateTime.Now;
 
-                DataConfigList[name].Value = value;
-                //DataConfigList[name].CheckTime = DateTime.Now;
+            if (value.ToString() != DataConfigList[name].DefaultValue && DataConfigList[name].DataResetTimeout > 0)
+                DataConfigList[name].DataSetTime = Environment.TickCount;
+            else
+                DataConfigList[name].DataSetTime = null;
 
-                if (value.ToString() != DataConfigList[name].DefaultValue && DataConfigList[name].DataResetTimeout > 0)
-                    DataConfigList[name].DataSetTime = Environment.TickCount;
-                else
-                    DataConfigList[name].DataSetTime = null;
-
-                return true;
+            return true;
         }
 
         public int GetListCount()

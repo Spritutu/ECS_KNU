@@ -1,6 +1,4 @@
-﻿using ECS.Common.Helper;
-using ECS.UI.Windows;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using INNO6.Core.Manager;
 using INNO6.IO;
@@ -70,10 +68,7 @@ namespace ECS.UI.ViewModel
         private bool _LaserProgramSetButtonEnable;
         private bool _LaserResetButtonEnable;
         private bool _LaserShutterButtonEnable;
-        private bool _PilotLaserButtonEnable;
         private bool _ScanProcessButtonEnable;
-        private bool _AirCleanningButtonEnable;
-        private bool _AirBlowButtonEnable;
 
         private bool _IsLaserOn;
         private bool _IsLaserAssigned;
@@ -87,12 +82,9 @@ namespace ECS.UI.ViewModel
         private string _LaserRequestButtonContent;
         private string _LaserResetButtonContent;
         private string _LaserShutterButtonContent;
-        private string _PilotLaserOnOffButtonContent;
         private string _ScanProcessButtonContent;
         private string _LaserProgramSetButtonContent;
         private string _ScanProcessFilePath;
-        private string _AirCleanningButtonContent;
-        private string _AirBlowButtonContent;
 
         private ICommand _LaserOnButtonCommand;
         private ICommand _LaserStopButtonCommand;
@@ -101,14 +93,11 @@ namespace ECS.UI.ViewModel
         private ICommand _LaserProgramNoValueChanged;
         private ICommand _LaserResetButtonCommand;
         private ICommand _LaserShutterButtonCommand;
-        private ICommand _PilotLaserOnOffButtonCommand;
         private ICommand _LaserPowerPercentValueChanged;
         private ICommand _ScanProgramNoValueChanged;
         private ICommand _ScanProcessButtonCommand;
         private ICommand _FileOpenButtonCommand;
         private ICommand _ProcessRepeatValueChanged;
-        private ICommand _AirCleanningButtonCommand;
-        private ICommand _AirBlowButtonCommand;
 
         public LaserControlViewModel()
         {
@@ -133,12 +122,6 @@ namespace ECS.UI.ViewModel
             _ScanProcessButtonContent = "SCAN.START";
             _ScanProcessButtonEnable = false;
 
-            _PilotLaserOnOffButtonContent = "PILOT ON";
-            _PilotLaserButtonEnable = false;
-
-            InitScannerAirCleanning();
-            InitScannerAirBlow();
-
             DataManager.Instance.DataAccess.DataChangedEvent += DataAccess_DataChanged;
 
             ScanBusyStatus = DataManager.Instance.GET_INT_DATA(IO_SCAN_IS_BUSY, out bool _);
@@ -150,49 +133,20 @@ namespace ECS.UI.ViewModel
             _Timer = new Timer(LaserControlViewSchedulingTimmer, this, 0, 1000);
         }
 
-        private void InitScannerAirCleanning()
-        {
-            AirCleanningButtonEnable = true;
-
-            if (DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_SCAN_AIR_CLEANNING, out _) == 0)
-            {
-                AirCleanningButtonContent = "AIR CLEAN ON";
-            }
-            else
-            {
-                AirCleanningButtonContent = "AIR CLEAN OFF";
-            }
-        }
-
-        private void InitScannerAirBlow()
-        {
-            AirBlowButtonEnable = true;
-
-            if (DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_SCAN_AIR_BLOW, out _) == 0)
-            {
-                AirBlowButtonContent = "AIR BLOW ON";
-            }
-            else
-            {
-                AirBlowButtonContent = "AIR BLOW OFF";
-            }
-        }
-
         private void DataAccess_DataChanged(object sender, DataChangedEventHandlerArgs args)
         {
             Data data = args.Data;
 
-            switch (data.Name)
+            switch(data.Name)
             {
                 case IO_LASER_IS_ON:
-                    IsLaserOn = (data.Type == eDataType.Int) ? (int)data.Value == 1 : false;
+                    IsLaserOn = (data.Type == eDataType.Int)? (int)data.Value == 1 : false;
 
-                    if (IsLaserOn)
+                    if(IsLaserOn)
                     {
                         LaserRequestButtonEnable = true;
                         LaserStopButtonEnable = true;
                         LaserOnButtonEnable = false;
-                        PilotLaserButtonEnable = true;
                         DataManager.Instance.SET_INT_DATA(IO_LASER_WARNING, 1);
                     }
                     else
@@ -211,7 +165,7 @@ namespace ECS.UI.ViewModel
                 case IO_LASER_READY:
                     IsLaserReady = (data.Type == eDataType.Int) ? (int)data.Value == 1 : false;
 
-                    if (IsLaserReady)
+                    if(IsLaserReady)
                     {
                         LaserRequestButtonEnable = false;
                         LaserProgramSetButtonEnable = true;
@@ -231,12 +185,12 @@ namespace ECS.UI.ViewModel
                         LaserProgramSetButtonEnable = false;
                         LaserRequestButtonEnable = true;
                     }
-
+                        
                     break;
                 case IO_LASER_PROGRAM_ACIVE:
                     IsLaserProgramActive = (data.Type == eDataType.Int) ? (int)data.Value == 1 : false;
 
-                    if (IsLaserProgramActive)
+                    if(IsLaserProgramActive)
                     {
                         LaserProgramSetButtonEnable = false;
 
@@ -268,7 +222,7 @@ namespace ECS.UI.ViewModel
                 case IO_SCAN_IS_BUSY:
                     ScanBusyStatus = (int)data.Value;
 
-                    if (ScanBusyStatus == 1)
+                    if(ScanBusyStatus == 1)
                     {
                         LaserShutterButtonEnable = true;
                         LaserShutterButtonContent = "BEAM.CLOSE";
@@ -281,7 +235,7 @@ namespace ECS.UI.ViewModel
                         LaserShutterButtonContent = "BEAM.OPEN";
                         ScanProcessButtonEnable = true;
                         ScanProcessButtonContent = "SCAN.START";
-                    }
+                    }                 
                     break;
                 case IO_SCAN_IS_ERROR:
                     ScanErrorStatus = (int)data.Value;
@@ -317,19 +271,17 @@ namespace ECS.UI.ViewModel
         public int ScanTempStatus { get { return _ScanTempStatus; } set { _ScanTempStatus = value; RaisePropertyChanged("ScanTempStatus"); } }
         public int ScanPowerStatus { get { return _ScanPowerStatus; } set { _ScanPowerStatus = value; RaisePropertyChanged("ScanPowerStatus"); } }
         public int ProcessRepeat { get { return _ProcessRepeat; } set { _ProcessRepeat = value; RaisePropertyChanged("ProcessRepeat"); } }
-
+        
         public double LaserPowerPercent { get { return _LaserPowerPercent; } set { _LaserPowerPercent = value; RaisePropertyChanged("LaserPowerPercent"); } }
-
+ 
         public bool LaserOnButtonEnable { get { return _LaserOnButtonEnable; } set { _LaserOnButtonEnable = value; RaisePropertyChanged("LaserOnButtonEnable"); } }
         public bool LaserStopButtonEnable { get { return _LaserStopButtonEnable; } set { _LaserStopButtonEnable = value; RaisePropertyChanged("LaserStopButtonEnable"); } }
         public bool LaserRequestButtonEnable { get { return _LaserRequestButtonEnable; } set { _LaserRequestButtonEnable = value; RaisePropertyChanged("LaserRequestButtonEnable"); } }
         public bool LaserResetButtonEnable { get { return _LaserResetButtonEnable; } set { _LaserResetButtonEnable = value; RaisePropertyChanged("LaserResetButtonEnable"); } }
         public bool LaserProgramSetButtonEnable { get { return _LaserProgramSetButtonEnable; } set { _LaserProgramSetButtonEnable = value; RaisePropertyChanged("LaserProgramSetButtonEnable"); } }
         public bool LaserShutterButtonEnable { get { return _LaserShutterButtonEnable; } set { _LaserShutterButtonEnable = value; RaisePropertyChanged("LaserShutterButtonEnable"); } }
-        public bool PilotLaserButtonEnable { get { return _PilotLaserButtonEnable; } set { _PilotLaserButtonEnable = value; RaisePropertyChanged("PilotLaserButtonEnable"); } }
         public bool ScanProcessButtonEnable { get { return _ScanProcessButtonEnable; } set { _ScanProcessButtonEnable = value; RaisePropertyChanged("ScanProcessButtonEnable"); } }
-        public bool AirCleanningButtonEnable { get { return _AirCleanningButtonEnable; } set { _AirCleanningButtonEnable = value; RaisePropertyChanged("AirCleanningButtonEnable"); } }
-        public bool AirBlowButtonEnable { get { return _AirBlowButtonEnable; } set { _AirBlowButtonEnable = value; RaisePropertyChanged("AirBlowButtonEnable"); } }
+
         public bool IsLaserOn { get { return _IsLaserOn; } set { _IsLaserOn = value; RaisePropertyChanged("IsLaserOn"); } }
         public bool IsLaserAssigned { get { return _IsLaserAssigned; } set { _IsLaserAssigned = value; RaisePropertyChanged("IsLaserAssigned"); } }
         public bool IsLaserReady { get { return _IsLaserReady; } set { _IsLaserReady = value; RaisePropertyChanged("IsLaserReady"); } }
@@ -344,12 +296,11 @@ namespace ECS.UI.ViewModel
         public string LaserResetButtonContent { get { return _LaserResetButtonContent; } set { _LaserResetButtonContent = value; RaisePropertyChanged("LaserResetButtonContent"); } }
         public string LaserProgramSetButtonContent { get { return _LaserProgramSetButtonContent; } set { _LaserProgramSetButtonContent = value; RaisePropertyChanged("LaserProgramSetButtonContent"); } }
 
+        
         public string LaserShutterButtonContent { get { return _LaserShutterButtonContent; } set { _LaserShutterButtonContent = value; RaisePropertyChanged("LaserShutterButtonContent"); } }
-        public string PilotLaserOnOffButtonContent { get { return _PilotLaserOnOffButtonContent; } set { _PilotLaserOnOffButtonContent = value; RaisePropertyChanged("PilotLaserOnOffButtonContent"); } }
         public string ScanProcessButtonContent { get { return _ScanProcessButtonContent; } set { _ScanProcessButtonContent = value; RaisePropertyChanged("ScanProcessButtonContent"); } }
         public string ScanProcessFilePath { get { return _ScanProcessFilePath; } set { _ScanProcessFilePath = value; RaisePropertyChanged("ScanProcessFilePath"); } }
-        public string AirCleanningButtonContent { get { return _AirCleanningButtonContent; } set { _AirCleanningButtonContent = value; RaisePropertyChanged("AirCleanningButtonContent"); } }
-        public string AirBlowButtonContent { get { return _AirBlowButtonContent; } set { _AirBlowButtonContent = value; RaisePropertyChanged("AirBlowButtonContent"); } }
+
         public ICommand LaserPowerPercentValueChanged { get { return this._LaserPowerPercentValueChanged ?? (this._LaserPowerPercentValueChanged = new RelayCommand(ExecuteLaserPowerPercentValueChanged)); } }
         public ICommand LaserOnButtonCommand { get { return this._LaserOnButtonCommand ?? (this._LaserOnButtonCommand = new RelayCommand(ExecuteLaserOnButtonCommand)); } }
         public ICommand LaserStopButtonCommand { get { return this._LaserStopButtonCommand ?? (this._LaserStopButtonCommand = new RelayCommand(ExecuteLaserStopButtonCommand)); } }
@@ -358,49 +309,24 @@ namespace ECS.UI.ViewModel
 
         public ICommand LaserResetButtonCommand { get { return this._LaserResetButtonCommand ?? (this._LaserResetButtonCommand = new RelayCommand(ExecuteLaserResetButtonCommand)); } }
         public ICommand LaserShutterButtonCommand { get { return this._LaserShutterButtonCommand ?? (this._LaserShutterButtonCommand = new RelayCommand(ExecuteLaserShutterButtonCommand)); } }
-        public ICommand PilotLaserOnOffButtonCommand { get { return this._PilotLaserOnOffButtonCommand ?? (this._PilotLaserOnOffButtonCommand = new RelayCommand(ExecutePilotLaserOnOffButtonCommand)); } }
+
         public ICommand LaserProgramSetButtonCommand { get { return this._LaserProgramSetButtonCommand ?? (this._LaserProgramSetButtonCommand = new RelayCommand(ExecuteLaserProgramSetButtonCommand)); } }
         public ICommand LaserProgramNoValueChanged { get { return this._LaserProgramNoValueChanged ?? (this._LaserProgramNoValueChanged = new RelayCommand(ExecuteLaserProgramNoValueChanged)); } }
-        public ICommand ScanProgramNoValueChanged { get { return this._ScanProgramNoValueChanged ?? (this._ScanProgramNoValueChanged = new RelayCommand(ExecuteScanProgramNoValueChanged)); } }
+        public ICommand ScanProgramNoValueChanged { get { return this._ScanProgramNoValueChanged ?? (this._ScanProgramNoValueChanged = new RelayCommand(ExecuteScanProgramNoValueChanged));}}             
         public ICommand ScanProcessButtonCommand { get { return this._ScanProcessButtonCommand ?? (this._ScanProcessButtonCommand = new RelayCommand(ExecuteScanProcessButtonCommand)); } }
         public ICommand FileOpenButtonCommand { get { return this._FileOpenButtonCommand ?? (this._FileOpenButtonCommand = new RelayCommand(ExecuteFileOpenButtonCommand)); } }
         public ICommand ProcessRepeatValueChanged { get { return this._ProcessRepeatValueChanged ?? (this._ProcessRepeatValueChanged = new RelayCommand(ExecuteProcessRepeatValueChanged)); } }
-        public ICommand AirCleanningButtonCommand { get { return this._AirCleanningButtonCommand ?? (this._AirCleanningButtonCommand = new RelayCommand(ExecuteAirCleanningButtonCommand)); } }
-        public ICommand AirBlowButtonCommand { get { return this._AirBlowButtonCommand ?? (this._AirBlowButtonCommand = new RelayCommand(ExecuteAirBlowButtonCommand)); } }
 
-        private void ExecuteAirCleanningButtonCommand()
-        {
-            if (DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_SCAN_AIR_CLEANNING, out _) == 0)
-            {
-                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_SCAN_AIR_CLEANNING, 1);
-                AirCleanningButtonContent = "AIR CLEAN OFF";
-            }
-            else
-            {
-                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_SCAN_AIR_CLEANNING, 0);
-                AirCleanningButtonContent = "AIR CLEAN ON";
-            }
-        }
-        private void ExecuteAirBlowButtonCommand()
-        {
-            if (DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_SCAN_AIR_BLOW, out _) == 0)
-            {
-                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_SCAN_AIR_BLOW, 1);
-                AirBlowButtonContent = "AIR BLOW OFF";
-            }
-            else
-            {
-                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_SCAN_AIR_BLOW, 0);
-                AirBlowButtonContent = "AIR BLOW ON";
-            }
-        }
 
+
+
+        
         private void ExecuteFileOpenButtonCommand()
         {
             OpenFileDialog dlg = new OpenFileDialog();
 
             dlg.DefaultExt = ".dxf";
-            dlg.Filter = "DXF Files (*.dxf)|*.dxf|Sirius Files (*.sirius)|*.sirius|All Files (*.*)|*.*";
+            dlg.Filter = "DXF Files (*.dxf)|*.dxf|All Files (*.*)|*.*";
 
             bool? result = dlg.ShowDialog();
 
@@ -412,37 +338,17 @@ namespace ECS.UI.ViewModel
             }
         }
 
-        private void ExecutePilotLaserOnOffButtonCommand()
-        {
-            if(PilotLaserOnOffButtonContent.Equals("PILOT ON"))
-            {
-                PilotLaserOnOffButtonContent = "PILOT OFF";
-                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_LASER_PILOTLASER_ON, 1);
-            }
-            else
-            {
-                PilotLaserOnOffButtonContent = "PILOT ON";
-                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_LASER_PILOTLASER_ON, 0);
-            }
-        }
-
         private void ExecuteLaserShutterButtonCommand()
         {
             if(LaserShutterButtonContent.Equals("BEAM OPEN"))
             {
-                if (MessageBoxManager.ShowYesNoBox("Shutter를 Open 하시겠습니까?", "Shutter Open") == MSGBOX_RESULT.OK)
-                {
-                    LaserShutterButtonContent = "BEAM CLOSE";
-                    DataManager.Instance.SET_INT_DATA("oRTC.iScan.LaserOn", 1);
-                }
+                LaserShutterButtonContent = "BEAM CLOSE";
+                DataManager.Instance.SET_INT_DATA("oRTC.iScan.LaserOn", 1);
             }
             else
             {
-                if (MessageBoxManager.ShowYesNoBox("Shutter를 Close 하시겠습니까?", "Shutter Close") == MSGBOX_RESULT.OK)
-                {
-                    LaserShutterButtonContent = "BEAM OPEN";
-                    DataManager.Instance.SET_INT_DATA("oRTC.iScan.LaserOn", 0);
-                }
+                LaserShutterButtonContent = "BEAM OPEN";
+                DataManager.Instance.SET_INT_DATA("oRTC.iScan.LaserOn", 0);
             }   
         }
 
@@ -490,15 +396,7 @@ namespace ECS.UI.ViewModel
 
         private void ExecuteScanProcessButtonCommand()
         {
-            if (ScanProcessButtonContent.Equals("SCAN.START"))
-            {
-                FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_SCAN_PROCDOC_START);
-            }
-            else if (ScanProcessButtonContent.Equals("SCAN.STOP"))
-            {
-                DataManager.Instance.SET_INT_DATA(IoNameHelper.OUT_INT_RTC_SCAN_PROCESS_ABORT, 1);
-            }
-            
+            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_SCAN_PROCDOC_START);
             //FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_SCAN_PROCESS_START);
         }
 
