@@ -141,6 +141,7 @@ namespace DEV.ScanlabControl
             bool result = false;
 
             result = _Rtc.CtlLaserOff();
+            result = _Rtc.CtlAbort();
             _Rtc.Dispose();
             _DevMode = eDevMode.DISCONNECT;
             return result;
@@ -852,8 +853,8 @@ namespace DEV.ScanlabControl
 
             if (success)
             {
-                Vector2 zero = new Vector2(0.0f, 0.0f);
-                success &= rtc.ListJump(zero);
+                //Vector2 zero = new Vector2(0.0f, 0.0f);
+                //success &= rtc.ListJump(zero);
                 success &= rtc.ListEnd();
                 success &= rtc.ListExecute(true);
             }

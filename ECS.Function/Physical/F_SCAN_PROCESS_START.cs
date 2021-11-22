@@ -67,7 +67,7 @@ namespace ECS.Function.Physical
 
                 while (true)
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(100);
 
                     if (IsAbort)
                     {

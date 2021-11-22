@@ -40,17 +40,29 @@ namespace ECS.Function.Physical
         }
         public override string Execute()
         {
-            double processPosX = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_PROCESS_POSITION, out _);
-            double processPosY = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_PROCESS_POSITION, out _);
-            double processPosZ = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Z_PROCESS_POSITION, out _);
-            double processPosT = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_T_PROCESS_POSITION, out _);
-            double processPosR = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_R_PROCESS_POSITION, out _);
+            double x_offset = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_OFFSET, out _);
+            double y_offset = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_OFFSET, out _);
+            double z_offset = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Z_OFFSET, out _);
+            double r_offset = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_R_OFFSET, out _);
+            double t_offset = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_T_OFFSET, out _);
 
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_ABS_POSITION, processPosX);
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_ABS_POSITION, processPosY);
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Z_ABS_POSITION, processPosZ);
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_R_ABS_POSITION, processPosR);
-            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_T_ABS_POSITION, processPosT);
+            double current_pos_x = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_X_POSITION, out _);
+            double current_pos_y = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_Y_POSITION, out _);
+            double current_pos_z = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_Z_POSITION, out _);
+            double current_pos_r = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_R_POSITION, out _);
+            double current_pos_t = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_T_POSITION, out _);
+
+            double process_x = current_pos_x + x_offset;
+            double process_y = current_pos_y + y_offset;
+            double process_z = current_pos_z + z_offset;
+            double process_r = current_pos_r + r_offset;
+            double process_t = current_pos_t + t_offset;
+
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_ABS_POSITION, process_x);
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_ABS_POSITION, process_y);
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Z_ABS_POSITION, process_z);
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_R_ABS_POSITION, process_r);
+            DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_T_ABS_POSITION, process_t);
 
             FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
             FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
@@ -65,6 +77,10 @@ namespace ECS.Function.Physical
 
                 if (IsAbort)
                 {
+                    FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
+                    FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
+                    FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.R_AXIS_MOVE_TO_SETPOS);
+                    FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.T_AXIS_MOVE_TO_SETPOS);
                     return F_RESULT_ABORT;
                 }
                 else if (stopwatch.ElapsedMilliseconds > TimeoutMiliseconds)

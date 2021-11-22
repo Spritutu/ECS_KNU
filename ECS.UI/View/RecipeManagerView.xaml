@@ -67,7 +67,7 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Label Content="X POSITION:" VerticalContentAlignment="Bottom" FontSize="12" Width="100"/>
+                    <Label Content="X OFFSET:" VerticalContentAlignment="Bottom" FontSize="12" Width="100"/>
                     <TextBox Text="{Binding XPOSITION}" IsReadOnly="False" FontSize="12" Width="100">
                         <i:Interaction.Behaviors>
                             <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
@@ -76,7 +76,7 @@
                     <Label Content="(mm)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Label Content="Y POSITION:" VerticalContentAlignment="Bottom" FontSize="12" Width="100"/>
+                    <Label Content="Y OFFSET:" VerticalContentAlignment="Bottom" FontSize="12" Width="100"/>
                     <TextBox Text="{Binding YPOSITION}" IsReadOnly="False" FontSize="12" Width="100">
                         <i:Interaction.Behaviors>
                             <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
@@ -85,7 +85,7 @@
                     <Label Content="(mm)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Label Content="Z POSITION:" VerticalContentAlignment="Bottom" FontSize="12" Width="100"/>
+                    <Label Content="Z OFFSET:" VerticalContentAlignment="Bottom" FontSize="12" Width="100"/>
                     <TextBox Text="{Binding ZPOSITION}" IsReadOnly="False" FontSize="12" Width="100">
                         <i:Interaction.Behaviors>
                             <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
@@ -94,7 +94,7 @@
                     <Label Content="(mm)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Label Content="T POSITION:" VerticalContentAlignment="Bottom" FontSize="12" Width="100"/>
+                    <Label Content="T OFFSET:" VerticalContentAlignment="Bottom" FontSize="12" Width="100"/>
                     <TextBox Text="{Binding TPOSITION}" IsReadOnly="False" FontSize="12" Width="100">
                         <i:Interaction.Behaviors>
                             <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
@@ -103,7 +103,7 @@
                     <Label Content="(deg)" VerticalContentAlignment="Bottom" FontSize="12" Width="50"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Label Content="R POSITION:" VerticalContentAlignment="Bottom" FontSize="12" Width="100"/>
+                    <Label Content="R OFFSET:" VerticalContentAlignment="Bottom" FontSize="12" Width="100"/>
                     <TextBox Text="{Binding RPOSITION}" IsReadOnly="False" FontSize="12" Width="100">
                         <i:Interaction.Behaviors>
                             <Behaviors:TextBoxInputBehavior InputMode="DecimalInput"/>
@@ -141,7 +141,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Button Content="NEW" Command="{Binding NewButtonCommand}" IsEnabled="{Binding NewButtonEnabled}" Margin="5,0,0,0" VerticalContentAlignment="Center" Width="80"/>
-                    <Button Content="EDIT" Command="{Binding EditButtonCommand}" IsEnabled="{Binding EditButtonEnabled}" Margin="5,0,0,0" VerticalContentAlignment="Center" Width="80"/>
+                    <Button Content="SAVE" Command="{Binding EditButtonCommand}" IsEnabled="{Binding EditButtonEnabled}" Margin="5,0,0,0" VerticalContentAlignment="Center" Width="80"/>
                     <Button Content="DEL" Command="{Binding DeleteButtonCommand}" IsEnabled="{Binding DeleteButtonEnabled}" Margin="5,0,0,0" VerticalContentAlignment="Center" Width="80"/>
                 </StackPanel>
 

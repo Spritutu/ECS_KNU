@@ -36,7 +36,7 @@ namespace ECS.EMO
 
         private void ExecuteEMOStopButtonCommand()
         {
-            DataConsumer.Instance.SET_INT_DATA(IoNameHelper.V_INT_SYS_EQP_EMOSTOP, 1);
+            DataConsumer.Instance.SET_INT_DATA(IoNameHelper.V_INT_SYS_CMD_EMOSTOP, 1);
         }
     }
 }

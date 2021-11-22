@@ -71,5 +71,7 @@ namespace ECS.Common.Helper
         public const string Y_AXIS_MOVE_TO_SETDIS = "F_Y_AXIS_MOVE_TO_SETDIS";
         public const string Y_AXIS_MOVE_TO_SETPOS = "F_Y_AXIS_MOVE_TO_SETPOS";
         public const string Y_AXIS_SERVO_STOP = "F_Y_AXIS_SERVO_STOP";
+
+        public const string ALL_AXIS_MOVE_STOP = "F_ALL_AXIS_MOVE_STOP";
     }
 }

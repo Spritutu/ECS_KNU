@@ -165,7 +165,7 @@ namespace INNO6.IO
             result = (bool)param[refIndex];
             return value;
         }
-
+ 
         public void SET_DATA_OUT(string id_1, string id_2, string id_3, string id_4, object value, ref bool result)
         {
             object[] param = { id_1, id_2, id_3, id_4, value, result };

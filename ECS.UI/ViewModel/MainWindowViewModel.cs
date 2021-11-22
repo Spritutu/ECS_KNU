@@ -17,6 +17,9 @@ using ECS.UI.View;
 using ECS.UI.Windows;
 using ECS.Common.Helper;
 using System.Text;
+using System.IO;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace ECS.UI.ViewModel
 {
@@ -49,6 +52,7 @@ namespace ECS.UI.ViewModel
         private ECS.Application.Engine _engine = ECS.Application.Engine.Instance;
         private ICommand resourceReleaseCommand;
         private ICommand _CurrentAlarmButtonClickCommand;
+        private Process _ManagedProcess;
 
         Common baseinfo = Common.GetInstance();
         public RelayCommand LoginCommand { get; private set; }
@@ -573,6 +577,20 @@ namespace ECS.UI.ViewModel
             }
         }
 
+        private void EmoCallbackFunction()
+        {
+            while(true)
+            {
+                if (DataManager.Instance.GET_INT_DATA(IoNameHelper.V_INT_SYS_CMD_EMOSTOP, out _) == 1)
+                {
+                    DataManager.Instance.SET_INT_DATA(IoNameHelper.V_INT_SYS_CMD_EMOSTOP, 0);
+                    ExecuteEmergencyStopCommand();
+                }
+
+                Thread.Sleep(100);
+            }
+        }
+
 
         private void ExecuteEmergencyStopCommand()
         {
@@ -621,6 +639,10 @@ namespace ECS.UI.ViewModel
             _ = DataManager.Instance.GET_INT_DATA(IO_INT_SIGNALTOWER_WHITE, out _) == 0 ? SignalTowerWhite = false : SignalTowerWhite = true;
 
             _IsEnableEMOButton = true;
+
+            EMOProcessStart(@"./config/Server.Config.ini");
+
+            Task.Run(new Action(EmoCallbackFunction));
         }
 
         private void AlarmManager_ResetAlarmEvent(object sender, EventArgs e)
@@ -671,7 +693,8 @@ namespace ECS.UI.ViewModel
         public void ResourceRelease()
         {
             _engine.Stop();
-            ViewModelLocator.Instance.VisionCameraViewModel.Stop();
+
+            EMOProcessStop();
         }
 
         private void DataAccess_SystemDataChanged(object sender, DataChangedEventHandlerArgs args)
@@ -934,8 +957,8 @@ namespace ECS.UI.ViewModel
                             IsEnableAlarmHistory = false;
                             IsEnable3DModelView = false;
 
-                            ViewModelLocator.Instance.OperationAutoViewModel.IsEnableInitButton = true;
-                            ViewModelLocator.Instance.OperationAutoViewModel.IsEnableProcessButton = false;
+                            ViewModelLocator.Instance.OperationAutoViewModel.IsEnableInitButton = false;
+                            ViewModelLocator.Instance.OperationAutoViewModel.IsEnableProcessButton = true;
 
                             ViewModelLocator.Instance.OperationAutoViewModel.Start();
                         }
@@ -1003,6 +1026,45 @@ namespace ECS.UI.ViewModel
                 else
                 {
                     return false;
+                }
+            }
+        }
+
+        private void EMOProcessStart(string configFilePath)
+        {
+            ConfigManager config = new ConfigManager(configFilePath);
+
+            string exe = config.GetIniValue("SERVICE", "EMO");
+            string filePath = Path.GetFullPath(exe);
+
+            string processName = exe.Replace(".exe", "");
+
+            Process[] processes = Process.GetProcessesByName(processName);
+
+            if (processes != null)
+            {
+                foreach (Process p in processes)
+                {
+                    p.Kill();
+                }
+            }
+
+            Process process = Process.Start(filePath);
+
+            if (process != null) _ManagedProcess = process;
+        }
+
+        private void EMOProcessStop()
+        {
+            if (_ManagedProcess != null)
+            {
+                try
+                {
+                    _ManagedProcess.Kill();
+                }
+                catch (Exception e)
+                {
+                    LogHelper.Instance.ErrorLog.ErrorFormat("Managed Process[ECS.EMO] is already exit : {0}", e.Message);
                 }
             }
         }

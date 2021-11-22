@@ -1,4 +1,5 @@
 ﻿using ECS.Common.Helper;
+using ECS.Recipe;
 using ECS.UI.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -32,6 +33,7 @@ namespace ECS.UI.ViewModel
         private ICommand _ProcessButtonCommand;
         private ICommand _InitButtonCommand;
         private string _ScanFilePath;
+        private string _RecipeFilePath;
 
         public void Start()
         {
@@ -44,6 +46,7 @@ namespace ECS.UI.ViewModel
                 _Timer.Dispose();
         }
 
+        public string ScanFilePath { get { return _ScanFilePath; } set { _ScanFilePath = value; RaisePropertyChanged("ScanFilePath"); } }
 
         public double XAxisPosition { get { return _XAxisPosition; } set { _XAxisPosition = value; RaisePropertyChanged("XAxisPosition"); } }
         public double YAxisPosition { get { return _YAxisPosition; } set { _YAxisPosition = value; RaisePropertyChanged("YAxisPosition"); } }
@@ -52,7 +55,7 @@ namespace ECS.UI.ViewModel
         public double TAxisPosition { get { return _TAxisPosition; } set { _TAxisPosition = value; RaisePropertyChanged("TAxisPosition"); } }
         public int StepId { get { return _StepId; } set { _StepId = value; RaisePropertyChanged("StepId"); } }
         public int ProcessRepeat { get { return _ProcessRepeat; } set { _ProcessRepeat = value; RaisePropertyChanged("ProcessRepeat"); } }
-        public string ScanFilePath { get { return _ScanFilePath; } set { _ScanFilePath = value; RaisePropertyChanged("ScanFilePath"); } }
+        public string RecipeFilePath { get { return _RecipeFilePath; } set { _RecipeFilePath = value; RaisePropertyChanged("RecipeFilePath"); } }
 
         public double LaserPowerPercent { get { return _LaserPowerPercent; } set { _LaserPowerPercent = value; RaisePropertyChanged("LaserPowerPercent"); } }
 
@@ -65,6 +68,7 @@ namespace ECS.UI.ViewModel
 
         private void TimerCallbackFunction(object state)
         {
+            RecipeFilePath = RecipeManager.Instance.CurrentRecipeName;
             StepId = DataManager.Instance.GET_INT_DATA(IoNameHelper.V_INT_GUI_CURRENT_STEPID, out _);
             XAxisPosition = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_X_POSITION, out _);
             YAxisPosition = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_Y_POSITION, out _);
@@ -84,7 +88,18 @@ namespace ECS.UI.ViewModel
 
             if (MessageBoxManager.ShowYesNoBox(message.ToString(), "PROCESS START") == MSGBOX_RESULT.OK)
             {
-                MessageBoxManager.ShowProgressWindow("AUTO PROCESSING", "Wait for a moments...", FuncNameHelper.AUTO_PROCESS);
+                PROCESS_RESULT result = MessageBoxManager.ShowProgressWindow("AUTO PROCESSING", "Wait for a moments...", FuncNameHelper.AUTO_PROCESS);
+
+                if (result == PROCESS_RESULT.SUCCESS)
+                {
+                    IsEnableInitButton = false;
+                    IsEnableProcessButton = false;
+                }
+                else
+                {
+                    IsEnableInitButton = true;
+                    IsEnableProcessButton = true;
+                }
             }
         }
 
@@ -110,7 +125,7 @@ namespace ECS.UI.ViewModel
         public OperationAutoViewModel()
         {
             _IsEnableInitButton = true;
-            _IsEnableProcessButton = false;
+            _IsEnableProcessButton = true;
         }
 
     }

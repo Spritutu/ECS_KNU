@@ -101,6 +101,7 @@
                         </i:Interaction.Triggers>
                     </mah:NumericUpDown>
                     <Button Content="{Binding LaserShutterButtonContent}" Command="{Binding LaserShutterButtonCommand}" IsEnabled="{Binding LaserShutterButtonEnable}" Width="120" Margin="5" FontSize="12"/>
+                    <Button Content="{Binding PilotLaserOnOffButtonContent}" Command="{Binding PilotLaserOnOffButtonCommand}" IsEnabled="{Binding PilotLaserOnOffButtonEnable}" Visibility="Hidden" Width="120" Margin="5" FontSize="12"/>
                 </StackPanel>
             </Grid>
         </GroupBox>
@@ -152,6 +153,10 @@
                     <Button Content="{Binding ScanProcessButtonContent}" Command="{Binding ScanProcessButtonCommand}" IsEnabled="{Binding ScanProcessButtonEnable}" Width="120" Margin="5" FontSize="12"/>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <Button Content="Air Curtain On" Command="{Binding AirCurtainOnButtonCommand}" IsEnabled="{Binding AirCurtainOnButtonEnable}" Width="140" Margin="5" FontSize="12"/>
+                    <Button Content="Air Curtain Off" Command="{Binding AirCurtainOffButtonCommand}" IsEnabled="{Binding AirCurtainOffButtonEnable}" Width="140" Margin="5" FontSize="12"/>
+                    <Button Visibility="Hidden" Content="Scanner Blow On" Command="{Binding ScannerBlowOnButtonCommand}" IsEnabled="{Binding ScannerBlowOnButtonEnable}" Width="140" Margin="5" FontSize="12"/>
+                    <Button Visibility="Hidden" Content="Scanner Blow Off" Command="{Binding ScannerBlowOffButtonCommand}" IsEnabled="{Binding ScannerBlowOffButtonEnable}" Width="140" Margin="5" FontSize="12"/>
                 </StackPanel>
             </Grid>
         </GroupBox>

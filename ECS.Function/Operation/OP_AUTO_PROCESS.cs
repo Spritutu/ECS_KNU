@@ -34,11 +34,23 @@ namespace ECS.Function.Operation
             int progress = 0;
             string processMessage = "";
 
-            double process_x = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_PROCESS_POSITION, out _);
-            double process_y = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_PROCESS_POSITION, out _);
-            double process_z = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Z_PROCESS_POSITION, out _);
-            double process_r = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_R_PROCESS_POSITION, out _);
-            double process_t = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_T_PROCESS_POSITION, out _);
+            double x_offset = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_OFFSET, out _);
+            double y_offset = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_OFFSET, out _);
+            double z_offset = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Z_OFFSET, out _);
+            double r_offset = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_R_OFFSET, out _);
+            double t_offset = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_T_OFFSET, out _);
+
+            double current_pos_x = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_X_POSITION, out _);
+            double current_pos_y = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_Y_POSITION, out _);
+            double current_pos_z = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_Z_POSITION, out _);
+            double current_pos_r = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_R_POSITION, out _);
+            double current_pos_t = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.IN_DBL_PMAC_T_POSITION, out _);
+
+            double process_x = current_pos_x + x_offset;
+            double process_y = current_pos_y + y_offset;
+            double process_z = current_pos_z + z_offset;
+            double process_r = current_pos_r + r_offset;
+            double process_t = current_pos_t + t_offset;
 
             List<RECIPE_STEP> stepList = RecipeManager.Instance.GET_RECIPE_STEP_LIST();
 
@@ -57,9 +69,19 @@ namespace ECS.Function.Operation
                 double rPosition = process_r + step.R_POS;
                 double tPosition = process_t + step.T_POS;
 
-                result &= DataManager.Instance.SET_INT_DATA(IoNameHelper.V_INT_GUI_CURRENT_STEPID, step.STEP_ID);
+                double laserPowerPercent = 0f;
 
-                result &= DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_RTC_LASER_PROCESS_POWER_PERCENT, step.POWER_PERCENT);
+                if (step.POWER_PERCENT == 0)
+                {
+                    laserPowerPercent = DataManager.Instance.GET_DOUBLE_DATA(IoNameHelper.OUT_DBL_RTC_LASER_PROCESS_POWER_PERCENT, out _);
+                }
+                else
+                {
+                    laserPowerPercent = step.POWER_PERCENT;
+                }
+
+                result &= DataManager.Instance.SET_INT_DATA(IoNameHelper.V_INT_GUI_CURRENT_STEPID, step.STEP_ID);
+                result &= DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.OUT_DBL_RTC_LASER_PROCESS_POWER_PERCENT, laserPowerPercent);
                 result &= DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_X_ABS_POSITION, xPosition);
                 result &= DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Y_ABS_POSITION, yPosition);
                 result &= DataManager.Instance.SET_DOUBLE_DATA(IoNameHelper.V_DBL_SET_Z_ABS_POSITION, zPosition);
@@ -73,11 +95,11 @@ namespace ECS.Function.Operation
                 {
                     StopWatch.Restart();
 
-                    ExecuteFunctionAsync(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
-                    ExecuteFunctionAsync(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
-                    ExecuteFunctionAsync(FuncNameHelper.Z_AXIS_MOVE_TO_SETPOS);
-                    ExecuteFunctionAsync(FuncNameHelper.R_AXIS_MOVE_TO_SETPOS);
-                    ExecuteFunctionAsync(FuncNameHelper.T_AXIS_MOVE_TO_SETPOS);
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS);
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Y_AXIS_MOVE_TO_SETPOS);
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.Z_AXIS_MOVE_TO_SETPOS);
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.R_AXIS_MOVE_TO_SETPOS);
+                    FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(FuncNameHelper.T_AXIS_MOVE_TO_SETPOS);
                     {
                         while(true)
                         {
@@ -85,6 +107,7 @@ namespace ECS.Function.Operation
 
                             if (IsAbort)
                             {
+                                FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.MOVE_PROCESS_POSITION);
                                 return F_RESULT_ABORT;
                             }
                             else if(!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.X_AXIS_MOVE_TO_SETPOS)
@@ -103,14 +126,14 @@ namespace ECS.Function.Operation
                     {
                         while (true)
                         {
-                            Thread.Sleep(100);
+                            Thread.Sleep(1000);
 
                             if (IsAbort)
                             {
                                 FunctionManager.Instance.ABORT_FUNCTION(FuncNameHelper.SCAN_PROCDOC_START);
                                 return F_RESULT_ABORT;
                             }
-                            else if (!FunctionManager.Instance.CHECK_EXECUTING_FUNCTION_EXSIST(FuncNameHelper.SCAN_PROCDOC_START))
+                            else if (DataManager.Instance.GET_INT_DATA(IoNameHelper.IN_INT_SCAN_BUSY_STATUS, out _) == 0)
                             {
                                 ProgressUpdate(progress/2 , processMessage);
                                 break;

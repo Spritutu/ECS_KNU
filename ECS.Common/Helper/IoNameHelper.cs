@@ -25,6 +25,7 @@ namespace ECS.Common.Helper
         public const string V_INT_SYS_EQP_ALARM = "vSys.iEqp.Alarm";
         public const string V_INT_SYS_EQP_EMOSTOP = "vSys.iEqp.EmoStop";
         public const string V_INT_SYS_EQP_LASER_WARNING_ONOFF = "vSys.iEqp.LaserWarningOnOff";
+        public const string V_INT_SYS_CMD_EMOSTOP = "vSys.sCmd.EmoStop";
 
         public const string V_INT_GUI_CURRENT_STEPID = "vGUI.iRcp.CurrentStepId";
 
@@ -333,11 +334,11 @@ namespace ECS.Common.Helper
         public const string V_STR_SET_Y_JOGVEL_MODE = "vSet.sAxisY.JogVelMode";
         public const string V_STR_SET_Z_JOGVEL_MODE = "vSet.sAxisZ.JogVelMode";
 
-        public const string V_DBL_SET_X_OFFSET = "vSet.sAxisX.Offset";
-        public const string V_DBL_SET_Y_OFFSET = "vSet.sAxisY.Offset";
-        public const string V_DBL_SET_Z_OFFSET = "vSet.sAxisZ.Offset";
-        public const string V_DBL_SET_R_OFFSET = "vSet.sAxisR.Offset";
-        public const string V_DBL_SET_T_OFFSET = "vSet.sAxisT.Offset";
+        public const string V_DBL_SET_X_OFFSET = "vSet.dAxisX.Offset";
+        public const string V_DBL_SET_Y_OFFSET = "vSet.dAxisY.Offset";
+        public const string V_DBL_SET_Z_OFFSET = "vSet.dAxisZ.Offset";
+        public const string V_DBL_SET_R_OFFSET = "vSet.dAxisR.Offset";
+        public const string V_DBL_SET_T_OFFSET = "vSet.dAxisT.Offset";
 
     }
 }

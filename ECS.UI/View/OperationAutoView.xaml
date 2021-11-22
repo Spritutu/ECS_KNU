@@ -58,6 +58,7 @@
         <GroupBox Header="@ AUTO Control" Grid.Column="1" Margin="0,0,5,5">
             <StackPanel Orientation="Vertical">
                 <Button ToolTip="Process Start" Width="Auto" Height="Auto" 
+                        Visibility="Hidden"
                         IsEnabled="{Binding IsEnableInitButton}"  
                         Margin="5" Command="{Binding InitButtonCommand}">
                     <StackPanel Orientation="Horizontal">
@@ -67,14 +68,18 @@
                     </StackPanel>
                 </Button>
                 <Button ToolTip="Process Start" Width="Auto" Height="Auto" 
-                        IsEnabled="{Binding IsEnableProcessButton}"  
+                        IsEnabled="True"  
                         Margin="5" Command="{Binding ProcessButtonCommand}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="RayStart" Width="50" Height="50" Margin="5"/>
-                        <TextBlock Width="100" FontWeight="Bold" Margin="5" Text="PROCESS" VerticalAlignment="Center"/>
-
+                        <TextBlock Width="120" FontWeight="Bold" Margin="5" Text="PROCESS START" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
+                <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Margin="5"/>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="RECIPE:" VerticalContentAlignment="Bottom" FontSize="12" Width="80"/>
+                    <TextBox Text="{Binding RecipeFilePath, StringFormat=N2}" IsReadOnly="True" FontSize="12" Width="120" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" />
+                </StackPanel>
                 <Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Margin="5"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Label Content="X POSITION:" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="7SegFontFamily" FontSize="12" Width="80"/>

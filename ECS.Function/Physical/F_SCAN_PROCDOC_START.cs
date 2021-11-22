@@ -122,7 +122,7 @@ namespace ECS.Function.Physical
                             var doc = new DocumentDefault("ScannerOnlyDoc");
                             doc.Layers.Add(layer);
                             DataManager.Instance.SET_OBJECT_DATA(VIO_NAME_SCAN_TEMP_OBJECT, doc);
-                            FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(F_PROCESS_SCANNERONLY);
+                            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_PROCESS_SCANNERONLY);
                         }
                         break;
                     case MotionType.StageAndScanner:
@@ -154,7 +154,7 @@ namespace ECS.Function.Physical
 
                             doc.Layers.Add(newLayer);
                             DataManager.Instance.SET_OBJECT_DATA(VIO_NAME_SCAN_TEMP_OBJECT, doc);
-                            result = FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(F_PROCESS_SCANNERONLY);
+                            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_PROCESS_SCANNERONLY);
                         }
                         break;
                     case MotionType.StageOnly:
@@ -163,7 +163,7 @@ namespace ECS.Function.Physical
                             var doc = new DocumentDefault("StagedAndScannerDoc");
                             doc.Layers.Add(layer);
                             DataManager.Instance.SET_OBJECT_DATA(VIO_NAME_SCAN_TEMP_OBJECT, doc);
-                            result = FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(F_PROCESS_SCANNERONLY);
+                            FunctionManager.Instance.EXECUTE_FUNCTION_ASYNC(F_PROCESS_SCANNERONLY);
                         }
                         break;
                 }

@@ -23,7 +23,7 @@ namespace ECS.Function.Operation
             string result = F_RESULT_SUCCESS;
             IsProcessing = true;
 
-            if ((result = FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(FuncNameHelper.LASER_STOP)) != F_RESULT_SUCCESS) return result;
+            //if ((result = FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(FuncNameHelper.LASER_STOP)) != F_RESULT_SUCCESS) return result;
             ProgressUpdate(10, "Laser Init Process Completed");
             // Stage Vision Position Move
             if ((result = FunctionManager.Instance.EXECUTE_FUNCTION_SYNC(FuncNameHelper.MOVE_VISION_POSITION)) != F_RESULT_SUCCESS) return result;

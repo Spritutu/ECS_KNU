@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SetPoint\I_SETPOINT_EMO_STOP.cs" />
+    <Compile Include="SetPoint\I_SETPOINT_LASER_FALT.cs" />
     <Compile Include="Value\I_VALUE_Z_POSITION.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

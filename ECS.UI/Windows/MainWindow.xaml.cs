@@ -60,7 +60,7 @@ namespace ECS.UI.Windows
 
         private void MetroWindow_Closed(object sender, EventArgs e)
         {
-            //_engine.Stop();
+            ECS.Application.Engine.Instance.Stop();
         }
 
         private Image MakeImageStoryboard(string image_source, double from_width, double from_height, double to_width, double to_height)

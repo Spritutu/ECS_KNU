@@ -128,6 +128,20 @@ namespace ECS.Recipe
                 return binaryFormatter.Deserialize(fileStreamObject);
 
             }
+            catch (ArgumentException e)
+            {
+                LogHelper.Instance.SystemLog.WarnFormat("[WARNING] Recipe file serialization Exception : " + e.Message);
+                string newRecipeName = "new_recipe";
+                DataManager.Instance.SET_STRING_DATA(IoNameHelper.V_STR_SYS_CURRENT_RECIPE, newRecipeName);
+                DataManager.Instance.CHANGE_DEFAULT_DATA(IoNameHelper.V_STR_SYS_CURRENT_RECIPE, newRecipeName);
+
+                RecipeManager.Instance.SAVE_RECIPE_FILE(newRecipeName, "ecs");
+
+                fileStreamObject = new FileStream(newRecipeName, FileMode.Open);
+
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                return binaryFormatter.Deserialize(fileStreamObject);
+            }
             catch (SerializationException e)
             {
                 LogHelper.Instance.SystemLog.WarnFormat("[WARNING] Recipe file serialization Exception : " + e.Message);
@@ -137,7 +151,7 @@ namespace ECS.Recipe
 
                 RecipeManager.Instance.SAVE_RECIPE_FILE(newRecipeName, "ecs");
 
-                fileStreamObject = new FileStream(filename, FileMode.Open);
+                fileStreamObject = new FileStream(newRecipeName, FileMode.Open);
 
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
                 return binaryFormatter.Deserialize(fileStreamObject);
@@ -151,7 +165,7 @@ namespace ECS.Recipe
 
                 RecipeManager.Instance.SAVE_RECIPE_FILE(newRecipeName, "ecs");
 
-                fileStreamObject = new FileStream(newRecipeName, FileMode.Open);
+                fileStreamObject = new FileStream(filename, FileMode.Open);
 
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
                 return binaryFormatter.Deserialize(fileStreamObject);
@@ -225,7 +239,7 @@ namespace ECS.Recipe
                 else step.T_POS = 0.0;
                 if (double.TryParse((string)dr["R_POSITION"], out double rPos)) step.R_POS = rPos;
                 else step.R_POS = 0.0;
-
+                
                 if (double.TryParse((string)dr["LASER_POWER_PERCENT"], out double powerPercent)) step.POWER_PERCENT = powerPercent;
                 step.REPEAT = (int)dr["REPEAT_COUNT"];
                 step.SCAN_FILE = (string)dr["SCAN_FILEPATH"];

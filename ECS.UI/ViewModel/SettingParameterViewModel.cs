@@ -151,7 +151,7 @@ namespace ECS.UI.ViewModel
 
         public ICommand OffsetXSetButtonCommand { get { if (_OffsetXSetButtonCommand == null) { _OffsetXSetButtonCommand = new DelegateCommand(ExecuteOffsetXSetButtonCommand); } return _OffsetXSetButtonCommand; } }
         public ICommand OffsetYSetButtonCommand { get { if (_OffsetYSetButtonCommand == null) { _OffsetYSetButtonCommand = new DelegateCommand(ExecuteOffsetYSetButtonCommand); } return _OffsetYSetButtonCommand; } }
-        public ICommand OffsetZSetButtonCommand { get { if (_OffsetYSetButtonCommand == null) { _OffsetZSetButtonCommand = new DelegateCommand(ExecuteOffsetZSetButtonCommand); } return _OffsetZSetButtonCommand; } }
+        public ICommand OffsetZSetButtonCommand { get { if (_OffsetZSetButtonCommand == null) { _OffsetZSetButtonCommand = new DelegateCommand(ExecuteOffsetZSetButtonCommand); } return _OffsetZSetButtonCommand; } }
         public ICommand OffsetTSetButtonCommand { get { if (_OffsetTSetButtonCommand == null) { _OffsetTSetButtonCommand = new DelegateCommand(ExecuteOffsetTSetButtonCommand); } return _OffsetTSetButtonCommand; } }
         public ICommand OffsetRSetButtonCommand { get { if (_OffsetRSetButtonCommand == null) { _OffsetRSetButtonCommand = new DelegateCommand(ExecuteOffsetRSetButtonCommand); } return _OffsetRSetButtonCommand; } }
 
@@ -197,6 +197,13 @@ namespace ECS.UI.ViewModel
             ProcessPositionZ = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisZ.ProcessPosition", out bool _);
             ProcessPositionT = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisT.ProcessPosition", out bool _);
             ProcessPositionR = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisR.ProcessPosition", out bool _);
+
+            
+            PositionOffsetX = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisX.Offset", out bool _);
+            PositionOffsetY = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisY.Offset", out bool _);
+            PositionOffsetZ = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisZ.Offset", out bool _);
+            PositionOffsetT = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisT.Offset", out bool _);
+            PositionOffsetR = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisR.Offset", out bool _);
 
 
             XJogVelHigh = DataManager.Instance.GET_DOUBLE_DATA("vSet.dAxisX.JogVelHigh", out bool _);

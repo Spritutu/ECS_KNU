@@ -283,7 +283,21 @@ namespace DEV.MotionControl
             //_100msTimer.Elapsed += _100msTimer_Elapsed;
             //_100msTimer.Start();
             _deviceMode = eDevMode.CONNECT;
+
+            LaserExternalActivationKill();
+
             return true;
+        }
+
+        private void LaserExternalActivationKill()
+        {
+            // Laser safty EXT_ACTIVATION signal off
+            SetDigitalValue(SET_PSTART_STATICAL, 0);
+            SetDigitalValue(SET_LASER_STANDY, 0);
+            SetDigitalValue(SET_REQUEST_LASER, 0);
+            SetDigitalValue(SET_LASER_ON, 0);                    
+            SetDigitalValue(SET_EXT_ACTIVATION, 0);
+            
         }
 
         private void _100msTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -297,6 +311,8 @@ namespace DEV.MotionControl
             {
                 return true;
             }
+
+            LaserExternalActivationKill();
             PCOMM32.ClosePmacDevice(m_dwDevice);
             _deviceMode = eDevMode.DISCONNECT;
             return true;
